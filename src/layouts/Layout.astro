@@ -10,12 +10,52 @@ const { title } = Astro.props;
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
+
+		<meta name="author" content="Maximillian Leonard"/>
+		<meta http-equiv="content-language" content="en-us"/>
+		<title>{title}</title>      
+		<meta name="description" content="Maximillian Leonard: IT graduate experienced in MERN stack and ASP.NET. Explore my portfolio showcasing web development projects and software solutions."/>
+		<meta name="keywords" content="Maximillian Leonard, software developer, web developer, MERN stack, ASP.NET, React, Node.js, Javascript, C#, IT portfolio, Web Portfolio"/>
+		<link rel="canonical" href="https://maximillianleonard.dev"/>	
+		<meta name="theme-color" content="#your-brand-color">
+
+		<!-- Open Graph Tags for social media -->
+		<meta property="og:title" content="Maximillian Leonard | Software Developer Portfolio">
+		<meta property="og:description" content="Maximillian Leonard: IT graduate experienced in MERN stack and ASP.NET. Explore my portfolio showcasing web development projects and software solutions.">
+		<meta property="og:image" content="https://maximillianleonard.dev/og-image.jpg">
+		<meta property="og:url" content="https://maximillianleonard.dev">
+		<meta property="og:type" content="website">
+		  
+		<!-- Twitter Card Tags -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="Maximillian Leonard | Software Developer Portfolio">
+		<meta name="twitter:description" content="Maximillian Leonard: IT graduate experienced in MERN stack and ASP.NET. Explore my portfolio showcasing web development projects and software solutions.">
+		<meta name="twitter:image" content="https://maximillianleonard.dev/twitter-image.jpg">
+
+		<script type="application/ld+json" is:inline>
+			{
+			  "@context": "https://schema.org",
+			  "@type": "Person",
+			  "name": "Maximillian Leonard",
+			  "email": "maximillian1508@gmail.com",
+			  "telephone": "(+60) 1112212480",
+			  "url": "https://maximillianleonard.dev",
+			  "sameAs": [
+				"https://www.linkedin.com/in/maximillianleonard1508",
+				"https://github.com/maximillian1508"
+			  ],
+			  "jobTitle": "Software Developer",
+			  "alumniOf": {
+				"@type": "CollegeOrUniversity",
+				"name": "Asia Pacific University"
+			  },
+			  "knowsAbout": ["Web Development", "Software Development", "MERN Stack", "ASP.NET", "Javascript", "C#"]
+			}
+		</script>
+</head>
 	<body>
 		<slot />
 	</body>
