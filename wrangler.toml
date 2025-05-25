@@ -2,3 +2,10 @@ name = "web-portfolio"
 compatibility_date = "2025-05-25"
 compatibility_flags = ["nodejs_compat"]
 main = "_worker.js"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+[observability.logs]
+enabled = true
