@@ -1,0 +1,4 @@
+name = "web-portfolio"
+compatibility_date = "2025-05-25"
+compatibility_flags = ["nodejs_compat"]
+main = "_worker.js"
