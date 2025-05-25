@@ -25,13 +25,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   if (!email || !password) {
     return redirect("/login?error=missing_credentials");
   }
-
-  // Security: Only allow specific email domains (optional)
-  const allowedDomain = import.meta.env.ADMIN_EMAIL_DOMAIN;
-  if (allowedDomain && !email.endsWith(`@${allowedDomain}`)) {
-    return redirect("/login?error=invalid_credentials");
-  }
-
+  
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,

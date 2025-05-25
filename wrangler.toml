@@ -1,0 +1,9 @@
+name = "web-portfolio"
+compatibility_date = "2025-05-26"
+compatibility_flags = ["nodejs_compat"]
+
+[build]
+command = "npm run build"
+
+[[env.production.vars]]
+NODE_OPTIONS = "--max-old-space-size=4096"
