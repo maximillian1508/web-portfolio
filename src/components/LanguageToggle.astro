@@ -1,0 +1,90 @@
+---
+import { getLangFromUrl } from "@i18n/utils";
+
+const currentLang = getLangFromUrl(Astro.url);
+const isEnglish = currentLang === "en";
+
+// Generate the opposite language URL
+const currentPath = Astro.url.pathname;
+const newLang = isEnglish ? "id" : "en";
+
+let newPath: string;
+if (isEnglish) {
+  // Switch from English to Indonesian
+  newPath = currentPath === "/" ? "/id" : `/id${currentPath}`;
+} else {
+  // Switch from Indonesian to English
+  newPath = currentPath.replace(/^\/id/, "") || "/";
+}
+---
+
+<button
+  id="language-toggle"
+  data-new-path={newPath}
+  class="relative inline-flex items-center justify-center w-10 h-10 rounded-lg bg-card/50 backdrop-blur-sm border border-border/50 hover:bg-card/80 transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+  aria-label={isEnglish ? "Switch to Indonesian" : "Switch to English"}
+>
+  <!-- English Flag -->
+  <div
+    class={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${
+      isEnglish ? "opacity-100 scale-100" : "opacity-0 scale-75"
+    }`}
+  >
+    <div class="relative w-6 h-4 rounded-sm overflow-hidden shadow-sm">
+      <!-- UK Flag simplified -->
+      <div class="absolute inset-0 bg-blue-600"></div>
+      <div class="absolute inset-x-0 top-0 h-1 bg-white"></div>
+      <div class="absolute inset-x-0 bottom-0 h-1 bg-white"></div>
+      <div class="absolute inset-y-0 left-0 w-1 bg-white"></div>
+      <div class="absolute inset-y-0 right-0 w-1 bg-white"></div>
+      <div
+        class="absolute inset-x-0 top-1/2 h-0.5 bg-red-500 transform -translate-y-1/2"
+      >
+      </div>
+      <div
+        class="absolute inset-y-0 left-1/2 w-0.5 bg-red-500 transform -translate-x-1/2"
+      >
+      </div>
+    </div>
+  </div>
+
+  <!-- Indonesian Flag -->
+  <div
+    class={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${
+      !isEnglish ? "opacity-100 scale-100" : "opacity-0 scale-75"
+    }`}
+  >
+    <div class="relative w-6 h-4 rounded-sm overflow-hidden shadow-sm">
+      <!-- Indonesian Flag -->
+      <div class="absolute inset-0 bg-white"></div>
+      <div class="absolute inset-x-0 top-0 h-2 bg-red-500"></div>
+    </div>
+  </div>
+
+  <!-- Language Code Text -->
+  <span class="sr-only">
+    {isEnglish ? "EN" : "ID"}
+  </span>
+</button>
+
+<script>
+  function initLanguageToggle() {
+    const toggle = document.getElementById("language-toggle");
+    if (!toggle) return;
+
+    toggle.addEventListener("click", () => {
+      const newPath = toggle.getAttribute("data-new-path");
+      if (newPath) {
+        // Navigate to the new language path
+        window.location.href = newPath;
+      }
+    });
+  }
+
+  // Initialize on page load
+  document.addEventListener("DOMContentLoaded", initLanguageToggle);
+
+  // Re-initialize after navigation (for SPAs)
+  document.addEventListener("astro:page-load", initLanguageToggle);
+</script>
+

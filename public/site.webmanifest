@@ -1,0 +1,49 @@
+{
+  "name": "Maximillian Leonard - Software Developer",
+  "short_name": "Max Leonard",
+  "description": "Full-Stack Developer & AI Enthusiast based in Kuala Lumpur, Malaysia. Crafting exceptional digital experiences with cutting-edge technology.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#6726a3",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["portfolio", "developer", "technology"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "About",
+      "short_name": "About",
+      "description": "Learn more about Maximillian Leonard",
+      "url": "/about"
+    },
+    {
+      "name": "Projects",
+      "short_name": "Projects",
+      "description": "View my latest projects and work",
+      "url": "/projects"
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Get in touch for collaboration",
+      "url": "/contact"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
+}

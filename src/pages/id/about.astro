@@ -1,0 +1,15 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import UnderConstruction from "../../components/UnderConstruction.astro";
+import { useTranslations, getLangFromUrl } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title={t("home.title")} description={t("home.description")}>
+  <main>
+    <UnderConstruction variant="page" />
+  </main>
+</Layout>
+

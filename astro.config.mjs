@@ -1,5 +1,39 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
+import tailwindcss from "@tailwindcss/vite";
+import mdx from "@astrojs/mdx";
+
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  site: "https://maximillianleonard.dev",
+  integrations: [
+    sitemap({
+      filter: (page) =>
+        page !== "https://maximillianleonard.dev/login" &&
+        page !== "https://maximillianleonard.dev/dashboard",
+    }),
+    mdx(),
+  ],
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
+  adapter: cloudflare(),
+
+  prefetch: true,
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "id"],
+    fallback: {
+      id: "en",
+    },
+    routing: {
+      fallbackType: "rewrite",
+      prefixDefaultLocale: false,
+    },
+  },
+});

@@ -1,0 +1,109 @@
+---
+// Theme Toggle Component
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  class="relative inline-flex items-center justify-center p-2 rounded-lg bg-card/50 border border-border/50 text-muted-foreground hover:text-primary hover:bg-card/80 backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
+  aria-label="Toggle theme"
+  title="Toggle theme"
+>
+  <!-- Sun Icon (Light Mode) -->
+  <svg
+    id="sun-icon"
+    class="w-5 h-5 transition-all duration-300 rotate-0 scale-100"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+    ></path>
+  </svg>
+
+  <!-- Moon Icon (Dark Mode) -->
+  <svg
+    id="moon-icon"
+    class="absolute w-5 h-5 transition-all duration-300 rotate-90 scale-0"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+    ></path>
+  </svg>
+</button>
+
+<script>
+  function initTheme() {
+    const themeToggle = document.getElementById("theme-toggle");
+    const sunIcon = document.getElementById("sun-icon");
+    const moonIcon = document.getElementById("moon-icon");
+    const html = document.documentElement;
+
+    // Get initial theme
+    const getTheme = () => {
+      const stored = localStorage.getItem("theme");
+      if (stored) return stored;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    };
+
+    // Apply theme
+    const applyTheme = (theme: string) => {
+      if (theme === "dark") {
+        html.classList.add("dark");
+        sunIcon?.classList.add("rotate-90", "scale-0");
+        sunIcon?.classList.remove("rotate-0", "scale-100");
+        moonIcon?.classList.add("rotate-0", "scale-100");
+        moonIcon?.classList.remove("rotate-90", "scale-0");
+      } else {
+        html.classList.remove("dark");
+        sunIcon?.classList.add("rotate-0", "scale-100");
+        sunIcon?.classList.remove("rotate-90", "scale-0");
+        moonIcon?.classList.add("rotate-90", "scale-0");
+        moonIcon?.classList.remove("rotate-0", "scale-100");
+      }
+      localStorage.setItem("theme", theme);
+    };
+
+    // Toggle theme
+    const toggleTheme = () => {
+      const currentTheme = html.classList.contains("dark") ? "dark" : "light";
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      applyTheme(newTheme);
+    };
+
+    // Initialize
+    const initialTheme = getTheme();
+    applyTheme(initialTheme);
+
+    // Add event listener
+    themeToggle?.addEventListener("click", toggleTheme);
+
+    // Listen for system theme changes
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        if (!localStorage.getItem("theme")) {
+          applyTheme(e.matches ? "dark" : "light");
+        }
+      });
+  }
+
+  // Initialize theme immediately
+  initTheme();
+
+  // Re-initialize on navigation (for Astro's View Transitions)
+  document.addEventListener("astro:page-load", initTheme);
+</script>
+
