@@ -12,8 +12,8 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) =>
-        page !== "https://maximillianleonard.dev/login" &&
-        page !== "https://maximillianleonard.dev/dashboard",
+        page !== "https://maximillianleonard.dev/login/" &&
+        page !== "https://maximillianleonard.dev/dashboard/",
     }),
     mdx(),
   ],
