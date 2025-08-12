@@ -25,243 +25,121 @@ if (isBot) {
 ---
 
 <Layout title="Access Portal" robots="noindex, nofollow, noarchive, nosnippet">
-  <!-- Login Section -->
-  <section
-    class="min-h-screen flex items-center justify-center relative overflow-hidden pt-16"
-  >
-    <!-- Background Elements -->
-    <div
-      class="absolute inset-0 bg-gradient-to-br from-background via-background to-background/95"
-    >
-    </div>
-    <div class="absolute inset-0 bg-radial-primary"></div>
-    <div class="absolute inset-0 bg-radial-accent"></div>
+  <div class="w-full max-w-md mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <div
+        class="inline-flex items-center px-4 py-2 rounded-full border border-slate-800 text-purple-400 text-sm font-medium mb-8"
+      >
+        <div class="w-2 h-2 bg-purple-400 rounded-full mr-2 animate-pulse">
+        </div>
+        secure access
+      </div>
 
-    <!-- Grid Pattern Overlay -->
-    <div class="absolute inset-0 bg-grid-pattern"></div>
+      <h1 class="text-2xl sm:text-3xl font-bold mb-4">
+        <span class="text-cyan-400">admin</span> portal
+      </h1>
 
-    <!-- Floating Elements -->
-    <div
-      class="absolute top-20 left-10 w-2 h-2 bg-accent rounded-full animate-pulse"
-    >
-    </div>
-    <div
-      class="absolute top-40 right-20 w-1 h-1 bg-primary rounded-full animate-ping"
-    >
-    </div>
-    <div
-      class="absolute bottom-32 left-20 w-1.5 h-1.5 bg-accent rounded-full animate-pulse"
-    >
-    </div>
-    <div
-      class="absolute bottom-20 right-10 w-2 h-2 bg-primary rounded-full animate-ping"
-    >
+      <p class="text-slate-400 text-sm">authorized personnel only</p>
     </div>
 
-    <div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-md mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-8">
-          <div
-            class="inline-flex items-center px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-6"
-          >
-            <div class="w-2 h-2 bg-accent rounded-full mr-2 animate-pulse">
-            </div>
-            Secure Access
+    <!-- Error Message -->
+    {
+      error && (
+        <div class="mb-8 p-4 rounded-lg border border-red-800 bg-red-950/50 text-red-300 text-sm">
+          <div class="flex items-center">
+            <div class="w-2 h-2 bg-red-400 rounded-full mr-3" />
+            access denied — invalid credentials
           </div>
+        </div>
+      )
+    }
 
-          <h1 class="text-3xl sm:text-4xl font-bold mb-4">
-            <span
-              class="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_200%]"
-            >
-              Authentication Required
-            </span>
-          </h1>
-
-          <p class="text-muted-foreground">Authorized access only</p>
+    <!-- Login Form -->
+    <div class="border border-slate-800 rounded-lg p-8 bg-slate-950/80">
+      <form
+        action="/api/auth/login"
+        method="post"
+        data-astro-prefetch
+        class="space-y-6"
+      >
+        <!-- Email Field -->
+        <div class="space-y-3">
+          <label
+            for="email"
+            class="block text-sm font-medium text-slate-100 uppercase tracking-wide"
+          >
+            Email Address
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            autocomplete="email"
+            class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all text-slate-100 placeholder-slate-500 font-mono"
+            placeholder="admin@domain.com"
+          />
         </div>
 
-        <!-- Error Message -->
-        {
-          error && (
-            <div class="mb-6 p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
-              <div class="flex items-center">
-                <svg
-                  class="w-4 h-4 mr-2 flex-shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                Access denied. Invalid credentials.
-              </div>
-            </div>
-          )
-        }
+        <!-- Password Field -->
+        <div class="space-y-3">
+          <label
+            for="password"
+            class="block text-sm font-medium text-slate-100 uppercase tracking-wide"
+          >
+            Access Code
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            required
+            autocomplete="current-password"
+            class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all text-slate-100 placeholder-slate-500 font-mono"
+            placeholder="••••••••"
+          />
+        </div>
 
-        <!-- Login Form -->
-        <div
-          class="glass backdrop-blur-xl rounded-2xl p-8 border border-border/50 shadow-2xl"
+        <!-- Hidden honeypot field to catch bots -->
+        <input
+          type="text"
+          name="website"
+          style="display: none;"
+          tabindex="-1"
+          autocomplete="off"
+        />
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-medium py-3 px-6 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-cyan-400/25 font-mono"
         >
-          <form
-            action="/api/auth/login"
-            method="post"
-            data-astro-prefetch
-            class="space-y-6"
-          >
-            <!-- Email Field -->
-            <div class="space-y-2">
-              <label
-                for="email"
-                class="block text-sm font-medium text-foreground"
-              >
-                Email Address
-              </label>
-              <div class="relative">
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  required
-                  autocomplete="email"
-                  class="w-full px-4 py-3 bg-card/50 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 text-foreground placeholder-muted-foreground backdrop-blur-sm"
-                  placeholder="Enter authorized email"
-                />
-                <div
-                  class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
-                >
-                  <svg
-                    class="w-5 h-5 text-muted-foreground"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </div>
+          authenticate →
+        </button>
+      </form>
 
-            <!-- Password Field -->
-            <div class="space-y-2">
-              <label
-                for="password"
-                class="block text-sm font-medium text-foreground"
-              >
-                Access Code
-              </label>
-              <div class="relative">
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  required
-                  autocomplete="current-password"
-                  class="w-full px-4 py-3 bg-card/50 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 text-foreground placeholder-muted-foreground backdrop-blur-sm"
-                  placeholder="Enter access code"
-                />
-                <div
-                  class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
-                >
-                  <svg
-                    class="w-5 h-5 text-muted-foreground"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            <!-- Hidden honeypot field to catch bots -->
-            <input
-              type="text"
-              name="website"
-              style="display: none;"
-              tabindex="-1"
-              autocomplete="off"
-            />
-
-            <!-- Submit Button -->
-            <button
-              type="submit"
-              class="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-primary-foreground font-medium py-3 px-6 rounded-lg transition-all duration-200 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/25 focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
-            >
-              <span class="flex items-center justify-center">
-                <svg
-                  class="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
-                  ></path>
-                </svg>
-                Authenticate
-              </span>
-            </button>
-          </form>
-
-          <!-- Security Notice -->
-          <div class="mt-6 pt-6 border-t border-border/50">
-            <div
-              class="flex items-center justify-center text-xs text-muted-foreground"
-            >
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fill-rule="evenodd"
-                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                  clip-rule="evenodd"></path>
-              </svg>
-              All access attempts are monitored
-            </div>
-          </div>
-        </div>
-
-        <!-- Decoy Link -->
-        <div class="text-center mt-8">
-          <a
-            href="/"
-            class="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            <svg
-              class="w-4 h-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-            </svg>
-            Return to Main Site
-          </a>
+      <!-- Security Notice -->
+      <div class="mt-8 pt-6 border-t border-slate-800">
+        <div
+          class="flex items-center justify-center text-xs text-slate-500 font-mono"
+        >
+          <div class="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
+          all access attempts monitored
         </div>
       </div>
     </div>
-  </section>
+
+    <!-- Return Link -->
+    <div class="text-center mt-12">
+      <a
+        href="/"
+        class="text-slate-400 hover:text-cyan-400 transition-colors text-sm"
+      >
+        ← back to site
+      </a>
+    </div>
+  </div>
 </Layout>
 
 <style>

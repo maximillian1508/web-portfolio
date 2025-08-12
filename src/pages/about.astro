@@ -1,15 +1,151 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import UnderConstruction from "../components/UnderConstruction.astro";
-import { useTranslations, getLangFromUrl } from "../i18n/utils";
+import Layout from "@layouts/Layout.astro";
+import { useTranslations, getLangFromUrl } from "@i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// About sections data
+const aboutSections = [
+  {
+    title: "Background",
+    content:
+      "Full-stack developer with 2+ years building high-performance web applications. Specialized in modern JavaScript frameworks, database optimization, and cloud infrastructure.",
+  },
+  {
+    title: "Expertise",
+    content:
+      "Frontend: React.js, Next.js, MUI. Backend: Express.js, Yii2, PostgreSQL, MongoDB. DevOps: Docker, Nginx.",
+  },
+  {
+    title: "Approach",
+    content:
+      "I believe in building software that solves real problems. Every line of code should serve a purpose.",
+  },
+];
+
+const stats = [
+  { label: "Years Experience", value: "2+", color: "cyan" },
+  { label: "Projects Delivered", value: "3+", color: "purple" },
+];
 ---
 
-<Layout title={t("home.title")} description={t("home.description")}>
-  <main>
-    <UnderConstruction variant="page" />
-  </main>
-</Layout>
+<Layout title="About - Maximillian Leonard">
+  <!-- About Header -->
+  <section class="pb-12">
+    <div class="max-w-4xl">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
+        <span class="text-cyan-400">about</span> me
+      </h1>
+      <p class="text-base sm:text-lg text-slate-300 leading-relaxed font-light">
+        building reliable, high-performance applications with modern technology
+        and clean architecture
+      </p>
+    </div>
+  </section>
 
+  <!-- About Content -->
+  <section class="py-12">
+    <div class="space-y-8">
+      {
+        aboutSections.map((section, index) => (
+          <div
+            class={`${index < aboutSections.length - 1 ? "border-b border-slate-800" : ""} pb-8`}
+          >
+            <div class="grid md:grid-cols-4 gap-8">
+              <div class="md:col-span-1">
+                <h2 class="text-lg font-bold text-purple-400">
+                  {section.title}
+                </h2>
+              </div>
+              <div class="md:col-span-3">
+                <p class="text-slate-300 text-sm leading-relaxed">
+                  {section.content}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="py-12 border-t border-slate-800">
+    <div>
+      <h2 class="text-xl font-bold mb-8">
+        <span class="text-cyan-400">Performance</span> Metrics
+      </h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {
+          stats.map((stat) => (
+            <div>
+              <div
+                class={`text-3xl font-bold mb-2 ${stat.color === "cyan" ? "text-cyan-400" : "text-purple-400"}`}
+              >
+                {stat.value}
+              </div>
+              <div class="text-slate-400 text-sm uppercase tracking-wide">
+                {stat.label}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Current Focus -->
+  <section class="py-12 border-t border-slate-800">
+    <div>
+      <h2 class="text-xl font-bold mb-8">
+        <span class="text-purple-400">Current</span> Focus
+      </h2>
+
+      <div class="space-y-4">
+        <div class="grid md:grid-cols-4 gap-4 items-start">
+          <h3 class="text-base font-semibold text-cyan-400">Building</h3>
+          <div class="md:col-span-3">
+            <p class="text-slate-300 text-sm leading-relaxed">
+              High-performance analytics dashboards processing millions of
+              events daily. Focus on real-time data visualization and sub-200ms
+              query responses.
+            </p>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-4 gap-4 items-start">
+          <h3 class="text-base font-semibold text-cyan-400">Learning</h3>
+          <div class="md:col-span-3">
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Advanced database optimization techniques, Golang for
+              performance-critical services, Core Web Vitals, Technical SEO, and
+              more.
+            </p>
+          </div>
+        </div>
+        <!-- <div class="grid md:grid-cols-4 gap-4 items-start">
+          <h3 class="text-base font-semibold text-cyan-400">Contributing</h3>
+          <div class="md:col-span-3">
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Open source projects focused on developer tooling and performance.
+            </p>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section class="py-12 border-t border-slate-800">
+    <div class="text-center">
+      <p class="text-slate-300 text-sm mb-6">interested in collaborating?</p>
+      <a
+        href="mailto:hello@maximillianleonard.dev"
+        class="text-cyan-400 hover:text-cyan-300 transition-colors text-sm"
+      >
+        let's discuss your project →
+      </a>
+    </div>
+  </section>
+</Layout>

@@ -21,20 +21,20 @@ let defaultEta: string;
 
 switch (variant) {
   case "page":
-    defaultTitle = t("construction.pageTitle");
-    defaultDescription = t("construction.pageDescription");
+    defaultTitle = "page under construction";
+    defaultDescription = "building something awesome with modern technology and clean architecture";
     break;
   case "section":
-    defaultTitle = t("construction.sectionTitle");
-    defaultDescription = t("construction.sectionDescription");
+    defaultTitle = "section in progress";
+    defaultDescription = "implementing new features with performance and scalability in mind";
     break;
   default:
-    defaultTitle = t("construction.title");
-    defaultDescription = t("construction.description");
+    defaultTitle = "under construction";
+    defaultDescription = "crafting high-performance solutions with attention to detail";
     break;
 }
 
-defaultEta = t("construction.eta");
+defaultEta = "coming soon";
 
 const {
   title = defaultTitle,
@@ -44,166 +44,73 @@ const {
 ---
 
 <section class="py-24 relative overflow-hidden">
-  <!-- Background Elements -->
-  <div
-    class="absolute inset-0 bg-gradient-to-b from-background via-card/10 to-background"
-  >
-  </div>
-  <div class="absolute inset-0 bg-radial-primary opacity-30"></div>
-
-  <!-- Animated Grid Background -->
-  <div class="absolute inset-0 bg-grid-pattern opacity-20"></div>
-
-  <!-- Floating Elements -->
-  <div
-    class="absolute top-20 left-10 w-2 h-2 bg-accent rounded-full animate-ping"
-  >
-  </div>
-  <div
-    class="absolute top-40 right-20 w-1 h-1 bg-primary rounded-full animate-pulse"
-  >
-  </div>
-  <div
-    class="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-chart-3 rounded-full animate-bounce"
-  >
-  </div>
-
-  <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <!-- Construction Icon -->
-    <div class="mb-8">
-      <div
-        class="inline-flex items-center justify-center w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl backdrop-blur-sm border border-border/30"
-      >
-        <!-- Animated Construction Icon -->
-        <div class="relative">
-          <svg
-            class="w-12 h-12 text-primary animate-pulse"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-            ></path>
-          </svg>
-          <!-- Rotating Gear -->
-          <div
-            class="absolute -top-1 -right-1 w-4 h-4 text-accent animate-spin"
-          >
-            <svg fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fill-rule="evenodd"
-                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                clip-rule="evenodd"></path>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-
+  <div class="relative max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 text-center">
     <!-- Title -->
-    <h2 class="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-      {title}
+    <h2 class="text-2xl sm:text-3xl font-bold mb-6">
+      <span class="text-cyan-400">under</span> construction
     </h2>
 
-    <!-- Animated Progress Bar -->
-    <div class="max-w-md mx-auto mb-6">
-      <div class="w-full bg-muted/20 rounded-full h-2 overflow-hidden">
-        <div
-          class="bg-gradient-to-r from-primary via-accent to-primary h-full rounded-full animate-pulse loading-bar"
-        >
-        </div>
-      </div>
-    </div>
-
     <!-- Description -->
-    <p
-      class="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed"
-    >
+    <p class="text-slate-300 text-sm leading-relaxed mb-8 max-w-md mx-auto">
       {description}
     </p>
 
     <!-- ETA Badge -->
     {
       showEta && (
-        <div class="inline-flex items-center px-6 py-3 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-8">
-          <div class="w-2 h-2 bg-accent rounded-full mr-2 animate-ping" />
+        <div class="inline-flex items-center px-4 py-2 rounded-full border border-slate-800 text-purple-400 text-sm mb-8">
+          <div class="w-2 h-2 bg-purple-400 rounded-full mr-2 animate-pulse" />
           {eta}
         </div>
       )
     }
 
     <!-- Code Block Simulation -->
-    <div class="max-w-xl mx-auto">
-      <div
-        class="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-6 text-left"
-      >
+    <div class="max-w-lg mx-auto">
+      <div class="bg-slate-900 border border-slate-800 rounded-lg p-6 text-left">
         <div class="flex items-center justify-between mb-4">
           <div class="flex space-x-2">
             <div class="w-3 h-3 bg-red-500 rounded-full"></div>
             <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
             <div class="w-3 h-3 bg-green-500 rounded-full"></div>
           </div>
-          <span class="text-xs text-muted-foreground font-mono"
-            >development.tsx</span
-          >
+          <span class="text-xs text-slate-500 font-mono">development.ts</span>
         </div>
         <div class="space-y-2 font-mono text-sm">
-          <div class="text-muted-foreground">
-            <span class="text-primary">const</span>
-            <span class="text-accent ml-1">status</span>
-            <span class="text-foreground ml-1">=</span>
-            <span class="text-chart-3 ml-1">'building'</span>
-            <span class="text-foreground">;</span>
+          <div class="text-slate-400">
+            <span class="text-purple-400">const</span>
+            <span class="text-slate-100 ml-1">status</span>
+            <span class="text-slate-300 ml-1">=</span>
+            <span class="text-cyan-400 ml-1">'building'</span>
+            <span class="text-slate-300">;</span>
           </div>
-          <div class="text-muted-foreground">
-            <span class="text-primary">const</span>
-            <span class="text-accent ml-1">progress</span>
-            <span class="text-foreground ml-1">=</span>
-            <span class="text-chart-4 ml-1 animate-pulse">85</span>
-            <span class="text-foreground">%;</span>
+          <div class="text-slate-400">
+            <span class="text-purple-400">const</span>
+            <span class="text-slate-100 ml-1">progress</span>
+            <span class="text-slate-300 ml-1">=</span>
+            <span class="text-cyan-400 ml-1 animate-pulse">85</span>
+            <span class="text-slate-300">%;</span>
           </div>
-          <div class="text-muted-foreground">
-            <span class="text-chart-2">console</span>
-            <span class="text-foreground">.</span>
-            <span class="text-primary">log</span>
-            <span class="text-foreground">(</span>
-            <span class="text-chart-3">'Almost ready...'</span>
-            <span class="text-foreground">);</span>
+          <div class="text-slate-400">
+            <span class="text-purple-400">console</span>
+            <span class="text-slate-300">.</span>
+            <span class="text-cyan-400">log</span>
+            <span class="text-slate-300">(</span>
+            <span class="text-cyan-400">'almost ready...'</span>
+            <span class="text-slate-300">);</span>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Back to Home -->
+    <div class="mt-12">
+      <a
+        href="/"
+        class="text-slate-400 hover:text-cyan-400 transition-colors text-sm"
+      >
+        ← back to home
+      </a>
+    </div>
   </div>
 </section>
-
-<style>
-  .loading-bar {
-    animation: loading 3s ease-in-out infinite;
-    width: 85%;
-  }
-
-  @keyframes loading {
-    0%,
-    100% {
-      width: 70%;
-      opacity: 0.7;
-    }
-    50% {
-      width: 90%;
-      opacity: 1;
-    }
-  }
-
-  .bg-grid-pattern {
-    background-image: linear-gradient(
-        rgba(255, 255, 255, 0.03) 1px,
-        transparent 1px
-      ),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-</style>

@@ -1,438 +1,283 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import UnderConstruction from "@components/UnderConstruction.astro";
 import { getLangFromUrl, useTranslations } from "@i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// Experience data
+const experiences = [
+  {
+    company: "Property Genie",
+    companyUrl: "https://www.propertygenie.com.my",
+    role: "Full-Stack Developer",
+    period: "2024 - Present",
+    description:
+      "Developed and maintained the company's web application. Improved the company's search page result implementation. ",
+    metrics: "50% higher impressions & clicks",
+    tech: "PHP • Yii2 • PostgreSQL • React.js • JavaScript • CSS",
+  },
+  {
+    company: "Nexea",
+    companyUrl: "https://www.nexea.co/",
+    role: "Software Developer Intern",
+    period: "July 2023 - November 2023",
+    description:
+      "Developed several features for client's booking system. Performed UAT on an ERP system. Documented a project's setup and configuration guidelines.",
+    metrics: "2+ features developed",
+    tech: "React.js • Node.js • Express.js • MongoDB • JavaScript",
+  },
+];
+
+// Projects data
+const projects = [
+  {
+    title: "EasyRent",
+    description:
+      "A web application for property agents to manage their listings and bookings.",
+    tech: "React.js • Express.js • MongoDB • Docker • Stripe",
+    metrics: undefined,
+    testimonial: undefined,
+    githubUrl: "https://github.com/maximillian1508/easyrent",
+    liveUrl: "https://easyrent.maximillianleonard.dev",
+  },
+  // {
+  //   title: "AI Content Generator",
+  //   description:
+  //     "Intelligent content creation platform powered by machine learning. Features advanced text generation, image processing, and collaborative editing capabilities.",
+  //   tech: "React • Python • FastAPI • OpenAI • Docker",
+  //   metrics:
+  //     "1M+ content pieces generated, 25K+ users served, <200ms response time",
+  //   testimonial:
+  //     "The AI platform has changed the way we think about content creation and user engagement.",
+  //   githubUrl: "https://github.com/maximillianleonard/ai-content-generator",
+  //   liveUrl: "https://ai-content-gen.com",
+  // },
+  // {
+  //   title: "E-Commerce Platform",
+  //   description:
+  //     "Full-stack e-commerce solution with advanced inventory management, payment processing, and analytics. Handles high-volume transactions with 99.9% uptime.",
+  //   tech: "Vue.js • Node.js • MongoDB • Stripe • AWS",
+  //   metrics: "500K+ transactions, $2M+ revenue processed, 3.2% conversion rate",
+  //   testimonial:
+  //     "It's been amazing to work with this platform. The performance improvements are actually useful for our business.",
+  //   githubUrl: "https://github.com/maximillianleonard/ecommerce-platform",
+  //   liveUrl: "https://ecommerce-platform.com",
+  // },
+];
 ---
 
 <Layout title={t("home.title")}>
   <!-- Hero Section -->
-  <section
-    class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
-  >
-    <!-- Background Elements -->
-    <div
-      class="absolute inset-0 bg-gradient-to-br from-background via-background to-background/95"
-    >
-    </div>
-    <div class="absolute inset-0 bg-radial-primary"></div>
-    <div class="absolute inset-0 bg-radial-accent"></div>
-
-    <!-- Grid Pattern Overlay -->
-    <div class="absolute inset-0 bg-grid-pattern"></div>
-
-    <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <!-- Status Badge -->
-      <div
-        class="inline-flex items-center px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-8 animate-pulse"
+  <section class="relative flex items-start justify-start px-4">
+    <div class="w-full max-w-4xl">
+      <h1
+        class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
       >
-        <div class="w-2 h-2 bg-accent rounded-full mr-2 animate-ping"></div>
-        {t("hero.badge")}
-      </div>
-
-      <!-- Main Heading -->
-      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold mb-6">
-        <span class="block text-foreground">Maximillian</span>
-        <span
-          class="block bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_200%]"
-        >
-          Leonard
-        </span>
+        Maximillian Leonard
       </h1>
 
-      <!-- Subtitle -->
-      <p class="text-xl sm:text-2xl text-muted-foreground mb-4 font-light">
-        {t("hero.subtitle")}
-      </p>
-
-      <!-- Description -->
       <p
-        class="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed"
+        class="text-base sm:text-lg md:text-xl text-slate-300 mb-8 sm:mb-12 leading-relaxed font-light"
       >
-        {t("hero.description")}
+        full-stack developer building high-performance applications: fast,
+        scalable, and extremely reliable
       </p>
 
-      <!-- CTA Buttons -->
       <div
-        class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+        class="flex flex-wrap items-center gap-2 sm:gap-4 md:gap-8 text-slate-400 text-xs sm:text-sm"
       >
-        <a
-          href="#projects"
-          class="inline-flex items-center px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-primary/25 hover:shadow-xl"
-        >
-          {t("hero.viewWork")}
-          <svg
-            class="ml-2 w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"></path>
-          </svg>
-        </a>
-        <a
-          href="#contact"
-          class="inline-flex items-center px-8 py-4 border border-border bg-card/50 text-foreground font-medium rounded-lg hover:scale-105 transition-all duration-200 backdrop-blur-sm hover:bg-card/80"
-        >
-          {t("hero.connect")}
-          <svg
-            class="ml-2 w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-            ></path>
-          </svg>
-        </a>
-      </div>
-
-      <!-- Scroll Indicator -->
-      <div class="animate-bounce">
-        <svg
-          class="w-6 h-6 mx-auto text-muted-foreground"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-        </svg>
+        <span>React.js</span>
+        <span class="hidden sm:inline">•</span>
+        <span>Node.js</span>
+        <span class="hidden sm:inline">•</span>
+        <span>PostgreSQL</span>
+        <span class="hidden sm:inline">•</span>
+        <span>PHP Yii2</span>
       </div>
     </div>
   </section>
 
   <!-- Skills Section -->
-  <section id="skills" class="py-24 relative">
-    <div
-      class="absolute inset-0 bg-gradient-to-b from-background via-card/20 to-background"
-    >
-    </div>
-    <div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-          {t("skills.title")}
-        </h2>
-        <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto">
+  <section id="skills" class="py-12 px-4">
+    <div>
+      <h2 class="text-xl font-bold mb-8">
+        <span class="text-cyan-400">Technical</span> Stack
+      </h2>
+
+      <div class="space-y-4">
+        <div class="border-b border-slate-800 pb-4 last:border-b-0">
+          <div class="grid md:grid-cols-4 gap-4 items-start">
+            <h3 class="text-base font-semibold text-purple-400">Frontend</h3>
+            <div class="md:col-span-3">
+              <p class="text-slate-300 text-sm leading-relaxed">
+                React.js, Vite, Next.js, MUI, Mantine
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="border-b border-slate-800 pb-4 last:border-b-0">
+          <div class="grid md:grid-cols-4 gap-4 items-start">
+            <h3 class="text-base font-semibold text-purple-400">Backend</h3>
+            <div class="md:col-span-3">
+              <p class="text-slate-300 text-sm leading-relaxed">
+                Node.js, Express.js, PHP, Yii2, PostgreSQL, MongoDB
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="border-b border-slate-800 pb-4 last:border-b-0">
+          <div class="grid md:grid-cols-4 gap-4 items-start">
+            <h3 class="text-base font-semibold text-purple-400">DevOps</h3>
+            <div class="md:col-span-3">
+              <p class="text-slate-300 text-sm leading-relaxed">
+                Docker, Nginx, Cloudflared, Prometheus, Grafana
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="pb-4">
+          <div class="grid md:grid-cols-4 gap-4 items-start">
+            <h3 class="text-base font-semibold text-purple-400">Tools</h3>
+            <div class="md:col-span-3">
+              <p class="text-slate-300 text-sm leading-relaxed">
+                Git, Postman, DBeaver
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Frontend -->
-        <div class="group relative">
-          <div
-            class="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-8 hover:bg-card/80 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/10"
-          >
-            <div class="text-center mb-6">
-              <div
-                class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center"
-              >
-                <svg
-                  class="w-8 h-8 text-primary"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
-                </svg>
-              </div>
-              <h3 class="text-xl font-semibold text-foreground mb-2">
-                {t("skills.frontend")}
-              </h3>
-            </div>
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">React/Next.js</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">TypeScript</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">Tailwind CSS</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">Vue.js</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-primary rounded-full"></div>
-                  <div class="w-2 h-2 bg-muted rounded-full"></div>
-                </div>
-              </div>
+      <div class="mt-8 pt-8 border-t border-slate-800">
+        <div class="grid md:grid-cols-3 gap-8">
+          <div>
+            <div class="text-3xl font-bold text-cyan-400 mb-2">2+</div>
+            <div class="text-slate-400 text-sm uppercase tracking-wide">
+              Years Experience
             </div>
           </div>
-        </div>
-
-        <!-- Backend -->
-        <div class="group relative">
-          <div
-            class="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-8 hover:bg-card/80 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-accent/10"
-          >
-            <div class="text-center mb-6">
-              <div
-                class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-accent/20 to-primary/20 rounded-xl flex items-center justify-center"
-              >
-                <svg
-                  class="w-8 h-8 text-accent"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"
-                  ></path>
-                </svg>
-              </div>
-              <h3 class="text-xl font-semibold text-foreground mb-2">
-                {t("skills.backend")}
-              </h3>
-            </div>
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">Node.js/Express</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">Python/FastAPI</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">PostgreSQL</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-muted rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">GraphQL</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-accent rounded-full"></div>
-                  <div class="w-2 h-2 bg-muted rounded-full"></div>
-                </div>
-              </div>
+          <div>
+            <div class="text-3xl font-bold text-purple-400 mb-2">3+</div>
+            <div class="text-slate-400 text-sm uppercase tracking-wide">
+              Projects Delivered
             </div>
           </div>
-        </div>
-
-        <!-- AI & Cloud -->
-        <div class="group relative">
-          <div
-            class="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-8 hover:bg-card/80 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-chart-3/10"
-          >
-            <div class="text-center mb-6">
-              <div
-                class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-chart-3/20 to-chart-4/20 rounded-xl flex items-center justify-center"
-              >
-                <svg
-                  class="w-8 h-8 text-chart-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                  ></path>
-                </svg>
-              </div>
-              <h3 class="text-xl font-semibold text-foreground mb-2">
-                {t("skills.aiCloud")}
-              </h3>
+          <!-- <div>
+            <div class="text-3xl font-bold text-cyan-400 mb-2">99.9%</div>
+            <div class="text-slate-400 text-sm uppercase tracking-wide">
+              Uptime Achieved
             </div>
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">OpenAI/LLMs</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">AWS/Vercel</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">Docker/K8s</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-muted rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-muted-foreground">TensorFlow</span>
-                <div class="flex space-x-1">
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-chart-3 rounded-full"></div>
-                  <div class="w-2 h-2 bg-muted rounded-full"></div>
-                  <div class="w-2 h-2 bg-muted rounded-full"></div>
-                </div>
-              </div>
-            </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Under Construction Section -->
-  <UnderConstruction
-    title="Under Construction"
-    description="This page is being crafted with attention to detail and modern technology."
-    showEta={true}
-    eta="Coming Soon"
-  />
+  <!-- Experience Section -->
+  <section id="experience" class="py-12 px-4">
+    <div>
+      <h2 class="text-xl font-bold mb-8">
+        <span class="text-purple-400">Professional</span> Experience
+      </h2>
 
-  <!-- CTA Section -->
-  <section id="contact" class="py-24 relative">
-    <div
-      class="absolute inset-0 bg-gradient-to-br from-background via-card/10 to-background"
-    >
+      <div class="space-y-8">
+        {
+          experiences.map((exp, index) => (
+            <div
+              class={`${index < experiences.length - 1 ? "border-b border-slate-800" : ""} pb-8`}
+            >
+              <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-1">
+                  <h3 class="text-lg font-bold mb-2">
+                    <a
+                      href={exp.companyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-white hover:text-cyan-400 transition-colors duration-200"
+                    >
+                      {exp.company}
+                    </a>
+                  </h3>
+                  <h4 class="text-base text-cyan-400 mb-2">{exp.role}</h4>
+                  <p class="text-slate-400 text-sm">{exp.period}</p>
+                </div>
+                <div class="md:col-span-3 space-y-4">
+                  <p class="text-slate-300 text-sm leading-relaxed">
+                    {exp.description}
+                  </p>
+                  <p class="text-cyan-400 text-sm">{exp.metrics}</p>
+                  <p class="text-purple-400 text-sm">{exp.tech}</p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
     </div>
-    <div class="absolute inset-0 bg-radial-primary"></div>
+  </section>
 
-    <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <div class="max-w-3xl mx-auto">
-        <h2 class="text-3xl sm:text-4xl font-bold text-foreground mb-6">
-          {t("cta.title")}
-        </h2>
-        <p class="text-xl text-muted-foreground mb-12 leading-relaxed">
-          {t("cta.description")}
-        </p>
+  <!-- Projects Section -->
+  <section id="projects" class="py-12 px-4">
+    <div>
+      <h2 class="text-xl font-bold mb-8">
+        <span class="text-cyan-400">Featured</span> Projects
+      </h2>
 
-        <div
-          class="flex flex-col sm:flex-row gap-6 justify-center items-center"
-        >
-          <a
-            href="/contact"
-            class="inline-flex items-center px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-primary/25 hover:shadow-xl"
-          >
-            {t("cta.startProject")}
-            <svg
-              class="ml-2 w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+      <div class="space-y-8">
+        {
+          projects.map((project, index) => (
+            <div
+              class={`${index < projects.length - 1 ? "border-b border-slate-800" : ""} pb-8`}
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-            </svg>
-          </a>
+              <div class="space-y-6">
+                <div>
+                  <div class="flex items-center gap-4 mb-4">
+                    <h3 class="text-lg font-bold text-white">
+                      {project.title}
+                    </h3>
+                    <div class="flex gap-3">
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-slate-400 hover:text-cyan-400 transition-colors duration-200 text-sm"
+                      >
+                        GitHub
+                      </a>
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-slate-400 hover:text-purple-400 transition-colors duration-200 text-sm"
+                      >
+                        Live Site
+                      </a>
+                    </div>
+                  </div>
+                  <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                    {project.description}
+                  </p>
+                  <p class="text-purple-400 text-sm">{project.tech}</p>
+                  {project.metrics && (
+                    <p class="text-cyan-400 text-sm mt-4">{project.metrics}</p>
+                  )}
+                </div>
 
-          <a
-            href="mailto:hello@maximillianleonard.dev"
-            class="inline-flex items-center px-8 py-4 border border-border bg-card/50 text-foreground font-medium rounded-lg hover:scale-105 transition-all duration-200 backdrop-blur-sm hover:bg-card/80"
-          >
-            <svg
-              class="mr-2 w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              ></path>
-            </svg>
-            Send Email
-          </a>
-        </div>
+                {project.testimonial && (
+                  <blockquote class="border-l-2 border-slate-700 mt-6 pl-6">
+                    <p class="text-slate-400 italic text-sm leading-relaxed">
+                      "{project.testimonial}"
+                    </p>
+                    <footer class="mt-2 text-slate-500 text-sm">
+                      — Client Testimonial
+                    </footer>
+                  </blockquote>
+                )}
+              </div>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
 </Layout>
-
-<style>
-  @keyframes gradient {
-    0%,
-    100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-  }
-
-  .animate-gradient {
-    animation: gradient 8s ease infinite;
-  }
-</style>
