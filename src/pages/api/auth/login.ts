@@ -4,70 +4,83 @@ import { supabase } from "../../../services/supabase";
 
 export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   try {
-    console.log("Login API called");
-    
+    // Return JSON response for debugging instead of redirects
     const formData = await request.formData();
     const email = formData.get("email")?.toString();
     const password = formData.get("password")?.toString();
     const honeypot = formData.get("website")?.toString();
 
-    console.log("Form data parsed", { email: !!email, password: !!password, honeypot: !!honeypot });
-
     // Security: Check honeypot field (should be empty)
     if (honeypot) {
-      console.log("Bot detected via honeypot");
-      return redirect("/404");
+      return new Response(JSON.stringify({ error: "Bot detected" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" }
+      });
     }
 
-    // Security: Basic rate limiting check (you could enhance this with a database)
+    // Security: Basic rate limiting check
     const userAgent = request.headers.get("user-agent") || "";
     const isBot = /bot|crawler|spider|crawling/i.test(userAgent);
 
     if (isBot) {
-      console.log("Bot detected via user agent");
-      return redirect("/404");
+      return new Response(JSON.stringify({ error: "Bot detected via user agent" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" }
+      });
     }
 
     if (!email || !password) {
-      console.log("Missing credentials");
-      return redirect("/login?error=missing_credentials");
+      return new Response(JSON.stringify({ error: "Missing credentials" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" }
+      });
     }
 
-    console.log("About to call Supabase auth");
-    
+    // Check environment variables
+    const envCheck = {
+      supabase_url: !!import.meta.env.SUPABASE_URL,
+      supabase_key: !!import.meta.env.SUPABASE_ANON_KEY,
+      url_value: import.meta.env.SUPABASE_URL,
+      key_length: import.meta.env.SUPABASE_ANON_KEY?.length || 0
+    };
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    console.log("Supabase response", { hasData: !!data, hasError: !!error, errorMessage: error?.message });
-
     if (error) {
-      console.log("Supabase error:", error);
-      return redirect("/login?error=invalid_credentials");
+      return new Response(JSON.stringify({ 
+        error: "Supabase auth error", 
+        details: error.message,
+        env_check: envCheck
+      }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" }
+      });
     }
 
-    const { access_token, refresh_token } = data.session;
-    cookies.set("sb-access-token", access_token, {
-      path: "/",
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+    // Success - for now just return success message instead of redirect
+    return new Response(JSON.stringify({ 
+      success: true, 
+      message: "Login successful",
+      env_check: envCheck
+    }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" }
     });
-    cookies.set("sb-refresh-token", refresh_token, {
-      path: "/",
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 30, // 30 days
-    });
-
-    console.log("Login successful, redirecting to dashboard");
-    return redirect("/dashboard");
   } catch (err) {
     console.error("Login API error:", err);
-    return new Response(JSON.stringify({ error: "Internal server error", details: err instanceof Error ? err.message : "Unknown error" }), {
+    // Return detailed error for debugging
+    return new Response(JSON.stringify({ 
+      error: "Internal server error", 
+      details: err instanceof Error ? err.message : "Unknown error",
+      stack: err instanceof Error ? err.stack : "No stack trace",
+      env_check: {
+        supabase_url: !!process.env.SUPABASE_URL,
+        supabase_key: !!process.env.SUPABASE_ANON_KEY
+      }
+    }), {
       status: 500,
       headers: { "Content-Type": "application/json" }
     });
