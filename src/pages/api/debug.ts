@@ -5,10 +5,18 @@ export const GET: APIRoute = async () => {
   try {
     // Test environment variables
     const envCheck = {
-      supabase_url: !!import.meta.env.SUPABASE_URL,
-      supabase_key: !!import.meta.env.SUPABASE_ANON_KEY,
-      url_value: import.meta.env.SUPABASE_URL,
-      key_length: import.meta.env.SUPABASE_ANON_KEY?.length || 0
+      import_meta_env: {
+        supabase_url: !!import.meta.env.SUPABASE_URL,
+        supabase_key: !!import.meta.env.SUPABASE_ANON_KEY,
+        url_length: import.meta.env.SUPABASE_URL?.length || 0,
+        key_length: import.meta.env.SUPABASE_ANON_KEY?.length || 0
+      },
+      process_env: {
+        supabase_url: !!process.env.SUPABASE_URL,
+        supabase_key: !!process.env.SUPABASE_ANON_KEY,
+        url_length: process.env.SUPABASE_URL?.length || 0,
+        key_length: process.env.SUPABASE_ANON_KEY?.length || 0
+      }
     };
 
     // Try to import supabase
