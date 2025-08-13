@@ -1,6 +1,6 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
-import { supabase } from "src/services/supabase";
+import { supabase } from "@services/supabase";
 
 export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const formData = await request.formData();
@@ -25,7 +25,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   if (!email || !password) {
     return redirect("/login?error=missing_credentials");
   }
-  
+
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
