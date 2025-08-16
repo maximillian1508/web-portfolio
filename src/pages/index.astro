@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import PageNavigation from "@components/PageNavigation.astro";
 import { getLangFromUrl, useTranslations } from "@i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
@@ -280,4 +281,5 @@ const projects = [
       </div>
     </div>
   </section>
+  <PageNavigation />
 </Layout>

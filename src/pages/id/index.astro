@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import PageNavigation from "@components/PageNavigation.astro";
 import { getLangFromUrl, useTranslations } from "@i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
@@ -162,12 +163,12 @@ const projects = [
               Projects Delivered
             </div>
           </div>
-          <div>
+          <!-- <div>
             <div class="text-3xl font-bold text-cyan-400 mb-2">99.9%</div>
             <div class="text-slate-400 text-sm uppercase tracking-wide">
               Uptime Achieved
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -280,4 +281,5 @@ const projects = [
       </div>
     </div>
   </section>
+  <PageNavigation />
 </Layout>

@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import PageNavigation from "@components/PageNavigation.astro";
 import { useTranslations, getLangFromUrl } from "@i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
@@ -190,7 +191,7 @@ const projectTypes = [
   </section>
 
   <!-- CTA -->
-  <section class="pt-12 border-t border-slate-800">
+  <section class="py-12 border-t border-slate-800">
     <div class="text-center">
       <p class="text-slate-300 text-sm mb-6">ready to start your project?</p>
       <a
@@ -201,4 +202,5 @@ const projectTypes = [
       </a>
     </div>
   </section>
+  <PageNavigation />
 </Layout>

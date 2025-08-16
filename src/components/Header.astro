@@ -1,24 +1,9 @@
 ---
-import { getLangFromUrl, useTranslations } from "@i18n/utils";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { pageMap } from "@lib/pageMap";
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 const currentPath = Astro.url.pathname;
-
-// Function to check if link is active
-const isActive = (href: string) => {
-  if (href === '/' && currentPath === '/') return true;
-  if (href !== '/' && currentPath.startsWith(href)) return true;
-  return false;
-};
-
-// Navigation links
-const navLinks = [
-  { href: '/about', label: 'about' },
-  { href: '/projects', label: 'projects' },
-  { href: '/contact', label: 'contact' },
-];
+const currentPage = pageMap[currentPath] || { name: "Portfolio", number: 1 };
+const totalPages = Object.keys(pageMap).length;
 ---
 
 <header
@@ -26,24 +11,30 @@ const navLinks = [
 >
   <div class="max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
-      <a href="/" class="text-lg font-mono text-cyan-400 font-black"
-        >ML.portfolio</a
-      >
+      <div class="flex items-center gap-8">
+        <a href="/" class="text-slate-400 font-mono text-sm hover:text-cyan-400 transition-colors">
+          ML.portfolio
+        </a>
+        <div class="hidden md:flex items-center gap-4 text-xs font-mono">
+          {Object.entries(pageMap).map(([path, page], index) => (
+            <div class="flex items-center gap-4">
+              <a
+                href={path}
+                class={`transition-colors ${
+                  currentPath === path ? "text-purple-400" : "text-slate-400 hover:text-cyan-400"
+                }`}
+              >
+                {page.name}
+              </a>
+              {index < Object.keys(pageMap).length - 1 && <span class="text-slate-600">•</span>}
+            </div>
+          ))}
+        </div>
+      </div>
 
-      <nav class="hidden md:flex items-center gap-8 text-sm">
-        {navLinks.map(link => (
-          <a 
-            href={link.href} 
-            class={`transition-colors ${
-              isActive(link.href) 
-                ? 'text-cyan-400 font-medium' 
-                : 'text-slate-300 hover:text-cyan-400'
-            }`}
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
+      <div class="hidden md:block text-slate-400 font-mono text-sm">
+        <span class="text-purple-400">Page {currentPage.number}</span> of {totalPages}
+      </div>
 
       <button
         id="mobile-menu-button"
@@ -64,18 +55,19 @@ const navLinks = [
       class="md:hidden border-t border-slate-800 py-4 hidden"
     >
       <div class="flex flex-col gap-4 text-sm">
-        {navLinks.map(link => (
+        {Object.entries(pageMap).map(([path, page]) => (
           <a
-            href={link.href}
+            href={path}
             class={`transition-colors py-2 mobile-menu-link ${
-              isActive(link.href) 
-                ? 'text-cyan-400 font-medium' 
-                : 'text-slate-300 hover:text-cyan-400'
+              currentPath === path ? "text-purple-400" : "text-slate-300 hover:text-cyan-400"
             }`}
           >
-            {link.label}
+            {page.name}
           </a>
         ))}
+        <div class="text-slate-400 font-mono text-xs pt-2 border-t border-slate-800">
+          Page {currentPage.number} of {totalPages}
+        </div>
       </div>
     </nav>
   </div>
