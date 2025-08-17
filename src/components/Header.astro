@@ -2,7 +2,7 @@
 import { pageMap } from "@lib/pageMap";
 
 const currentPath = Astro.url.pathname;
-const currentPage = pageMap[currentPath] || { name: "Portfolio", number: 1 };
+const currentPage = pageMap[currentPath] || { name: "Home", number: 1 };
 const totalPages = Object.keys(pageMap).length;
 ---
 

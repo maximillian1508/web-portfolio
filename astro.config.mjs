@@ -8,12 +8,16 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
+  build: {
+    format: "directory",
+  },
+  trailingSlash: "never",
   site: "https://maximillianleonard.dev",
   integrations: [
     sitemap({
       filter: (page) =>
-        page !== "https://maximillianleonard.dev/login/" &&
-        page !== "https://maximillianleonard.dev/dashboard/",
+        page !== "https://maximillianleonard.dev/login" &&
+        page !== "https://maximillianleonard.dev/dashboard",
     }),
     mdx(),
   ],

@@ -1,0 +1,22 @@
+{
+  "name": "web-portfolio",
+  "main": "./dist/_worker.js/index.js",
+  "compatibility_date": "2025-08-17",
+  "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    {
+      "pattern": "maximillianleonard.dev",
+      "custom_domain": true
+    }
+  ],
+
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist",
+    "html_handling": "drop-trailing-slash"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}
