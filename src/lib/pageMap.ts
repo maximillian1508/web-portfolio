@@ -1,13 +1,9 @@
-export const pageMap: Record<string, { name: string; number: number }> = {
-  "/": { name: "Home", number: 1 },
-  "/about": { name: "About", number: 2 },
-  "/projects": { name: "Projects", number: 3 },
-  "/contact": { name: "Contact", number: 4 },
-};
+export const pageMap = {
+  "/": { nameKey: "header.home" as const, number: 1 },
+  "/about": { nameKey: "header.about" as const, number: 2 },
+  "/projects": { nameKey: "header.projects" as const, number: 3 },
+  "/contact": { nameKey: "header.contact" as const, number: 4 },
+} as const;
 
-export type PageInfo = {
-  name: string;
-  number: number;
-};
-
+export type PageInfo = (typeof pageMap)[keyof typeof pageMap];
 export type PageMap = typeof pageMap;

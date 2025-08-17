@@ -1,0 +1,633 @@
+---
+import { getLangFromUrl, useTranslatedPath } from "@i18n/utils";
+import { languages } from "@i18n/ui";
+
+const currentLang = getLangFromUrl(Astro.url);
+const translatePath = useTranslatedPath(currentLang);
+
+const getBasePath = (pathname: string) => {
+  return pathname.replace(/^\/id/, "") || "/";
+};
+
+const basePath = getBasePath(Astro.url.pathname);
+---
+
+<!-- Backdrop -->
+<div
+  id="settings-backdrop"
+  class="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"
+>
+</div>
+
+<!-- Full View Modal -->
+<div
+  id="settings-modal"
+  class="fixed inset-0 flex items-center justify-center z-50 p-4 hidden opacity-0 transition-all duration-300"
+>
+  <div
+    id="modal-content"
+    class="bg-slate-900 border border-slate-700 rounded-lg p-4 sm:p-6 w-full max-w-sm sm:max-w-md transform scale-95 transition-transform duration-300"
+  >
+    <div class="flex items-center justify-between mb-4 sm:mb-6">
+      <span class="text-sm font-mono text-slate-300">settings</span>
+      <button
+        id="close-modal"
+        class="text-slate-400 hover:text-cyan-400 transition-colors p-1"
+        title="Close"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Theme Section -->
+    <div class="mb-4 sm:mb-6">
+      <div
+        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+      >
+        <div class="flex items-center gap-3">
+          <span id="theme-icon-modal" class="text-xl">🌙</span>
+          <span class="text-sm text-slate-300 font-mono">theme</span>
+        </div>
+        <div class="relative">
+          <button
+            id="theme-dropdown-modal"
+            class="bg-slate-800 border border-slate-600 rounded px-3 py-2 text-sm font-mono text-slate-300 hover:border-cyan-400/50 focus:border-cyan-400 focus:outline-none transition-colors w-full sm:w-auto sm:min-w-[100px] flex items-center justify-between"
+          >
+            <span id="theme-current-modal">dark</span>
+            <svg
+              class="w-4 h-4 ml-2 transition-transform duration-200"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div
+            id="theme-options-modal"
+            class="absolute top-full left-0 right-0 mt-1 bg-slate-800 border border-slate-600 rounded shadow-lg hidden z-10"
+          >
+            <button
+              data-value="dark"
+              class="w-full px-3 py-2 text-sm font-mono text-slate-300 hover:bg-slate-700 text-left transition-colors"
+            >
+              dark
+            </button>
+            <button
+              data-value="light"
+              class="w-full px-3 py-2 text-sm font-mono text-slate-300 hover:bg-slate-700 text-left transition-colors"
+            >
+              light
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Language Section -->
+    <div class="mb-4 sm:mb-6">
+      <div
+        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+      >
+        <div class="flex items-center gap-3">
+          <span class="text-xl">🌐</span>
+          <span class="text-sm text-slate-300 font-mono">language</span>
+        </div>
+        <div class="relative">
+          <button
+            id="language-dropdown-modal"
+            class="bg-slate-800 border border-slate-600 rounded px-3 py-2 text-sm font-mono text-slate-300 hover:border-purple-400/50 focus:border-purple-400 focus:outline-none transition-colors w-full sm:w-auto sm:min-w-[100px] flex items-center justify-between"
+          >
+            <span id="language-current-modal">english</span>
+            <svg
+              class="w-4 h-4 ml-2 transition-transform duration-200"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div
+            id="language-options-modal"
+            class="absolute top-full left-0 right-0 mt-1 bg-slate-800 border border-slate-600 rounded shadow-lg hidden z-10"
+          >
+            <button
+              data-value="en"
+              class="w-full px-3 py-2 text-sm font-mono text-slate-300 hover:bg-slate-700 text-left transition-colors"
+            >
+              english
+            </button>
+            <button
+              data-value="id"
+              class="w-full px-3 py-2 text-sm font-mono text-slate-300 hover:bg-slate-700 text-left transition-colors"
+            >
+              indonesia
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main floating button -->
+<div class="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50">
+  <div class="relative">
+    <!-- Expanded dropdown (only show when isExpanded && !isFullView) -->
+    <div
+      id="settings-dropdown"
+      class="absolute bottom-16 right-0 bg-slate-900 border border-slate-700 rounded-lg p-3 sm:p-4 w-80 sm:w-72 md:w-80 hidden opacity-0 translate-y-2 transition-all duration-300 shadow-xl max-w-[calc(100vw-2rem)]"
+      style="transform-origin: bottom right;"
+    >
+      <!-- Theme Section -->
+      <div class="mb-4">
+        <div
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3"
+        >
+          <div class="flex items-center gap-2">
+            <span id="theme-icon-dropdown" class="text-lg">🌙</span>
+            <span class="text-xs text-slate-300 font-mono">theme</span>
+          </div>
+          <div class="relative">
+            <button
+              id="theme-dropdown-dropdown"
+              class="bg-slate-800 border border-slate-600 rounded px-2 py-1 text-xs font-mono text-slate-300 hover:border-cyan-400/50 focus:border-cyan-400 focus:outline-none transition-colors w-full sm:w-auto sm:min-w-[80px] flex items-center justify-between"
+            >
+              <span id="theme-current-dropdown">dark</span>
+              <svg
+                class="w-3 h-3 ml-2 transition-transform duration-200"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div
+              id="theme-options-dropdown"
+              class="absolute top-full left-0 right-0 mt-1 bg-slate-800 border border-slate-600 rounded shadow-lg hidden z-10"
+            >
+              <button
+                data-value="dark"
+                class="w-full px-2 py-1 text-xs font-mono text-slate-300 hover:bg-slate-700 text-left transition-colors"
+              >
+                dark
+              </button>
+              <button
+                data-value="light"
+                class="w-full px-2 py-1 text-xs font-mono text-slate-300 hover:bg-slate-700 text-left transition-colors"
+              >
+                light
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Language Section -->
+      <div class="mb-4">
+        <div
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3"
+        >
+          <div class="flex items-center gap-2">
+            <span class="text-sm">🌐</span>
+            <span class="text-xs text-slate-300 font-mono">language</span>
+          </div>
+          <div class="relative">
+            <button
+              id="language-dropdown-dropdown"
+              class="bg-slate-800 border border-slate-600 rounded px-2 py-1 text-xs font-mono text-slate-300 hover:border-purple-400/50 focus:border-purple-400 focus:outline-none transition-colors w-full sm:w-auto sm:min-w-[80px] flex items-center justify-between"
+            >
+              <span id="language-current-dropdown">english</span>
+              <svg
+                class="w-3 h-3 ml-2 transition-transform duration-200"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div
+              id="language-options-dropdown"
+              class="absolute top-full left-0 right-0 mt-1 bg-slate-800 border border-slate-600 rounded shadow-lg hidden z-10"
+            >
+              <button
+                data-value="en"
+                class="w-full px-2 py-1 text-xs font-mono text-slate-300 hover:bg-slate-700 text-left transition-colors"
+              >
+                english
+              </button>
+              <button
+                data-value="id"
+                class="w-full px-2 py-1 text-xs font-mono text-slate-300 hover:bg-slate-700 text-left transition-colors"
+              >
+                indonesia
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expanded dropdown -->
+      <div class="pt-2 border-t border-slate-700">
+        <button
+          id="expand-view"
+          class="w-full text-xs font-mono text-slate-400 hover:text-cyan-400 transition-colors py-1"
+        >
+          expand view →
+        </button>
+      </div>
+    </div>
+
+    <button
+      id="settings-toggle"
+      class="w-12 h-12 md:w-14 md:h-14 bg-slate-900 border border-slate-700 rounded-full flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:border-cyan-400/50 hover:shadow-lg hover:shadow-cyan-400/20 transition-all duration-300 group"
+      title="Settings"
+      data-current-lang={currentLang}
+      data-base-path={basePath}
+      data-languages={JSON.stringify(languages)}
+    >
+      <svg
+        class="w-5 h-5 md:w-6 md:h-6 group-hover:rotate-90 transition-transform duration-300"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+        ></path>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  function initFloatingSettings() {
+    const settingsToggle = document.getElementById("settings-toggle");
+    const settingsDropdown = document.getElementById("settings-dropdown");
+    const settingsModal = document.getElementById("settings-modal");
+    const settingsBackdrop = document.getElementById("settings-backdrop");
+    const expandView = document.getElementById("expand-view");
+    const closeModal = document.getElementById("close-modal");
+
+    const themeDropdownDropdown = document.getElementById(
+      "theme-dropdown-dropdown"
+    );
+    const themeOptionsDropdown = document.getElementById(
+      "theme-options-dropdown"
+    );
+    const themeCurrentDropdown = document.getElementById(
+      "theme-current-dropdown"
+    );
+    const themeIconDropdown = document.getElementById("theme-icon-dropdown");
+
+    const themeDropdownModal = document.getElementById("theme-dropdown-modal");
+    const themeOptionsModal = document.getElementById("theme-options-modal");
+    const themeCurrentModal = document.getElementById("theme-current-modal");
+    const themeIconModal = document.getElementById("theme-icon-modal");
+
+    const languageDropdownDropdown = document.getElementById(
+      "language-dropdown-dropdown"
+    );
+    const languageOptionsDropdown = document.getElementById(
+      "language-options-dropdown"
+    );
+    const languageCurrentDropdown = document.getElementById(
+      "language-current-dropdown"
+    );
+
+    const languageDropdownModal = document.getElementById(
+      "language-dropdown-modal"
+    );
+    const languageOptionsModal = document.getElementById(
+      "language-options-modal"
+    );
+    const languageCurrentModal = document.getElementById(
+      "language-current-modal"
+    );
+
+    let isExpanded = false;
+    let isFullView = false;
+
+    const getCurrentTheme = () => {
+      const stored = localStorage.getItem("theme");
+      if (stored) return stored;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    };
+
+    // Get data from settings toggle button
+    const currentLang = settingsToggle?.getAttribute("data-current-lang") || "en";
+    const basePath = settingsToggle?.getAttribute("data-base-path") || "/";
+    const languages = JSON.parse(settingsToggle?.getAttribute("data-languages") || '{"en":"English","id":"Bahasa Indonesia"}');
+
+    const getCurrentLanguage = () => {
+      return currentLang;
+    };
+
+    // Helper function to translate paths (matches the Astro helper)
+    const translatePath = (path: string, lang: string = currentLang) => {
+      const showDefaultLang = false; // matches ui.ts
+      const defaultLang = "en";
+      
+      // Handle root path specially to avoid trailing slash
+      if (path === "/") {
+        return !showDefaultLang && lang === defaultLang ? "/" : `/${lang}`;
+      }
+      return !showDefaultLang && lang === defaultLang ? path : `/${lang}${path}`;
+    };
+
+    const applyTheme = (theme: string) => {
+      const html = document.documentElement;
+      const sunIcon = document.getElementById("sun-icon");
+      const moonIcon = document.getElementById("moon-icon");
+
+      if (theme === "dark") {
+        html.classList.add("dark");
+        sunIcon?.classList.add("rotate-90", "scale-0");
+        sunIcon?.classList.remove("rotate-0", "scale-100");
+        moonIcon?.classList.add("rotate-0", "scale-100");
+        moonIcon?.classList.remove("rotate-90", "scale-0");
+      } else {
+        html.classList.remove("dark");
+        sunIcon?.classList.add("rotate-0", "scale-100");
+        sunIcon?.classList.remove("rotate-90", "scale-0");
+        moonIcon?.classList.add("rotate-90", "scale-0");
+        moonIcon?.classList.remove("rotate-0", "scale-100");
+      }
+      localStorage.setItem("theme", theme);
+
+      if (themeCurrentDropdown) themeCurrentDropdown.textContent = theme;
+      if (themeCurrentModal) themeCurrentModal.textContent = theme;
+
+      const themeIcon = theme === "dark" ? "🌙" : "☀️";
+      if (themeIconDropdown) themeIconDropdown.textContent = themeIcon;
+      if (themeIconModal) themeIconModal.textContent = themeIcon;
+    };
+
+    const handleLanguageChange = (newLang: string) => {
+      // Use the new translatePath helper function
+      const newPath = translatePath(basePath, newLang);
+
+      // Update dropdown text
+      const languageText = newLang === "en" ? "english" : "indonesia";
+      if (languageCurrentDropdown)
+        languageCurrentDropdown.textContent = languageText;
+      if (languageCurrentModal) languageCurrentModal.textContent = languageText;
+
+      // Navigate to new language URL
+      window.location.href = newPath;
+    };
+
+    const setupCustomDropdown = (
+      dropdownButton: Element,
+      optionsContainer: Element,
+      onSelect: (value: string) => void
+    ) => {
+      if (!dropdownButton || !optionsContainer) return;
+
+      dropdownButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = !optionsContainer.classList.contains("hidden");
+
+        // Close all dropdowns first
+        document.querySelectorAll("[id*='options-']").forEach((el) => {
+          el.classList.add("hidden");
+          const arrow = el.parentElement?.querySelector("svg");
+          arrow?.classList.remove("rotate-180");
+        });
+
+        if (!isOpen) {
+          optionsContainer.classList.remove("hidden");
+          const arrow = dropdownButton.querySelector("svg");
+          arrow?.classList.add("rotate-180");
+        }
+      });
+
+      optionsContainer.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+        if (target.dataset.value) {
+          onSelect(target.dataset.value);
+          optionsContainer.classList.add("hidden");
+          const arrow = dropdownButton.querySelector("svg");
+          arrow?.classList.remove("rotate-180");
+        }
+      });
+    };
+
+    const positionDropdown = () => {
+      if (!settingsDropdown) return;
+
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      const dropdownRect = settingsDropdown.getBoundingClientRect();
+
+      settingsDropdown.classList.remove(
+        "right-0",
+        "left-0",
+        "bottom-16",
+        "top-16"
+      );
+
+      if (screenWidth < 640) {
+        settingsDropdown.classList.add("right-0");
+        settingsDropdown.style.right = "0px";
+      } else {
+        settingsDropdown.classList.add("right-0");
+      }
+
+      settingsDropdown.classList.add("bottom-16");
+    };
+
+    const updateBackdrop = () => {
+      if (isExpanded || isFullView) {
+        settingsBackdrop?.classList.remove("hidden");
+        setTimeout(() => {
+          settingsBackdrop?.classList.remove("opacity-0");
+          settingsBackdrop?.classList.add("opacity-100");
+        }, 10);
+      } else {
+        settingsBackdrop?.classList.add("opacity-0");
+        settingsBackdrop?.classList.remove("opacity-100");
+        setTimeout(() => {
+          settingsBackdrop?.classList.add("hidden");
+        }, 300);
+      }
+    };
+
+    const updateModal = () => {
+      if (isFullView) {
+        settingsModal?.classList.remove("hidden");
+        setTimeout(() => {
+          settingsModal?.classList.remove("opacity-0");
+          settingsModal?.classList.add("opacity-100");
+          settingsModal?.querySelector("div")?.classList.remove("scale-95");
+          settingsModal?.querySelector("div")?.classList.add("scale-100");
+        }, 10);
+      } else {
+        settingsModal?.classList.add("opacity-0");
+        settingsModal?.classList.remove("opacity-100");
+        settingsModal?.querySelector("div")?.classList.add("scale-95");
+        settingsModal?.querySelector("div")?.classList.remove("scale-100");
+        setTimeout(() => {
+          settingsModal?.classList.add("hidden");
+        }, 300);
+      }
+    };
+
+    const updateDropdown = () => {
+      if (isExpanded && !isFullView) {
+        settingsDropdown?.classList.remove("hidden");
+        positionDropdown();
+        setTimeout(() => {
+          settingsDropdown?.classList.remove("opacity-0", "translate-y-2");
+          settingsDropdown?.classList.add("opacity-100", "translate-y-0");
+        }, 10);
+      } else {
+        settingsDropdown?.classList.add("opacity-0", "translate-y-2");
+        settingsDropdown?.classList.remove("opacity-100", "translate-y-0");
+        setTimeout(() => {
+          settingsDropdown?.classList.add("hidden");
+        }, 300);
+      }
+    };
+
+    const toggleExpanded = () => {
+      isExpanded = !isExpanded;
+      updateDropdown();
+      updateBackdrop();
+    };
+
+    const toggleFullView = () => {
+      isFullView = !isFullView;
+
+      updateModal();
+      updateDropdown();
+      updateBackdrop();
+    };
+
+    const closeAll = () => {
+      isExpanded = false;
+      isFullView = false;
+      updateModal();
+      updateDropdown();
+      updateBackdrop();
+    };
+
+    const currentTheme = getCurrentTheme();
+    const currentLanguage = getCurrentLanguage();
+
+    applyTheme(currentTheme);
+    const languageText = currentLanguage === "en" ? "english" : "indonesia";
+    if (languageCurrentDropdown)
+      languageCurrentDropdown.textContent = languageText;
+    if (languageCurrentModal) languageCurrentModal.textContent = languageText;
+
+    if (themeDropdownDropdown && themeOptionsDropdown) {
+      setupCustomDropdown(
+        themeDropdownDropdown,
+        themeOptionsDropdown,
+        applyTheme
+      );
+    }
+    if (themeDropdownModal && themeOptionsModal) {
+      setupCustomDropdown(themeDropdownModal, themeOptionsModal, applyTheme);
+    }
+    if (languageDropdownDropdown && languageOptionsDropdown) {
+      setupCustomDropdown(
+        languageDropdownDropdown,
+        languageOptionsDropdown,
+        handleLanguageChange
+      );
+    }
+    if (languageDropdownModal && languageOptionsModal) {
+      setupCustomDropdown(
+        languageDropdownModal,
+        languageOptionsModal,
+        handleLanguageChange
+      );
+    }
+
+    settingsToggle?.addEventListener("click", toggleExpanded);
+    expandView?.addEventListener("click", toggleFullView);
+
+    if (closeModal) {
+      closeModal.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeAll();
+      });
+    } else {
+    }
+
+    if (settingsModal) {
+      settingsModal.addEventListener("click", (e) => {
+        if (e.target === settingsModal) {
+          closeAll();
+        }
+      });
+    }
+
+    if (settingsBackdrop) {
+      settingsBackdrop.addEventListener("click", (e) => {
+        closeAll();
+      });
+    }
+
+    document.addEventListener("click", () => {
+      document.querySelectorAll("[id*='options-']").forEach((el) => {
+        el.classList.add("hidden");
+        const arrow = el.parentElement?.querySelector("svg");
+        arrow?.classList.remove("rotate-180");
+      });
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeAll();
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initFloatingSettings);
+
+  document.addEventListener("astro:page-load", initFloatingSettings);
+</script>

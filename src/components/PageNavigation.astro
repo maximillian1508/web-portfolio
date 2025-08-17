@@ -1,44 +1,70 @@
 ---
 import { pageMap } from "@lib/pageMap";
+import {
+  getLangFromUrl,
+  useTranslations,
+  getLocalelessPath,
+  getLocaleUrl,
+} from "@i18n/utils";
 
-const currentPath = Astro.url.pathname;
-const currentPage = pageMap[currentPath] || { name: "Home", number: 1 };
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const localelessPath = getLocalelessPath(Astro.url.pathname, lang);
+const currentPage =
+  pageMap[localelessPath as keyof typeof pageMap] || pageMap["/"];
 const totalPages = Object.keys(pageMap).length;
 
 // Get previous and next pages
 const currentNumber = currentPage.number;
-const previousPage = Object.entries(pageMap).find(([_, page]) => page.number === currentNumber - 1);
-const nextPage = Object.entries(pageMap).find(([_, page]) => page.number === currentNumber + 1);
+const previousPage = Object.entries(pageMap).find(
+  ([_, page]) => page.number === currentNumber - 1
+);
+const nextPage = Object.entries(pageMap).find(
+  ([_, page]) => page.number === currentNumber + 1
+);
 ---
 
 <div class="bg-slate-950 border-t border-slate-800">
   <div class="max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 pt-8">
     <div class="flex justify-between items-center text-sm">
       <div class="text-slate-500 font-mono">
-        {previousPage ? (
-          <a href={previousPage[0]} class="text-purple-400 hover:text-purple-300 transition-colors">
-            ← Previous: Page {previousPage[1].number}: {previousPage[1].name}
-          </a>
-        ) : (
-          <div class="text-slate-700">← No previous page</div>
-        )}
+        {
+          previousPage ? (
+            <a
+              href={getLocaleUrl(lang, previousPage[0])}
+              class="text-purple-400 hover:text-purple-300 transition-colors"
+            >
+              ← {t("common.previous")}: {t(previousPage[1].nameKey)}
+            </a>
+          ) : (
+            <div class="text-slate-700">← {t("common.noPreviousPage")}</div>
+          )
+        }
       </div>
 
       <div class="text-slate-500 font-mono text-center">
-        <div class="text-xs text-slate-500 mb-1">Current Page</div>
+        <div class="text-xs text-slate-500 mb-1">
+          {t("common.currentPage")}
+        </div>
         <div class="text-purple-400">
-          {currentNumber} / {totalPages}: {currentPage.name}
+          {currentNumber}/{totalPages}: {t(currentPage.nameKey)}
         </div>
       </div>
 
       <div class="text-slate-500 font-mono">
-        {nextPage ? (
-          <a href={nextPage[0]} class="text-cyan-400 hover:text-cyan-300 transition-colors">
-            Next: Page {nextPage[1].number}: {nextPage[1].name} →
-          </a>
-        ) : (
-          <div class="text-slate-700">No next page →</div>
-        )}
+        {
+          nextPage ? (
+            <a
+              href={getLocaleUrl(lang, nextPage[0])}
+              class="text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
+              {t("common.next")}: {t(nextPage[1].nameKey)} →
+            </a>
+          ) : (
+            <div class="text-slate-700">{t("common.noNextPage")} →</div>
+          )
+        }
       </div>
     </div>
   </div>

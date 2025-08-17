@@ -1,8 +1,18 @@
 ---
 import { pageMap } from "@lib/pageMap";
+import {
+  getLangFromUrl,
+  useTranslations,
+  getLocalelessPath,
+  getLocaleUrl,
+} from "@i18n/utils";
 
-const currentPath = Astro.url.pathname;
-const currentPage = pageMap[currentPath] || { name: "Home", number: 1 };
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const localelessPath = getLocalelessPath(Astro.url.pathname, lang);
+const currentPage =
+  pageMap[localelessPath as keyof typeof pageMap] || pageMap["/"];
 const totalPages = Object.keys(pageMap).length;
 ---
 
@@ -12,28 +22,42 @@ const totalPages = Object.keys(pageMap).length;
   <div class="max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center gap-8">
-        <a href="/" class="text-slate-400 font-mono text-sm hover:text-cyan-400 transition-colors">
+        <a
+          href={getLocaleUrl(lang, "/")}
+          class="text-slate-400 font-mono text-sm hover:text-cyan-400 transition-colors"
+        >
           ML.portfolio
         </a>
         <div class="hidden md:flex items-center gap-4 text-xs font-mono">
-          {Object.entries(pageMap).map(([path, page], index) => (
-            <div class="flex items-center gap-4">
-              <a
-                href={path}
-                class={`transition-colors ${
-                  currentPath === path ? "text-purple-400" : "text-slate-400 hover:text-cyan-400"
-                }`}
-              >
-                {page.name}
-              </a>
-              {index < Object.keys(pageMap).length - 1 && <span class="text-slate-600">•</span>}
-            </div>
-          ))}
+          {
+            Object.entries(pageMap).map(([path, page], index) => (
+              <div class="flex items-center gap-4">
+                <a
+                  href={getLocaleUrl(lang, path)}
+                  class={`transition-colors ${
+                    localelessPath === path
+                      ? "text-purple-400"
+                      : "text-slate-400 hover:text-cyan-400"
+                  }`}
+                >
+                  {t(page.nameKey)}
+                </a>
+                {index < Object.keys(pageMap).length - 1 && (
+                  <span class="text-slate-600">•</span>
+                )}
+              </div>
+            ))
+          }
         </div>
       </div>
 
       <div class="hidden md:block text-slate-400 font-mono text-sm">
-        <span class="text-purple-400">Page {currentPage.number}</span> of {totalPages}
+        <span class="text-purple-400">
+          {t("common.page")}
+          {currentPage.number}
+          {t("common.of")}
+          {totalPages}
+        </span>
       </div>
 
       <button
@@ -55,18 +79,27 @@ const totalPages = Object.keys(pageMap).length;
       class="md:hidden border-t border-slate-800 py-4 hidden"
     >
       <div class="flex flex-col gap-4 text-sm">
-        {Object.entries(pageMap).map(([path, page]) => (
-          <a
-            href={path}
-            class={`transition-colors py-2 mobile-menu-link ${
-              currentPath === path ? "text-purple-400" : "text-slate-300 hover:text-cyan-400"
-            }`}
-          >
-            {page.name}
-          </a>
-        ))}
-        <div class="text-slate-400 font-mono text-xs pt-2 border-t border-slate-800">
-          Page {currentPage.number} of {totalPages}
+        {
+          Object.entries(pageMap).map(([path, page]) => (
+            <a
+              href={getLocaleUrl(lang, path)}
+              class={`transition-colors py-2 mobile-menu-link ${
+                localelessPath === path
+                  ? "text-purple-400"
+                  : "text-slate-300 hover:text-cyan-400"
+              }`}
+            >
+              {t(page.nameKey)}
+            </a>
+          ))
+        }
+        <div
+          class="text-slate-400 font-mono text-xs pt-2 border-t border-slate-800"
+        >
+          {t("common.page")}
+          {currentPage.number}
+          {t("common.of")}
+          {totalPages}
         </div>
       </div>
     </nav>

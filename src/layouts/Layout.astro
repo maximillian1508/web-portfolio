@@ -2,10 +2,13 @@
 import "../styles/global.css";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import { getLangFromUrl } from "@i18n/utils";
+import FloatingSettings from "@components/FloatingSettings.astro";
+import { getLangFromUrl, useTranslations, getAlternateUrls } from "@i18n/utils";
 
 const { title, robots } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const alternateUrls = getAlternateUrls(Astro.url);
 ---
 
 <!doctype html>
@@ -17,12 +20,9 @@ const lang = getLangFromUrl(Astro.url);
 
     <!-- Basic Meta Tags -->
     <title>
-      {title || "Maximillian Leonard - Software Developer, Kuala Lumpur"}
+      {title || t("meta.title")}
     </title>
-    <meta
-      name="description"
-      content="Maximillian Leonard - Full-Stack Developer & AI Enthusiast based in Kuala Lumpur. Crafting exceptional digital experiences with cutting-edge technology."
-    />
+    <meta name="description" content={t("meta.description")} />
     <meta
       name="keywords"
       content="Maximillian Leonard, Full-Stack Developer, AI Enthusiast, Software Engineer, React, Next.js, TypeScript, Kuala Lumpur, Web Development, Frontend, Backend"
@@ -30,6 +30,7 @@ const lang = getLangFromUrl(Astro.url);
     <meta name="author" content="Maximillian Leonard" />
     <meta name="robots" content={robots || "index, follow"} />
     <meta name="language" content={lang === "en" ? "English" : "Indonesian"} />
+    <meta http-equiv="Content-Language" content={lang} />
 
     <!-- Favicon and Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -42,33 +43,23 @@ const lang = getLangFromUrl(Astro.url);
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url} />
-    <meta
-      property="og:title"
-      content={title ||
-        "Maximillian Leonard - Software Developer, Kuala Lumpur"}
-    />
-    <meta
-      property="og:description"
-      content="Full-Stack Developer & AI Enthusiast based in Kuala Lumpur. Crafting exceptional digital experiences with cutting-edge technology."
-    />
+    <meta property="og:title" content={title || t("meta.title")} />
+    <meta property="og:description" content={t("meta.description")} />
     <meta property="og:image" content="/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content={lang === "en" ? "en_US" : "id_ID"} />
+    <meta
+      property="og:locale:alternate"
+      content={lang === "en" ? "id_ID" : "en_US"}
+    />
     <meta property="og:site_name" content="Maximillian Leonard Portfolio" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={Astro.url} />
-    <meta
-      property="twitter:title"
-      content={title ||
-        "Maximillian Leonard - Software Developer, Kuala Lumpur"}
-    />
-    <meta
-      property="twitter:description"
-      content="Full-Stack Developer & AI Enthusiast based in Kuala Lumpur. Crafting exceptional digital experiences with cutting-edge technology."
-    />
+    <meta property="twitter:title" content={title || t("meta.title")} />
+    <meta property="twitter:description" content={t("meta.description")} />
     <meta property="twitter:image" content="/og-image.jpg" />
     <meta name="twitter:creator" content="@maximillianleonard" />
 
@@ -81,8 +72,11 @@ const lang = getLangFromUrl(Astro.url);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href={Astro.url} />
+    <!-- Canonical and Alternates -->
+    <link rel="canonical" href={Astro.url.href} />
+    <link rel="alternate" hreflang="en" href={alternateUrls.en} />
+    <link rel="alternate" hreflang="id" href={alternateUrls.id} />
+    <link rel="alternate" hreflang="x-default" href={alternateUrls.default} />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -105,25 +99,6 @@ const lang = getLangFromUrl(Astro.url);
         ]
       }
     </script>
-
-    <!-- Prevent flash of unstyled content -->
-    <script is:inline>
-      // Theme initialization to prevent FOUC
-      (function () {
-        const getTheme = () => {
-          const stored = localStorage.getItem("theme");
-          if (stored) return stored;
-          return window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light";
-        };
-
-        const theme = getTheme();
-        if (theme === "dark") {
-          document.documentElement.classList.add("dark");
-        }
-      })();
-    </script>
   </head>
   <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
     <Header />
@@ -131,6 +106,7 @@ const lang = getLangFromUrl(Astro.url);
       <slot />
     </main>
     <Footer />
+    <FloatingSettings />
   </body>
 </html>
 

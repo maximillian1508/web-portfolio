@@ -1,16 +1,23 @@
 ---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="border-t border-slate-800 py-8">
   <div class="max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
     <div class="mb-6">
-      <p class="text-slate-300 text-sm mb-2">interested in working together?</p>
+      <p class="text-slate-300 text-sm mb-2">
+        {t("footer.interested")}
+      </p>
       <a
         href="/contact"
         class="text-cyan-400 hover:text-cyan-300 transition-colors text-sm"
       >
-        let's talk →
+        {t("footer.talk")} →
       </a>
     </div>
 
@@ -26,7 +33,7 @@ const currentYear = new Date().getFullYear();
           href="mailto:hello@maximillianleonard.dev"
           class="text-slate-300 hover:text-cyan-400 transition-colors"
         >
-          contact
+          {t("common.contact")}
         </a>
         <a
           href="https://github.com/maximillian1508"
