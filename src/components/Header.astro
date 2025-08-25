@@ -1,13 +1,13 @@
 ---
 import { pageMap } from "@lib/pageMap";
 import {
-  getLangFromUrl,
   useTranslations,
   getLocalelessPath,
   getLocaleUrl,
+  getLangFromAstro,
 } from "@i18n/utils";
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLangFromAstro(Astro);
 const t = useTranslations(lang);
 
 const localelessPath = getLocalelessPath(Astro.url.pathname, lang);

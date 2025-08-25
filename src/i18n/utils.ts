@@ -1,40 +1,36 @@
-import { ui, defaultLang, showDefaultLang } from "./ui";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import type { AstroGlobal } from "astro";
+import { ui, defaultLang } from "./ui";
 
-export function getLangFromUrl(url: URL) {
-  const [, lang] = url.pathname.split("/");
-  if (lang in ui) return lang as keyof typeof ui;
-  return defaultLang;
+export function getLangFromAstro(astro: AstroGlobal): keyof typeof ui {
+  return (astro.currentLocale as keyof typeof ui) || "en";
 }
 
-interface AlternateUrls {
-  en: string;
-  id: string;
-  default: string;
+export function getLangFromUrl(url: URL): keyof typeof ui {
+  const pathname = url.pathname;
+
+  // Handle Indonesian routes
+  if (pathname === "/id" || pathname.startsWith("/id/")) {
+    return "id";
+  }
+
+  // Default to English
+  return "en";
 }
 
-type TranslationPath<T> = T extends string
-  ? never
-  : {
-      [K in keyof T]: T[K] extends string
-        ? K
-        : T[K] extends Record<string, any>
-        ? `${K & string}.${TranslationPath<T[K]> & string}`
-        : never;
-    }[keyof T];
+export function getLocalelessPath(pathname: string, lang: string): string {
+  if (lang === defaultLang) return pathname;
 
-type GetNestedValue<T, P extends string> = P extends `${infer K}.${infer Rest}`
-  ? K extends keyof T
-    ? GetNestedValue<T[K], Rest>
-    : never
-  : P extends keyof T
-  ? T[P]
-  : never;
+  // For Indonesian, remove /id prefix
+  if (lang === "id") {
+    if (pathname === "/id") return "/";
+    return pathname.replace(/^\/id/, "") || "/";
+  }
+
+  return pathname;
+}
 
 export function useTranslations(lang: keyof typeof ui) {
-  return function t<P extends TranslationPath<(typeof ui)[typeof defaultLang]>>(
-    path: P
-  ): GetNestedValue<(typeof ui)[typeof defaultLang], P> {
+  return function t(path: string) {
     const keys = path.split(".");
     let value: any = ui[lang];
     let fallbackValue: any = ui[defaultLang];
@@ -44,41 +40,42 @@ export function useTranslations(lang: keyof typeof ui) {
       fallbackValue = fallbackValue?.[key];
     }
 
-    return (value || fallbackValue) as GetNestedValue<
-      (typeof ui)[typeof defaultLang],
-      P
-    >;
+    return value || fallbackValue || path;
   };
 }
 
-export function getLocalelessPath(pathname: string, lang: string): string {
-  if (lang === defaultLang) return pathname;
-  return pathname.replace(`/${lang}`, "") || "/";
-}
-
 export function getLocaleUrl(lang: string, path: string): string {
-  const url = getRelativeLocaleUrl(lang, path);
-  return url.replace(/\/$/, "") || "/";
+  if (lang === defaultLang) {
+    return path;
+  }
+
+  if (path === "/") {
+    return `/${lang}`;
+  }
+
+  return `/${lang}${path}`;
 }
 
 export function useTranslatedPath(lang: keyof typeof ui) {
   return function translatePath(path: string, l: string = lang) {
-    if (path === "/") {
-      return !showDefaultLang && lang === defaultLang ? "/" : `/${lang}`;
-    }
-    return !showDefaultLang && l === defaultLang ? path : `/${l}${path}`;
+    return getLocaleUrl(l, path);
   };
 }
 
-export function getAlternateUrls(url: URL): AlternateUrls {
+export function getAlternateUrls(url: URL) {
   const currentPath = url.pathname;
   const baseUrl = url.origin;
 
-  const basePath = currentPath.replace(/^\/id/, "") || "/";
+  let basePath = currentPath;
+  if (currentPath === "/id") {
+    basePath = "/";
+  } else if (currentPath.startsWith("/id/")) {
+    basePath = currentPath.replace(/^\/id/, "");
+  }
 
   return {
     en: `${baseUrl}${basePath}`,
-    id: `${baseUrl}/id${basePath}`,
+    id: basePath === "/" ? `${baseUrl}/id` : `${baseUrl}/id${basePath}`,
     default: `${baseUrl}${basePath}`,
   };
 }

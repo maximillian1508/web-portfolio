@@ -1,15 +1,9 @@
 ---
-import { getLangFromUrl, useTranslatedPath } from "@i18n/utils";
+import { getLangFromAstro, getLocalelessPath } from "@i18n/utils";
 import { languages } from "@i18n/ui";
 
-const currentLang = getLangFromUrl(Astro.url);
-const translatePath = useTranslatedPath(currentLang);
-
-const getBasePath = (pathname: string) => {
-  return pathname.replace(/^\/id/, "") || "/";
-};
-
-const basePath = getBasePath(Astro.url.pathname);
+const currentLang = getLangFromAstro(Astro);
+const basePath = getLocalelessPath(Astro.url.pathname, currentLang);
 ---
 
 <!-- Backdrop -->
@@ -354,25 +348,10 @@ const basePath = getBasePath(Astro.url.pathname);
         : "light";
     };
 
-    // Get data from settings toggle button
-    const currentLang = settingsToggle?.getAttribute("data-current-lang") || "en";
-    const basePath = settingsToggle?.getAttribute("data-base-path") || "/";
-    const languages = JSON.parse(settingsToggle?.getAttribute("data-languages") || '{"en":"English","id":"Bahasa Indonesia"}');
-
-    const getCurrentLanguage = () => {
-      return currentLang;
-    };
-
-    // Helper function to translate paths (matches the Astro helper)
-    const translatePath = (path: string, lang: string = currentLang) => {
-      const showDefaultLang = false; // matches ui.ts
-      const defaultLang = "en";
-      
-      // Handle root path specially to avoid trailing slash
-      if (path === "/") {
-        return !showDefaultLang && lang === defaultLang ? "/" : `/${lang}`;
-      }
-      return !showDefaultLang && lang === defaultLang ? path : `/${lang}${path}`;
+    const getCurrentLanguageFromURL = () => {
+      const path = window.location.pathname;
+      if (path.startsWith("/id")) return "id";
+      return "en";
     };
 
     const applyTheme = (theme: string) => {
@@ -404,8 +383,25 @@ const basePath = getBasePath(Astro.url.pathname);
     };
 
     const handleLanguageChange = (newLang: string) => {
-      // Use the new translatePath helper function
-      const newPath = translatePath(basePath, newLang);
+      // Get current path and translate properly
+      const currentPath = window.location.pathname;
+      let newPath: string;
+
+      if (newLang === "id") {
+        // Switching to Indonesian
+        if (currentPath === "/") {
+          newPath = "/id";
+        } else {
+          newPath = `/id${currentPath}`;
+        }
+      } else {
+        // Switching to English
+        if (currentPath === "/id") {
+          newPath = "/";
+        } else {
+          newPath = currentPath.replace(/^\/id/, "") || "/";
+        }
+      }
 
       // Update dropdown text
       const languageText = newLang === "en" ? "english" : "indonesia";
@@ -457,8 +453,6 @@ const basePath = getBasePath(Astro.url.pathname);
       if (!settingsDropdown) return;
 
       const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
-      const dropdownRect = settingsDropdown.getBoundingClientRect();
 
       settingsDropdown.classList.remove(
         "right-0",
@@ -552,11 +546,10 @@ const basePath = getBasePath(Astro.url.pathname);
       updateBackdrop();
     };
 
-    const currentTheme = getCurrentTheme();
-    const currentLanguage = getCurrentLanguage();
+    applyTheme(getCurrentTheme());
+    const languageText =
+      getCurrentLanguageFromURL() === "en" ? "english" : "indonesia";
 
-    applyTheme(currentTheme);
-    const languageText = currentLanguage === "en" ? "english" : "indonesia";
     if (languageCurrentDropdown)
       languageCurrentDropdown.textContent = languageText;
     if (languageCurrentModal) languageCurrentModal.textContent = languageText;

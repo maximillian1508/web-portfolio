@@ -1,9 +1,9 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import PageNavigation from "@components/PageNavigation.astro";
-import { getLangFromUrl, useTranslations } from "@i18n/utils";
+import { getLangFromAstro, useTranslations } from "@i18n/utils";
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLangFromAstro(Astro);
 const t = useTranslations(lang);
 
 // Experience data
