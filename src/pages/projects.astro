@@ -9,16 +9,16 @@ const t = useTranslations(lang);
 // Extended projects data with more detail
 const projects = [
   {
-    title: "EasyRent",
-    subtitle: "Rental House Management System",
-    description: "A web application for property agents to manage their listings and bookings.",
+    title: t("projects.easyrent.title"),
+    subtitle: t("projects.easyrent.subtitle"),
+    description: t("projects.easyrent.description"),
     tech: ["React.js", "Express.js", "MongoDB", "Docker", "Stripe"],
     metrics: undefined,
     testimonial: undefined,
     githubUrl: "https://github.com/maximillian1508/easyrent",
     liveUrl: "https://easyrent.maximillianleonard.dev",
-    year: "2023",
-    status: "Production"
+    year: t("projects.easyrent.year"),
+    status: t("projects.production")
   },
   // {
   //   title: "AI Content Generator",
@@ -59,15 +59,15 @@ const projects = [
 ];
 ---
 
-<Layout title="Projects - Maximillian Leonard">
+<Layout title={t("meta.projectsTitle")}>
     <!-- Projects Header -->
     <section class="pb-12"> 
       <div class="max-w-4xl">
         <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
-          <span class="text-cyan-400">featured</span> projects
+          <span class="text-cyan-400">{t("projects.title")}</span> {t("projects.titleSecond")}
         </h1>
         <p class="text-base sm:text-lg text-slate-300 leading-relaxed font-light">
-          high-performance applications built for scale: from real-time analytics to machine learning platforms
+          {t("projects.subtitle")}
         </p>
       </div>
     </section>
@@ -100,7 +100,7 @@ const projects = [
                     rel="noopener noreferrer"
                     class="text-slate-400 hover:text-cyan-400 transition-colors duration-200 text-sm"
                   >
-                    GitHub
+                    {t("common.github")}
                   </a>
                   <a
                     href={project.liveUrl}
@@ -108,7 +108,7 @@ const projects = [
                     rel="noopener noreferrer"
                     class="text-slate-400 hover:text-purple-400 transition-colors duration-200 text-sm"
                   >
-                    Live Site
+                    {t("common.liveSite")}
                   </a>
                 </div>
               </div>
@@ -122,7 +122,7 @@ const projects = [
                 
                 <!-- Tech Stack -->
                 <div class="mb-6">
-                  <h4 class="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wide">Technology Stack</h4>
+                  <h4 class="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wide">{t("projects.technologyStack")}</h4>
                   <div class="flex flex-wrap gap-2">
                     {project.tech.map((tech) => (
                       <span class="text-xs text-slate-300 bg-slate-800 px-3 py-1 rounded-full">
@@ -138,7 +138,7 @@ const projects = [
                   <div class="md:col-span-1">
                     <!-- Metrics -->
                     <div class="mb-6">
-                      <h4 class="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wide">Key Metrics</h4>
+                      <h4 class="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wide">{t("projects.keyMetrics")}</h4>
                       <p class="text-cyan-400 text-sm">{project.metrics}</p>
                     </div>
                   </div>
@@ -151,7 +151,7 @@ const projects = [
               project.testimonial && (
                 <blockquote class="border-l-2 border-slate-700 pl-6">
                   <p class="text-slate-400 italic text-sm leading-relaxed">"{project.testimonial}"</p>
-                  <footer class="mt-2 text-slate-500 text-sm">— Client Testimonial</footer>
+                  <footer class="mt-2 text-slate-500 text-sm">— {t("common.clientTestimonial")}</footer>
                 </blockquote>
               )
             }
@@ -191,12 +191,12 @@ const projects = [
     <!-- CTA -->
     <section class="py-12 border-t border-slate-800">
       <div class="text-center">
-        <p class="text-slate-300 text-sm mb-6">interested in similar results for your project?</p>
+        <p class="text-slate-300 text-sm mb-6">{t("projects.cta.interested")}</p>
         <a
           href="/contact"
           class="text-cyan-400 hover:text-cyan-300 transition-colors text-sm"
         >
-          let's discuss your requirements →
+          {t("projects.cta.discuss")}
         </a>
       </div>
     </section>

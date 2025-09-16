@@ -9,49 +9,48 @@ const t = useTranslations(lang);
 // Contact methods data
 const contactMethods = [
   {
-    method: "Email",
-    value: "hello@maximillianleonard.dev",
+    method: t("contact.methods.email.method"),
+    value: t("contact.methods.email.value"),
     href: "mailto:hello@maximillianleonard.dev",
-    description: "Best for project inquiries and collaboration",
-    response: "< 24 hours",
+    description: t("contact.methods.email.description"),
+    response: t("contact.methods.email.response"),
   },
   {
-    method: "LinkedIn",
-    value: "/in/maximillianleonard1508",
+    method: t("contact.methods.linkedin.method"),
+    value: t("contact.methods.linkedin.value"),
     href: "https://linkedin.com/in/maximillianleonard1508",
-    description: "Professional networking and career discussions",
-    response: "< 48 hours",
+    description: t("contact.methods.linkedin.description"),
+    response: t("contact.methods.linkedin.response"),
   },
   {
-    method: "GitHub",
-    value: "/maximillian1508",
+    method: t("contact.methods.github.method"),
+    value: t("contact.methods.github.value"),
     href: "https://github.com/maximillian1508 ",
-    description: "Code reviews, open source contributions",
-    response: "varies",
+    description: t("contact.methods.github.description"),
+    response: t("contact.methods.github.response"),
   },
 ];
 
 // Project types
 const projectTypes = [
-  "Web Applications",
-  "API Development",
-  "Frontend Development",
-  "Landing Page",
-  "Performance Optimization",
-  "Technical SEO",
+  t("contact.projectTypes.webApplications"),
+  t("contact.projectTypes.apiDevelopment"),
+  t("contact.projectTypes.frontendDevelopment"),
+  t("contact.projectTypes.landingPage"),
+  t("contact.projectTypes.performanceOptimization"),
+  t("contact.projectTypes.technicalSEO"),
 ];
 ---
 
-<Layout title="Contact - Maximillian Leonard">
+<Layout title={t("meta.contactTitle")}>
   <!-- Contact Header -->
   <section class="pb-12">
     <div class="max-w-4xl">
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
-        <span class="text-purple-400">get</span> in touch
+        <span class="text-purple-400">{t("contact.title")}</span> {t("contact.titleSecond")}
       </h1>
       <p class="text-base sm:text-lg text-slate-300 leading-relaxed font-light">
-        let's discuss your next project: scalable solutions, performance
-        optimization, and clean architecture
+        {t("contact.subtitle")}
       </p>
     </div>
   </section>
@@ -60,7 +59,7 @@ const projectTypes = [
   <section class="py-12">
     <div>
       <h2 class="text-xl font-bold mb-8">
-        <span class="text-cyan-400">Contact</span> Methods
+        <span class="text-cyan-400">{t("contact.methods.title")}</span> {t("contact.methods.titleSecond")}
       </h2>
 
       <div class="space-y-8">
@@ -94,7 +93,7 @@ const projectTypes = [
                     {contact.description}
                   </p>
                   <p class="text-purple-400 text-sm">
-                    Response time: {contact.response}
+                    {t("common.responseTime")}: {contact.response}
                   </p>
                 </div>
               </div>
@@ -109,7 +108,7 @@ const projectTypes = [
   <section class="py-12 border-t border-slate-800">
     <div>
       <h2 class="text-xl font-bold mb-8">
-        <span class="text-purple-400">Project</span> Types
+        <span class="text-purple-400">{t("contact.projectTypes.title")}</span> {t("contact.projectTypes.titleSecond")}
       </h2>
 
       <div class="grid md:grid-cols-3 gap-8">
@@ -129,17 +128,16 @@ const projectTypes = [
   <section class="py-12 border-t border-slate-800">
     <div class="grid md:grid-cols-4 gap-8">
       <div class="md:col-span-1">
-        <h2 class="text-lg font-bold text-cyan-400">Availability</h2>
+        <h2 class="text-lg font-bold text-cyan-400">{t("contact.availability.title")}</h2>
       </div>
       <div class="md:col-span-3">
         <p class="text-slate-300 text-sm leading-relaxed mb-4">
-          Currently not available for new projects. For urgent consultations and
-          smaller engagements, I can often accommodate shorter timelines.
+          {t("contact.availability.content")}
         </p>
         <div class="space-y-2 text-sm">
           <div class="flex justify-between items-center">
-            <span class="text-slate-400">Full-time projects</span>
-            <span class="text-purple-400">Not available</span>
+            <span class="text-slate-400">{t("contact.availability.fullTime")}</span>
+            <span class="text-purple-400">{t("contact.availability.notAvailable")}</span>
           </div>
           <!-- <div class="flex justify-between items-center">
             <span class="text-slate-400">Consulting & audits</span>
@@ -158,32 +156,24 @@ const projectTypes = [
   <section class="py-12 border-t border-slate-800">
     <div class="grid md:grid-cols-4 gap-8">
       <div class="md:col-span-1">
-        <h2 class="text-lg font-bold text-purple-400">Working Style</h2>
+        <h2 class="text-lg font-bold text-purple-400">{t("contact.workingStyle.title")}</h2>
       </div>
       <div class="md:col-span-3">
         <p class="text-slate-300 text-sm leading-relaxed mb-4">
-          I prefer collaborative, iterative approaches with regular
-          communication. Strong focus on documentation, testing, and performance
-          metrics throughout the development process.
+          {t("contact.workingStyle.content")}
         </p>
         <div class="space-y-2 text-sm">
           <div class="flex items-center">
             <span class="text-cyan-400 mr-2">•</span>
-            <span class="text-slate-300"
-              >Agile methodology with 1-2 week sprints</span
-            >
+            <span class="text-slate-300">{t("contact.workingStyle.agile")}</span>
           </div>
           <div class="flex items-center">
             <span class="text-cyan-400 mr-2">•</span>
-            <span class="text-slate-300"
-              >Comprehensive testing and performance monitoring</span
-            >
+            <span class="text-slate-300">{t("contact.workingStyle.testing")}</span>
           </div>
           <div class="flex items-center">
             <span class="text-cyan-400 mr-2">•</span>
-            <span class="text-slate-300"
-              >Clean handoff with clear documentation</span
-            >
+            <span class="text-slate-300">{t("contact.workingStyle.documentation")}</span>
           </div>
         </div>
       </div>
@@ -193,12 +183,12 @@ const projectTypes = [
   <!-- CTA -->
   <section class="py-12 border-t border-slate-800">
     <div class="text-center">
-      <p class="text-slate-300 text-sm mb-6">ready to start your project?</p>
+      <p class="text-slate-300 text-sm mb-6">{t("contact.cta.ready")}</p>
       <a
         href="mailto:hello@maximillianleonard.dev?subject=Project%20Inquiry"
         class="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors text-sm"
       >
-        send me an email →
+        {t("contact.cta.sendEmail")}
       </a>
     </div>
   </section>

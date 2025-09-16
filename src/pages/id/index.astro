@@ -11,22 +11,20 @@ const experiences = [
   {
     company: "Property Genie",
     companyUrl: "https://www.propertygenie.com.my",
-    role: "Full-Stack Developer",
-    period: "2024 - Present",
-    description:
-      "Developed and maintained the company's web application. Improved the company's search page result implementation. ",
-    metrics: "50% higher impressions & clicks",
-    tech: "PHP • Yii2 • PostgreSQL • React.js • JavaScript • CSS",
+    role: t("home.experience.propertyGenie.role"),
+    period: t("home.experience.propertyGenie.period"),
+    description: t("home.experience.propertyGenie.description"),
+    metrics: t("home.experience.propertyGenie.metrics"),
+    tech: t("home.experience.propertyGenie.tech"),
   },
   {
     company: "Nexea",
     companyUrl: "https://www.nexea.co/",
-    role: "Software Developer Intern",
-    period: "July 2023 - November 2023",
-    description:
-      "Developed several features for client's booking system. Performed UAT on an ERP system. Documented a project's setup and configuration guidelines.",
-    metrics: "2+ features developed",
-    tech: "React.js • Node.js • Express.js • MongoDB • JavaScript",
+    role: t("home.experience.nexea.role"),
+    period: t("home.experience.nexea.period"),
+    description: t("home.experience.nexea.description"),
+    metrics: t("home.experience.nexea.metrics"),
+    tech: t("home.experience.nexea.tech"),
   },
 ];
 
@@ -34,9 +32,8 @@ const experiences = [
 const projects = [
   {
     title: "EasyRent",
-    description:
-      "A web application for property agents to manage their listings and bookings.",
-    tech: "React.js • Express.js • MongoDB • Docker • Stripe",
+    description: t("home.projects.easyrent.description"),
+    tech: t("home.projects.easyrent.tech"),
     metrics: undefined,
     testimonial: undefined,
     githubUrl: "https://github.com/maximillian1508/easyrent",
@@ -81,8 +78,7 @@ const projects = [
       <p
         class="text-base sm:text-lg md:text-xl text-slate-300 mb-8 sm:mb-12 leading-relaxed font-light"
       >
-        full-stack developer building high-performance applications: fast,
-        scalable, and extremely reliable
+        {t("home.hero.subtitle")}
       </p>
 
       <div
@@ -103,13 +99,13 @@ const projects = [
   <section id="skills" class="py-12 px-4">
     <div>
       <h2 class="text-xl font-bold mb-8">
-        <span class="text-cyan-400">Technical</span> Stack
+        <span class="text-cyan-400">{t("home.skills.title")}</span> {t("home.skills.titleSecond")}
       </h2>
 
       <div class="space-y-4">
         <div class="border-b border-slate-800 pb-4 last:border-b-0">
           <div class="grid md:grid-cols-4 gap-4 items-start">
-            <h3 class="text-base font-semibold text-purple-400">Frontend</h3>
+            <h3 class="text-base font-semibold text-purple-400">{t("home.skills.frontend")}</h3>
             <div class="md:col-span-3">
               <p class="text-slate-300 text-sm leading-relaxed">
                 React.js, Vite, Next.js, MUI, Mantine
@@ -119,7 +115,7 @@ const projects = [
         </div>
         <div class="border-b border-slate-800 pb-4 last:border-b-0">
           <div class="grid md:grid-cols-4 gap-4 items-start">
-            <h3 class="text-base font-semibold text-purple-400">Backend</h3>
+            <h3 class="text-base font-semibold text-purple-400">{t("home.skills.backend")}</h3>
             <div class="md:col-span-3">
               <p class="text-slate-300 text-sm leading-relaxed">
                 Node.js, Express.js, PHP, Yii2, PostgreSQL, MongoDB
@@ -129,7 +125,7 @@ const projects = [
         </div>
         <div class="border-b border-slate-800 pb-4 last:border-b-0">
           <div class="grid md:grid-cols-4 gap-4 items-start">
-            <h3 class="text-base font-semibold text-purple-400">DevOps</h3>
+            <h3 class="text-base font-semibold text-purple-400">{t("home.skills.devops")}</h3>
             <div class="md:col-span-3">
               <p class="text-slate-300 text-sm leading-relaxed">
                 Docker, Nginx, Cloudflared, Prometheus, Grafana
@@ -139,7 +135,7 @@ const projects = [
         </div>
         <div class="pb-4">
           <div class="grid md:grid-cols-4 gap-4 items-start">
-            <h3 class="text-base font-semibold text-purple-400">Tools</h3>
+            <h3 class="text-base font-semibold text-purple-400">{t("home.skills.tools")}</h3>
             <div class="md:col-span-3">
               <p class="text-slate-300 text-sm leading-relaxed">
                 Git, Postman, DBeaver
@@ -154,13 +150,13 @@ const projects = [
           <div>
             <div class="text-3xl font-bold text-cyan-400 mb-2">2+</div>
             <div class="text-slate-400 text-sm uppercase tracking-wide">
-              Years Experience
+              {t("home.skills.yearsExperience")}
             </div>
           </div>
           <div>
             <div class="text-3xl font-bold text-purple-400 mb-2">3+</div>
             <div class="text-slate-400 text-sm uppercase tracking-wide">
-              Projects Delivered
+              {t("home.skills.projectsDelivered")}
             </div>
           </div>
           <!-- <div>
@@ -178,7 +174,7 @@ const projects = [
   <section id="experience" class="py-12 px-4">
     <div>
       <h2 class="text-xl font-bold mb-8">
-        <span class="text-purple-400">Professional</span> Experience
+        <span class="text-purple-400">{t("home.experience.title")}</span> {t("home.experience.titleSecond")}
       </h2>
 
       <div class="space-y-8">
@@ -221,7 +217,7 @@ const projects = [
   <section id="projects" class="py-12 px-4">
     <div>
       <h2 class="text-xl font-bold mb-8">
-        <span class="text-cyan-400">Featured</span> Projects
+        <span class="text-cyan-400">{t("home.projects.title")}</span> {t("home.projects.titleSecond")}
       </h2>
 
       <div class="space-y-8">
@@ -243,7 +239,7 @@ const projects = [
                         rel="noopener noreferrer"
                         class="text-slate-400 hover:text-cyan-400 transition-colors duration-200 text-sm"
                       >
-                        GitHub
+                        {t("common.github")}
                       </a>
                       <a
                         href={project.liveUrl}
@@ -251,7 +247,7 @@ const projects = [
                         rel="noopener noreferrer"
                         class="text-slate-400 hover:text-purple-400 transition-colors duration-200 text-sm"
                       >
-                        Live Site
+                        {t("common.liveSite")}
                       </a>
                     </div>
                   </div>
@@ -270,7 +266,7 @@ const projects = [
                       "{project.testimonial}"
                     </p>
                     <footer class="mt-2 text-slate-500 text-sm">
-                      — Client Testimonial
+                      — {t("common.clientTestimonial")}
                     </footer>
                   </blockquote>
                 )}
