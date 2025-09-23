@@ -19,6 +19,13 @@ const totalPages = Object.keys(pageMap).length;
 <header
   class="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-sm border-b border-slate-800"
 >
+  <input
+    type="checkbox"
+    id="mobile-menu-toggle"
+    class="hidden"
+    aria-label="Toggle mobile menu"
+  />
+
   <div class="max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center gap-8">
@@ -60,20 +67,11 @@ const totalPages = Object.keys(pageMap).length;
         </span>
       </div>
 
-      <input
-        type="checkbox"
-        id="mobile-menu-toggle"
-        class="hidden"
-        aria-label="Toggle mobile menu"
-      />
-
       <label
         for="mobile-menu-toggle"
-        class="md:hidden flex flex-col gap-1 p-2 cursor-pointer"
+        class="md:hidden w-8 h-6 cursor-pointer relative inline-block"
       >
-        <span class="w-5 h-0.5 bg-slate-300 transition-all duration-300"></span>
-        <span class="w-5 h-0.5 bg-slate-300 transition-all duration-300"></span>
-        <span class="w-5 h-0.5 bg-slate-300 transition-all duration-300"></span>
+        <span class="hamburger-inner"></span>
       </label>
     </div>
 
@@ -109,21 +107,56 @@ const totalPages = Object.keys(pageMap).length;
 </header>
 
 <style>
-  #mobile-menu-toggle:checked + label span:nth-child(1) {
-    @apply rotate-45;
-    transform: rotate(45deg) translateY(6px);
+  /* Hamburger styles */
+  .hamburger-inner {
+    display: block;
+    top: 50%;
+    margin-top: -2px;
+    width: 24px;
+    height: 2px;
+    background-color: #cbd5e1;
+    border-radius: 4px;
+    position: absolute;
+    transition-property: none;
   }
 
-  #mobile-menu-toggle:checked + label span:nth-child(2) {
-    @apply opacity-0;
+  .hamburger-inner::before,
+  .hamburger-inner::after {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #cbd5e1;
+    border-radius: 4px;
+    position: absolute;
+    transition-property: none;
   }
 
-  #mobile-menu-toggle:checked + label span:nth-child(3) {
-    @apply -rotate-45;
-    transform: rotate(-45deg) translateY(-6px);
+  .hamburger-inner::before {
+    top: -6px;
   }
 
-  #mobile-menu-toggle:checked ~ nav {
+  .hamburger-inner::after {
+    bottom: -6px;
+  }
+
+  /* Hamburger → X animation when checked (boring style) */
+  #mobile-menu-toggle:checked ~ div label .hamburger-inner {
+    transform: rotate(45deg);
+  }
+
+  #mobile-menu-toggle:checked ~ div label .hamburger-inner::before {
+    top: 0;
+    opacity: 0;
+  }
+
+  #mobile-menu-toggle:checked ~ div label .hamburger-inner::after {
+    bottom: 0;
+    transform: rotate(-90deg);
+  }
+
+  /* Show mobile nav when checkbox is checked */
+  #mobile-menu-toggle:checked ~ div nav {
     @apply block;
   }
 </style>
