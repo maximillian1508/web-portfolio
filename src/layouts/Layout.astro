@@ -8,6 +8,7 @@ import {
   useTranslations,
   getAlternateUrls,
 } from "@i18n/utils";
+import { ClientRouter } from "astro:transitions";
 
 const { title, robots } = Astro.props;
 const lang = getLangFromAstro(Astro);
@@ -105,6 +106,7 @@ const alternateUrls = getAlternateUrls(Astro.url);
     </script>
   </head>
   <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
+    <ClientRouter />
     <Header />
     <main class="flex-1 pt-32 pb-12 max-w-[1280px] mx-auto px-4 md:px-6 lg:px-">
       <slot />
