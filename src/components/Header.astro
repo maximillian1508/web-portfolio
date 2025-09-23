@@ -60,22 +60,24 @@ const totalPages = Object.keys(pageMap).length;
         </span>
       </div>
 
-      <button
-        id="mobile-menu-button"
-        class="md:hidden flex flex-col gap-1 p-2"
-        aria-label="Toggle menu"
+      <input
+        type="checkbox"
+        id="mobile-menu-toggle"
+        class="hidden"
+        aria-label="Toggle mobile menu"
+      />
+
+      <label
+        for="mobile-menu-toggle"
+        class="md:hidden flex flex-col gap-1 p-2 cursor-pointer"
       >
-        <span id="menu-line-1" class="w-5 h-0.5 bg-slate-300 transition-all"
-        ></span>
-        <span id="menu-line-2" class="w-5 h-0.5 bg-slate-300 transition-all"
-        ></span>
-        <span id="menu-line-3" class="w-5 h-0.5 bg-slate-300 transition-all"
-        ></span>
-      </button>
+        <span class="w-5 h-0.5 bg-slate-300 transition-all duration-300"></span>
+        <span class="w-5 h-0.5 bg-slate-300 transition-all duration-300"></span>
+        <span class="w-5 h-0.5 bg-slate-300 transition-all duration-300"></span>
+      </label>
     </div>
 
     <nav
-      id="mobile-menu"
       class="md:hidden border-t border-slate-800 py-4 hidden"
     >
       <div class="flex flex-col gap-4 text-sm">
@@ -83,7 +85,7 @@ const totalPages = Object.keys(pageMap).length;
           Object.entries(pageMap).map(([path, page]) => (
             <a
               href={getLocaleUrl(lang, path)}
-              class={`transition-colors py-2 mobile-menu-link ${
+              class={`transition-colors py-2 ${
                 localelessPath === path
                   ? "text-purple-400"
                   : "text-slate-300 hover:text-cyan-400"
@@ -106,41 +108,22 @@ const totalPages = Object.keys(pageMap).length;
   </div>
 </header>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const mobileMenuButton = document.getElementById("mobile-menu-button");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const menuLine1 = document.getElementById("menu-line-1");
-    const menuLine2 = document.getElementById("menu-line-2");
-    const menuLine3 = document.getElementById("menu-line-3");
-    const mobileMenuLinks = document.querySelectorAll(".mobile-menu-link");
-    let isMenuOpen = false;
+<style>
+  #mobile-menu-toggle:checked + label span:nth-child(1) {
+    @apply rotate-45;
+    transform: rotate(45deg) translateY(6px);
+  }
 
-    function toggleMenu() {
-      isMenuOpen = !isMenuOpen;
+  #mobile-menu-toggle:checked + label span:nth-child(2) {
+    @apply opacity-0;
+  }
 
-      if (isMenuOpen) {
-        mobileMenu?.classList.remove("hidden");
-        menuLine1?.classList.add("rotate-45", "translate-y-1.5");
-        menuLine2?.classList.add("opacity-0");
-        menuLine3?.classList.add("-rotate-45", "-translate-y-1.5");
-      } else {
-        mobileMenu?.classList.add("hidden");
-        menuLine1?.classList.remove("rotate-45", "translate-y-1.5");
-        menuLine2?.classList.remove("opacity-0");
-        menuLine3?.classList.remove("-rotate-45", "-translate-y-1.5");
-      }
-    }
+  #mobile-menu-toggle:checked + label span:nth-child(3) {
+    @apply -rotate-45;
+    transform: rotate(-45deg) translateY(-6px);
+  }
 
-    mobileMenuButton?.addEventListener("click", toggleMenu);
-
-    // Close menu when clicking on a link
-    mobileMenuLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        if (isMenuOpen) {
-          toggleMenu();
-        }
-      });
-    });
-  });
-</script>
+  #mobile-menu-toggle:checked ~ nav {
+    @apply block;
+  }
+</style>
