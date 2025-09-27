@@ -20,6 +20,25 @@ const alternateUrls = getAlternateUrls(Astro.url);
 <html lang={lang}>
   <head>
     <meta charset="UTF-8" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YRBZJGKQGY"
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+    </script>
+    <script is:inline>
+      document.addEventListener(
+        "astro:page-load",
+        () => {
+          gtag("js", new Date());
+          gtag("config", "G-YRBZJGKQGY");
+        },
+        { once: false }
+      );
+    </script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
 
@@ -47,7 +66,7 @@ const alternateUrls = getAlternateUrls(Astro.url);
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url.toString().replace(/\/$/, '')} />
+    <meta property="og:url" content={Astro.url.toString().replace(/\/$/, "")} />
     <meta property="og:title" content={title || t("meta.title")} />
     <meta property="og:description" content={t("meta.description")} />
     <meta property="og:image" content="/og-image.jpg" />
@@ -62,7 +81,10 @@ const alternateUrls = getAlternateUrls(Astro.url);
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={Astro.url.toString().replace(/\/$/, '')} />
+    <meta
+      property="twitter:url"
+      content={Astro.url.toString().replace(/\/$/, "")}
+    />
     <meta property="twitter:title" content={title || t("meta.title")} />
     <meta property="twitter:description" content={t("meta.description")} />
     <meta property="twitter:image" content="/og-image.jpg" />
@@ -78,7 +100,7 @@ const alternateUrls = getAlternateUrls(Astro.url);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Canonical and Alternates -->
-    <link rel="canonical" href={Astro.url.toString().replace(/\/$/, '')} />
+    <link rel="canonical" href={Astro.url.toString().replace(/\/$/, "")} />
     <link rel="alternate" hreflang="en" href={alternateUrls.en} />
     <link rel="alternate" hreflang="id" href={alternateUrls.id} />
     <link rel="alternate" hreflang="x-default" href={alternateUrls.default} />
