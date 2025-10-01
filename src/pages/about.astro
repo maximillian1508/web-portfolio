@@ -21,11 +21,6 @@ const aboutSections = [
     content: t("about.sections.approach.content"),
   },
 ];
-
-const stats = [
-  { label: t("about.stats.yearsExperience"), value: "2+", color: "cyan" },
-  { label: t("about.stats.projectsDelivered"), value: "3+", color: "purple" },
-];
 ---
 
 <Layout title={t("meta.aboutTitle")}>
@@ -41,8 +36,56 @@ const stats = [
     </div>
   </section>
 
+  <!-- Main Content -->
+          <!-- The Beginning -->
+          <section class="py-12">
+            <div>
+              <h2 class="text-xl font-bold mb-8">
+                <span class="text-cyan-400">The</span> Beginning
+              </h2>
+              <p class="text-slate-300 text-sm leading-relaxed">
+                {t("about.subtitle")}
+              </p>
+            </div>
+          </section>
+
+  <!-- What I'm Working On -->
+  <section class="py-12 border-t border-slate-800">
+    <div>
+      <h2 class="text-xl font-bold mb-8">
+        <span class="text-purple-400">What I'm</span> Working On
+      </h2>
+      <p class="text-slate-300 text-sm leading-relaxed mb-6">
+        Currently specializing in full-stack development with a focus on modern web technologies. I'm
+        particularly interested in performance optimization, developer tooling, and creating seamless user
+        experiences across different platforms.
+      </p>
+      <div class="bg-slate-900/30 border-l-4 border-cyan-400/50 pl-6 py-4">
+        <div class="text-slate-400 text-xs uppercase tracking-wider mb-3">Current Interests</div>
+        <div class="text-slate-300 space-y-2">
+          <div class="flex items-center gap-2">
+            <div class="w-1 h-1 bg-cyan-400 rounded-full"></div>
+            <span class="text-sm">Edge computing & serverless architectures</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-1 h-1 bg-purple-400 rounded-full"></div>
+            <span class="text-sm">Real-time applications & WebSocket implementations</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-1 h-1 bg-cyan-400 rounded-full"></div>
+            <span class="text-sm">Database optimization & query performance</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-1 h-1 bg-purple-400 rounded-full"></div>
+            <span class="text-sm">AI/ML integration in web applications</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- About Content -->
-  <section class="py-12">
+  <section class="py-12 border-t border-slate-800">
     <div class="space-y-8">
       {
         aboutSections.map((section, index) => (
@@ -67,71 +110,29 @@ const stats = [
     </div>
   </section>
 
-  <!-- Stats Section -->
+  <!-- Beyond the Screen -->
   <section class="py-12 border-t border-slate-800">
     <div>
       <h2 class="text-xl font-bold mb-8">
-        <span class="text-cyan-400">{t("about.stats.title")}</span> {t("about.stats.titleSecond")}
+        <span class="text-purple-400">Beyond the</span> Screen
       </h2>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        {
-          stats.map((stat) => (
-            <div>
-              <div
-                class={`text-3xl font-bold mb-2 ${stat.color === "cyan" ? "text-cyan-400" : "text-purple-400"}`}
-              >
-                {stat.value}
-              </div>
-              <div class="text-slate-400 text-sm uppercase tracking-wide">
-                {stat.label}
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- Current Focus -->
-  <section class="py-12 border-t border-slate-800">
-    <div>
-      <h2 class="text-xl font-bold mb-8">
-        <span class="text-purple-400">{t("about.currentFocus.title")}</span> {t("about.currentFocus.titleSecond")}
-      </h2>
-
-      <div class="space-y-4">
-        <div class="grid md:grid-cols-4 gap-4 items-start">
-          <h3 class="text-base font-semibold text-cyan-400">{t("about.currentFocus.building")}</h3>
-          <div class="md:col-span-3">
-            <p class="text-slate-300 text-sm leading-relaxed">
-              {t("about.currentFocus.buildingContent")}
-            </p>
-          </div>
-        </div>
-        <div class="grid md:grid-cols-4 gap-4 items-start">
-          <h3 class="text-base font-semibold text-cyan-400">{t("about.currentFocus.learning")}</h3>
-          <div class="md:col-span-3">
-            <p class="text-slate-300 text-sm leading-relaxed">
-              {t("about.currentFocus.learningContent")}
-            </p>
-          </div>
-        </div>
-        <!-- <div class="grid md:grid-cols-4 gap-4 items-start">
-          <h3 class="text-base font-semibold text-cyan-400">Contributing</h3>
-          <div class="md:col-span-3">
-            <p class="text-slate-300 text-sm leading-relaxed">
-              Open source projects focused on developer tooling and performance.
-            </p>
-          </div>
-        </div> -->
-      </div>
+      <p class="text-slate-300 text-sm leading-relaxed mb-4">
+        When not coding, I enjoy exploring the intersection of technology and creativity. I'm fascinated by
+        digital art, generative design, and how emerging technologies can enhance human expression.
+      </p>
+      <p class="text-slate-300 text-sm leading-relaxed">
+        I also contribute to open-source projects, write technical articles, and mentor aspiring developers.
+        Giving back to the community that has taught me so much is incredibly rewarding.
+      </p>
     </div>
   </section>
 
   <!-- Contact CTA -->
   <section class="py-12 border-t border-slate-800">
-    <div class="text-center">
+    <div>
+      <h2 class="text-xl font-bold mb-8">
+        <span class="text-cyan-400">Let's</span> Connect
+      </h2>
       <p class="text-slate-300 text-sm mb-6">{t("about.cta.interested")}</p>
       <a
         href="mailto:hello@maximillianleonard.dev"

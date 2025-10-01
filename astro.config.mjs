@@ -6,7 +6,7 @@ import mdx from "@astrojs/mdx";
 
 import cloudflare from "@astrojs/cloudflare";
 
-import partytown from "@astrojs/partytown";
+// import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,11 +15,15 @@ export default defineConfig({
   },
   trailingSlash: "never",
   site: "https://maximillianleonard.dev",
-  integrations: [sitemap({
-    filter: (page) =>
-      page !== "https://maximillianleonard.dev/login" &&
-      page !== "https://maximillianleonard.dev/dashboard",
-  }), mdx(), partytown()],
+  integrations: [
+    sitemap({
+      filter: (page) =>
+        page !== "https://maximillianleonard.dev/login" &&
+        page !== "https://maximillianleonard.dev/dashboard",
+    }),
+    mdx(),
+    // partytown(),
+  ],
 
   vite: {
     plugins: [tailwindcss()],
