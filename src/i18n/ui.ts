@@ -21,9 +21,9 @@ export const ui = {
       of: "of",
       previous: "Previous",
       next: "Next",
-      currentPage: "Current Page",
-      noPreviousPage: "No previous page",
-      noNextPage: "No next page",
+      currentPage: "Current",
+      noPreviousPage: "No more",
+      noNextPage: "No more",
       contact: "contact",
       github: "GitHub",
       liveSite: "Live Site",
@@ -45,7 +45,8 @@ export const ui = {
       description:
         "Maximillian Leonard is a software developer based in Kuala Lumpur, Malaysia. He is a full stack developer with a passion for building web applications.",
       hero: {
-        subtitle: "full-stack developer building high-performance applications: fast, scalable, and extremely reliable",
+        subtitle:
+          "full-stack developer building high-performance applications: fast, scalable, and extremely reliable",
       },
       skills: {
         title: "Technical",
@@ -63,14 +64,16 @@ export const ui = {
         propertyGenie: {
           role: "Full-Stack Developer",
           period: "2024 - Present",
-          description: "Developed and maintained the company's web application. Improved the company's search page result implementation. ",
+          description:
+            "Developed and maintained the company's web application. Improved the company's search page result implementation. ",
           metrics: "50% higher impressions & clicks",
           tech: "PHP • Yii2 • PostgreSQL • React.js • JavaScript • CSS",
         },
         nexea: {
           role: "Software Developer Intern",
           period: "July 2023 - November 2023",
-          description: "Developed several features for client's booking system. Performed UAT on an ERP system. Documented a project's setup and configuration guidelines.",
+          description:
+            "Developed several features for client's booking system. Performed UAT on an ERP system. Documented a project's setup and configuration guidelines.",
           metrics: "2+ features developed",
           tech: "React.js • Node.js • Express.js • MongoDB • JavaScript",
         },
@@ -79,7 +82,8 @@ export const ui = {
         title: "Featured",
         titleSecond: "Projects",
         easyrent: {
-          description: "A web application for property agents to manage their listings and bookings.",
+          description:
+            "A web application for property agents to manage their listings and bookings.",
           tech: "React.js • Express.js • MongoDB • Docker • Stripe",
         },
       },
@@ -87,19 +91,23 @@ export const ui = {
     about: {
       title: "about",
       titleSecond: "me",
-      subtitle: "building reliable, high-performance applications with modern technology and clean architecture",
+      subtitle:
+        "building reliable, high-performance applications with modern technology and clean architecture",
       sections: {
         background: {
           title: "Background",
-          content: "Full-stack developer with 2+ years building high-performance web applications. Specialized in modern JavaScript frameworks, database optimization, and cloud infrastructure.",
+          content:
+            "Full-stack developer with 2+ years building high-performance web applications. Specialized in modern JavaScript frameworks, database optimization, and cloud infrastructure.",
         },
         expertise: {
           title: "Expertise",
-          content: "Frontend: React.js, Next.js, MUI. Backend: Express.js, Yii2, PostgreSQL, MongoDB. DevOps: Docker, Nginx.",
+          content:
+            "Frontend: React.js, Next.js, MUI. Backend: Express.js, Yii2, PostgreSQL, MongoDB. DevOps: Docker, Nginx.",
         },
         approach: {
           title: "Approach",
-          content: "I believe in building software that solves real problems. Every line of code should serve a purpose.",
+          content:
+            "I believe in building software that solves real problems. Every line of code should serve a purpose.",
         },
       },
       stats: {
@@ -112,9 +120,11 @@ export const ui = {
         title: "Current",
         titleSecond: "Focus",
         building: "Building",
-        buildingContent: "High-performance analytics dashboards processing millions of events daily. Focus on real-time data visualization and sub-200ms query responses.",
+        buildingContent:
+          "High-performance analytics dashboards processing millions of events daily. Focus on real-time data visualization and sub-200ms query responses.",
         learning: "Learning",
-        learningContent: "Advanced database optimization techniques, Golang for performance-critical services, Core Web Vitals, Technical SEO, and more.",
+        learningContent:
+          "Advanced database optimization techniques, Golang for performance-critical services, Core Web Vitals, Technical SEO, and more.",
       },
       cta: {
         interested: "interested in collaborating?",
@@ -124,7 +134,8 @@ export const ui = {
     contact: {
       title: "get",
       titleSecond: "in touch",
-      subtitle: "let's discuss your next project: scalable solutions, performance optimization, and clean architecture",
+      subtitle:
+        "let's discuss your next project: scalable solutions, performance optimization, and clean architecture",
       methods: {
         title: "Contact",
         titleSecond: "Methods",
@@ -159,13 +170,15 @@ export const ui = {
       },
       availability: {
         title: "Availability",
-        content: "Currently not available for new projects. For urgent consultations and smaller engagements, I can often accommodate shorter timelines.",
+        content:
+          "Currently not available for new projects. For urgent consultations and smaller engagements, I can often accommodate shorter timelines.",
         fullTime: "Full-time projects",
         notAvailable: "Not available",
       },
       workingStyle: {
         title: "Working Style",
-        content: "I prefer collaborative, iterative approaches with regular communication. Strong focus on documentation, testing, and performance metrics throughout the development process.",
+        content:
+          "I prefer collaborative, iterative approaches with regular communication. Strong focus on documentation, testing, and performance metrics throughout the development process.",
         agile: "Agile methodology with 1-2 week sprints",
         testing: "Comprehensive testing and performance monitoring",
         documentation: "Clean handoff with clear documentation",
@@ -178,14 +191,16 @@ export const ui = {
     projects: {
       title: "featured",
       titleSecond: "projects",
-      subtitle: "high-performance applications built for scale: from real-time analytics to machine learning platforms",
+      subtitle:
+        "high-performance applications built for scale: from real-time analytics to machine learning platforms",
       technologyStack: "Technology Stack",
       keyMetrics: "Key Metrics",
       production: "Production",
       easyrent: {
         title: "EasyRent",
         subtitle: "Rental House Management System",
-        description: "A web application for property agents to manage their listings and bookings.",
+        description:
+          "A web application for property agents to manage their listings and bookings.",
         year: "2023",
       },
       cta: {
@@ -208,9 +223,9 @@ export const ui = {
       of: "dari",
       previous: "Sebelumnya",
       next: "Selanjutnya",
-      currentPage: "Halaman Saat Ini",
-      noPreviousPage: "Tidak tersedia",
-      noNextPage: "Tidak tersedia",
+      currentPage: "Sekarang",
+      noPreviousPage: "Tidak ada",
+      noNextPage: "Tidak ada",
       contact: "kontak",
       github: "GitHub",
       liveSite: "Situs Langsung",
@@ -232,7 +247,8 @@ export const ui = {
       description:
         "Maximillian Leonard adalah seorang software developer berbasis di Kuala Lumpur, Malaysia. Dia adalah full stack developer dengan ketertarikan pada pembuatan aplikasi web.",
       hero: {
-        subtitle: "full-stack developer yang membangun aplikasi berkinerja tinggi: cepat, skalabel, dan sangat andal",
+        subtitle:
+          "full-stack developer yang membangun aplikasi berkinerja tinggi: cepat, skalabel, dan sangat andal",
       },
       skills: {
         title: "Technical",
@@ -250,14 +266,16 @@ export const ui = {
         propertyGenie: {
           role: "Full-Stack Developer",
           period: "2024 - Sekarang",
-          description: "Mengembangkan dan memelihara aplikasi web perusahaan. Meningkatkan implementasi hasil halaman pencarian perusahaan. ",
+          description:
+            "Mengembangkan dan memelihara aplikasi web perusahaan. Meningkatkan implementasi hasil halaman pencarian perusahaan. ",
           metrics: "50% peningkatan tayangan & klik",
           tech: "PHP • Yii2 • PostgreSQL • React.js • JavaScript • CSS",
         },
         nexea: {
           role: "Software Developer Intern",
           period: "Juli 2023 - November 2023",
-          description: "Mengembangkan beberapa fitur untuk sistem booking klien. Melakukan UAT pada sistem ERP. Mendokumentasikan panduan setup dan konfigurasi proyek.",
+          description:
+            "Mengembangkan beberapa fitur untuk sistem booking klien. Melakukan UAT pada sistem ERP. Mendokumentasikan panduan setup dan konfigurasi proyek.",
           metrics: "2+ fitur dikembangkan",
           tech: "React.js • Node.js • Express.js • MongoDB • JavaScript",
         },
@@ -266,7 +284,8 @@ export const ui = {
         title: "Proyek",
         titleSecond: "Unggulan",
         easyrent: {
-          description: "Aplikasi web untuk agen properti mengelola daftar dan booking mereka.",
+          description:
+            "Aplikasi web untuk agen properti mengelola daftar dan booking mereka.",
           tech: "React.js • Express.js • MongoDB • Docker • Stripe",
         },
       },
@@ -274,19 +293,23 @@ export const ui = {
     about: {
       title: "tentang",
       titleSecond: "saya",
-      subtitle: "membangun aplikasi yang andal dan berkinerja tinggi dengan teknologi modern dan arsitektur bersih",
+      subtitle:
+        "membangun aplikasi yang andal dan berkinerja tinggi dengan teknologi modern dan arsitektur bersih",
       sections: {
         background: {
           title: "Latar Belakang",
-          content: "Full-stack developer dengan 2+ tahun membangun aplikasi web berkinerja tinggi. Spesialisasi dalam framework JavaScript modern, optimisasi database, dan infrastruktur cloud.",
+          content:
+            "Full-stack developer dengan 2+ tahun membangun aplikasi web berkinerja tinggi. Spesialisasi dalam framework JavaScript modern, optimisasi database, dan infrastruktur cloud.",
         },
         expertise: {
           title: "Keahlian",
-          content: "Frontend: React.js, Next.js, MUI. Backend: Express.js, Yii2, PostgreSQL, MongoDB. DevOps: Docker, Nginx.",
+          content:
+            "Frontend: React.js, Next.js, MUI. Backend: Express.js, Yii2, PostgreSQL, MongoDB. DevOps: Docker, Nginx.",
         },
         approach: {
           title: "Pendekatan",
-          content: "Saya percaya dalam membangun perangkat lunak yang memecahkan masalah nyata. Setiap baris kode harus memiliki tujuan.",
+          content:
+            "Saya percaya dalam membangun perangkat lunak yang memecahkan masalah nyata. Setiap baris kode harus memiliki tujuan.",
         },
       },
       stats: {
@@ -299,9 +322,11 @@ export const ui = {
         title: "Fokus",
         titleSecond: "Saat Ini",
         building: "Membangun",
-        buildingContent: "Dashboard analitik berkinerja tinggi yang memproses jutaan event setiap hari. Fokus pada visualisasi data real-time dan respons query sub-200ms.",
+        buildingContent:
+          "Dashboard analitik berkinerja tinggi yang memproses jutaan event setiap hari. Fokus pada visualisasi data real-time dan respons query sub-200ms.",
         learning: "Belajar",
-        learningContent: "Teknik optimisasi database lanjutan, Golang untuk layanan kritis kinerja, Core Web Vitals, Technical SEO, dan lainnya.",
+        learningContent:
+          "Teknik optimisasi database lanjutan, Golang untuk layanan kritis kinerja, Core Web Vitals, Technical SEO, dan lainnya.",
       },
       cta: {
         interested: "tertarik berkolaborasi?",
@@ -311,7 +336,8 @@ export const ui = {
     contact: {
       title: "mari",
       titleSecond: "terhubung",
-      subtitle: "ayo diskusikan proyek selanjutnya: solusi skalabel, optimisasi kinerja, dan arsitektur bersih",
+      subtitle:
+        "ayo diskusikan proyek selanjutnya: solusi skalabel, optimisasi kinerja, dan arsitektur bersih",
       methods: {
         title: "Metode",
         titleSecond: "Kontak",
@@ -346,13 +372,15 @@ export const ui = {
       },
       availability: {
         title: "Ketersediaan",
-        content: "Saat ini tidak tersedia untuk proyek baru. Untuk konsultasi mendesak dan keterlibatan yang lebih kecil, saya sering dapat mengakomodasi jadwal yang lebih singkat.",
+        content:
+          "Saat ini tidak tersedia untuk proyek baru. Untuk konsultasi mendesak dan keterlibatan yang lebih kecil, saya sering dapat mengakomodasi jadwal yang lebih singkat.",
         fullTime: "Proyek full-time",
         notAvailable: "Tidak tersedia",
       },
       workingStyle: {
         title: "Gaya Kerja",
-        content: "Saya lebih suka pendekatan kolaboratif dan iteratif dengan komunikasi rutin. Fokus kuat pada dokumentasi, testing, dan metrik kinerja sepanjang proses pengembangan.",
+        content:
+          "Saya lebih suka pendekatan kolaboratif dan iteratif dengan komunikasi rutin. Fokus kuat pada dokumentasi, testing, dan metrik kinerja sepanjang proses pengembangan.",
         agile: "Metodologi Agile dengan sprint 1-2 minggu",
         testing: "Testing komprehensif dan monitoring kinerja",
         documentation: "Handover bersih dengan dokumentasi yang jelas",
@@ -365,14 +393,16 @@ export const ui = {
     projects: {
       title: "proyek",
       titleSecond: "unggulan",
-      subtitle: "aplikasi berkinerja tinggi yang dibangun untuk skala: dari analitik real-time hingga platform machine learning",
+      subtitle:
+        "aplikasi berkinerja tinggi yang dibangun untuk skala: dari analitik real-time hingga platform machine learning",
       technologyStack: "Technology Stack",
       keyMetrics: "Metrik Utama",
       production: "Produksi",
       easyrent: {
         title: "EasyRent",
         subtitle: "Sistem Manajemen Rumah Sewa",
-        description: "Aplikasi web untuk agen properti mengelola daftar dan booking mereka.",
+        description:
+          "Aplikasi web untuk agen properti mengelola daftar dan booking mereka.",
         year: "2023",
       },
       cta: {

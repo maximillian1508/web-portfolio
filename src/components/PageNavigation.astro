@@ -35,7 +35,7 @@ const nextPage = Object.entries(pageMap).find(
               href={getLocaleUrl(lang, previousPage[0])}
               class="text-purple-400 hover:text-purple-300 transition-colors"
             >
-              ← {t("common.previous")}: {t(previousPage[1].nameKey)}
+              ← {t(previousPage[1].nameKey)}
             </a>
           ) : (
             <div class="text-slate-700">← {t("common.noPreviousPage")}</div>
@@ -59,7 +59,7 @@ const nextPage = Object.entries(pageMap).find(
               href={getLocaleUrl(lang, nextPage[0])}
               class="text-cyan-400 hover:text-cyan-300 transition-colors"
             >
-              {t("common.next")}: {t(nextPage[1].nameKey)} →
+              {t(nextPage[1].nameKey)} →
             </a>
           ) : (
             <div class="text-slate-700">{t("common.noNextPage")} →</div>
