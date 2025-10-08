@@ -620,11 +620,5 @@ const basePath = getLocalelessPath(Astro.url.pathname, currentLang);
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initFloatingSettings);
-  } else {
-    initFloatingSettings();
-  }
-
   document.addEventListener("astro:page-load", initFloatingSettings);
 </script>

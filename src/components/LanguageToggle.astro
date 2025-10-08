@@ -75,16 +75,11 @@ if (isEnglish) {
     toggle.addEventListener("click", () => {
       const newPath = toggle.getAttribute("data-new-path");
       if (newPath) {
-        // Navigate to the new language path
         window.location.href = newPath;
       }
     });
   }
 
-  // Initialize on page load
-  document.addEventListener("DOMContentLoaded", initLanguageToggle);
-
-  // Re-initialize after navigation (for SPAs)
   document.addEventListener("astro:page-load", initLanguageToggle);
 </script>
 
