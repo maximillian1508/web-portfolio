@@ -58,14 +58,19 @@ const projectTypes = [
 ];
 ---
 
-<Layout title={t("contact:meta.title")} description={t("contact:meta.description")} lang={lang}>
+<Layout
+  title={t("contact:meta.title")}
+  description={t("contact:meta.description")}
+  lang={lang}
+>
   <!-- Contact Header -->
-  <section class="pb-12">
+  <section class="pb-0 md:pb-12">
     <div class="max-w-4xl">
       <h1 class="text-h1 font-bold mb-6">
-        <span class="text-purple-400">{t("contact:title")}</span> {t("contact:titleSecond")}
+        <span class="text-purple-400">{t("contact:title")}</span>
+        {t("contact:titleSecond")}
       </h1>
-      <p class="text-body text-slate-300 leading-relaxed font-light">
+      <p class="text-h4 md:text-lg text-slate-300 leading-relaxed font-light">
         {t("contact:subtitle")}
       </p>
     </div>
@@ -75,7 +80,8 @@ const projectTypes = [
   <section class="py-12">
     <div>
       <h2 class="text-h2 font-bold mb-8">
-        <span class="text-cyan-400">{t("contact:methods.title")}</span> {t("contact:methods.titleSecond")}
+        <span class="text-cyan-400">{t("contact:methods.title")}</span>
+        {t("contact:methods.titleSecond")}
       </h2>
 
       <div class="space-y-8">
@@ -124,7 +130,8 @@ const projectTypes = [
   <section class="py-12 border-t border-slate-800">
     <div>
       <h2 class="text-h2 font-bold mb-8">
-        <span class="text-purple-400">{t("contact:projectTypes.title")}</span> {t("contact:projectTypes.titleSecond")}
+        <span class="text-purple-400">{t("contact:projectTypes.title")}</span>
+        {t("contact:projectTypes.titleSecond")}
       </h2>
 
       <div class="grid md:grid-cols-3 gap-8">
@@ -144,7 +151,9 @@ const projectTypes = [
   <section class="py-12 border-t border-slate-800">
     <div class="grid md:grid-cols-4 gap-8">
       <div class="md:col-span-1">
-        <h2 class="text-lg font-bold text-cyan-400">{t("contact:availability.title")}</h2>
+        <h2 class="text-lg font-bold text-cyan-400">
+          {t("contact:availability.title")}
+        </h2>
       </div>
       <div class="md:col-span-3">
         <p class="text-slate-300 text-sm leading-relaxed mb-4">
@@ -152,8 +161,12 @@ const projectTypes = [
         </p>
         <div class="space-y-2 text-sm">
           <div class="flex justify-between items-center">
-            <span class="text-slate-400">{t("contact:availability.fullTime")}</span>
-            <span class="text-purple-400">{t("contact:availability.notAvailable")}</span>
+            <span class="text-slate-400"
+              >{t("contact:availability.fullTime")}</span
+            >
+            <span class="text-purple-400"
+              >{t("contact:availability.notAvailable")}</span
+            >
           </div>
         </div>
       </div>
@@ -164,7 +177,9 @@ const projectTypes = [
   <section class="py-12 border-t border-slate-800">
     <div class="grid md:grid-cols-4 gap-8">
       <div class="md:col-span-1">
-        <h2 class="text-lg font-bold text-purple-400">{t("contact:workingStyle.title")}</h2>
+        <h2 class="text-lg font-bold text-purple-400">
+          {t("contact:workingStyle.title")}
+        </h2>
       </div>
       <div class="md:col-span-3">
         <p class="text-slate-300 text-sm leading-relaxed mb-4">
@@ -173,15 +188,20 @@ const projectTypes = [
         <div class="space-y-2 text-sm">
           <div class="flex items-center">
             <span class="text-cyan-400 mr-2">•</span>
-            <span class="text-slate-300">{t("contact:workingStyle.agile")}</span>
+            <span class="text-slate-300">{t("contact:workingStyle.agile")}</span
+            >
           </div>
           <div class="flex items-center">
             <span class="text-cyan-400 mr-2">•</span>
-            <span class="text-slate-300">{t("contact:workingStyle.testing")}</span>
+            <span class="text-slate-300"
+              >{t("contact:workingStyle.testing")}</span
+            >
           </div>
           <div class="flex items-center">
             <span class="text-cyan-400 mr-2">•</span>
-            <span class="text-slate-300">{t("contact:workingStyle.documentation")}</span>
+            <span class="text-slate-300"
+              >{t("contact:workingStyle.documentation")}</span
+            >
           </div>
         </div>
       </div>
