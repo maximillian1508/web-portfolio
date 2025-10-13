@@ -3,50 +3,34 @@ import "../styles/global.css";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import FloatingSettings from "@components/FloatingSettings.astro";
-import {
-  getLangFromAstro,
-  useTranslations,
-  getAlternateUrls,
-} from "@i18n/utils";
+import { useTranslations, getAlternateUrls } from "@i18n/utils";
+import { languages } from "@i18n/ui";
 import { ClientRouter } from "astro:transitions";
 
-const { title, robots } = Astro.props;
-const lang = getLangFromAstro(Astro);
+interface Props {
+  title?: string;
+  description?: string;
+  lang: string;
+  robots?: string;
+}
+
+const { title, description, lang, robots } = Astro.props;
 const t = useTranslations(lang);
-const alternateUrls = getAlternateUrls(Astro.url);
+const alternateUrls = getAlternateUrls(Astro.url, Object.keys(languages));
 ---
 
 <!doctype html>
 <html lang={lang}>
   <head>
     <meta charset="UTF-8" />
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-YRBZJGKQGY"
-    ></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-    </script>
-    <script is:inline>
-      document.addEventListener(
-        "astro:page-load",
-        () => {
-          gtag("js", new Date());
-          gtag("config", "G-YRBZJGKQGY");
-        },
-        { once: false }
-      );
-    </script> -->
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Basic Meta Tags -->
     <title>
-      {title || t("meta.title")}
+      {title || t("meta:title")}
     </title>
-    <meta name="description" content={t("meta.description")} />
+    <meta name="description" content={description || t("meta:description")} />
     <meta
       name="keywords"
       content="Maximillian Leonard, Full-Stack Developer, AI Enthusiast, Software Engineer, React, Next.js, TypeScript, Kuala Lumpur, Web Development, Frontend, Backend"
@@ -67,8 +51,8 @@ const alternateUrls = getAlternateUrls(Astro.url);
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url.toString().replace(/\/$/, "")} />
-    <meta property="og:title" content={title || t("meta.title")} />
-    <meta property="og:description" content={t("meta.description")} />
+    <meta property="og:title" content={title || t("meta:title")} />
+    <meta property="og:description" content={description || t("meta:description")} />
     <meta property="og:image" content="/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -85,8 +69,8 @@ const alternateUrls = getAlternateUrls(Astro.url);
       property="twitter:url"
       content={Astro.url.toString().replace(/\/$/, "")}
     />
-    <meta property="twitter:title" content={title || t("meta.title")} />
-    <meta property="twitter:description" content={t("meta.description")} />
+    <meta property="twitter:title" content={title || t("meta:title")} />
+    <meta property="twitter:description" content={description || t("meta:description")} />
     <meta property="twitter:image" content="/og-image.jpg" />
     <meta name="twitter:creator" content="@maximillianleonard" />
 
@@ -101,9 +85,10 @@ const alternateUrls = getAlternateUrls(Astro.url);
 
     <!-- Canonical and Alternates -->
     <link rel="canonical" href={Astro.url.toString().replace(/\/$/, "")} />
-    <link rel="alternate" hreflang="en" href={alternateUrls.en} />
-    <link rel="alternate" hreflang="id" href={alternateUrls.id} />
-    <link rel="alternate" hreflang="x-default" href={alternateUrls.default} />
+    {Object.entries(alternateUrls).map(([lang, url]) => (
+      <link rel="alternate" hreflang={lang} href={url} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={alternateUrls.en} />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -129,11 +114,11 @@ const alternateUrls = getAlternateUrls(Astro.url);
   </head>
   <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
     <ClientRouter />
-    <Header />
-    <main class="flex-1 pt-32 pb-12 max-w-[1280px] mx-auto px-4 md:px-6 lg:px-">
+    <Header lang={lang} />
+    <main class="flex-1 pt-32 pb-12 max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
       <slot />
     </main>
-    <Footer />
+    <Footer lang={lang} />
     <FloatingSettings />
   </body>
 </html>

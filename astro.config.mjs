@@ -32,15 +32,4 @@ export default defineConfig({
   adapter: cloudflare(),
 
   prefetch: true,
-  i18n: {
-    defaultLocale: "en",
-    locales: ["en", "id"],
-    fallback: {
-      id: "en",
-    },
-    routing: {
-      fallbackType: "rewrite",
-      prefixDefaultLocale: false,
-    },
-  },
 });

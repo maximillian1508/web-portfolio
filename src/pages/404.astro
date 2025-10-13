@@ -1,12 +1,12 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import { getLangFromAstro, useTranslations } from "@i18n/utils";
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
 
-const lang = getLangFromAstro(Astro);
+const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<Layout title="404 - Page Not Found" robots="noindex, nofollow">
+<Layout title="404 - Page Not Found" robots="noindex, nofollow" lang={lang}>
   <div class="text-center max-w-2xl mx-auto">
     <!-- Error Code -->
     <div class="mb-8">

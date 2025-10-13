@@ -1,18 +1,44 @@
 ---
 import { pageMap } from "@lib/pageMap";
-import {
-  useTranslations,
-  getLocalelessPath,
-  getLocaleUrl,
-  getLangFromAstro,
-} from "@i18n/utils";
+import { useTranslations, getLangFromUrl, useTranslatedPath } from "@i18n/utils";
 
-const lang = getLangFromAstro(Astro);
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
 const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 
-const localelessPath = getLocalelessPath(Astro.url.pathname, lang);
-const currentPage =
-  pageMap[localelessPath as keyof typeof pageMap] || pageMap["/"];
+// Get current URL language
+const currentLang = getLangFromUrl(Astro.url);
+const pathname = Astro.url.pathname;
+
+// Remove language prefix to get base path
+let basePath = pathname;
+if (currentLang !== "en" && pathname.startsWith(`/${currentLang}`)) {
+  basePath = pathname.replace(`/${currentLang}`, "") || "/";
+}
+
+// For non-English routes, reverse translate to get the original route
+if (currentLang !== "en" && basePath !== "/") {
+  const { routes } = await import("@i18n/routes");
+  const pathSegments = basePath.split("/").filter((s) => s);
+  const originalSegments = pathSegments.map((segment) => {
+    const routeMap = routes[currentLang];
+    if (routeMap) {
+      for (const [original, translated] of Object.entries(routeMap)) {
+        if (translated === segment) {
+          return original;
+        }
+      }
+    }
+    return segment;
+  });
+  basePath = "/" + originalSegments.join("/");
+}
+
+const currentPage = pageMap[basePath as keyof typeof pageMap] || pageMap["/"];
 const totalPages = Object.keys(pageMap).length;
 ---
 
@@ -30,7 +56,7 @@ const totalPages = Object.keys(pageMap).length;
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center gap-8">
         <a
-          href={getLocaleUrl(lang, "/")}
+          href={translatePath("/")}
           class="text-slate-400 font-mono text-sm hover:text-cyan-400 transition-colors"
         >
           ML.portfolio
@@ -40,9 +66,9 @@ const totalPages = Object.keys(pageMap).length;
             Object.entries(pageMap).map(([path, page], index) => (
               <div class="flex items-center gap-4">
                 <a
-                  href={getLocaleUrl(lang, path)}
+                  href={translatePath(path)}
                   class={`transition-colors ${
-                    localelessPath === path
+                    basePath === path
                       ? "text-purple-400"
                       : "text-slate-400 hover:text-cyan-400"
                   }`}
@@ -60,9 +86,9 @@ const totalPages = Object.keys(pageMap).length;
 
       <div class="hidden md:block text-slate-400 font-mono text-sm">
         <span class="text-purple-400">
-          {t("common.page")}
+          {t("common:page")}
           {currentPage.number}
-          {t("common.of")}
+          {t("common:of")}
           {totalPages}
         </span>
       </div>
@@ -82,9 +108,9 @@ const totalPages = Object.keys(pageMap).length;
         {
           Object.entries(pageMap).map(([path, page]) => (
             <a
-              href={getLocaleUrl(lang, path)}
+              href={translatePath(path)}
               class={`transition-colors py-2 ${
-                localelessPath === path
+                basePath === path
                   ? "text-purple-400"
                   : "text-slate-300 hover:text-cyan-400"
               }`}
@@ -96,9 +122,9 @@ const totalPages = Object.keys(pageMap).length;
         <div
           class="text-slate-400 font-mono text-xs pt-2 border-t border-slate-800"
         >
-          {t("common.page")}
+          {t("common:page")}
           {currentPage.number}
-          {t("common.of")}
+          {t("common:of")}
           {totalPages}
         </div>
       </div>

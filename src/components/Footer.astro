@@ -1,8 +1,13 @@
 ---
-import { getLangFromAstro, useTranslations } from "@i18n/utils";
+import { useTranslations, useTranslatedPath } from "@i18n/utils";
 
-const lang = getLangFromAstro(Astro);
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
 const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 
 const currentYear = new Date().getFullYear();
 ---
@@ -11,13 +16,13 @@ const currentYear = new Date().getFullYear();
   <div class="max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
     <div class="mb-6">
       <p class="text-slate-300 text-sm mb-2">
-        {t("footer.interested")}
+        {t("common:footer.interested")}
       </p>
       <a
-        href="/contact"
+        href={translatePath("/contact")}
         class="text-cyan-400 hover:text-cyan-300 transition-colors text-sm"
       >
-        {t("footer.talk")} →
+        {t("common:footer.talk")} →
       </a>
     </div>
 
@@ -25,7 +30,7 @@ const currentYear = new Date().getFullYear();
       class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pt-6 border-t border-slate-800"
     >
       <div class="text-sm text-slate-400">
-        © {currentYear} — built with astro and tailwind
+        © {currentYear} — {t("common:footer.builtWith")}
       </div>
 
       <div class="flex items-center gap-6 text-sm">
@@ -33,7 +38,7 @@ const currentYear = new Date().getFullYear();
           href="mailto:hello@maximillianleonard.dev"
           class="text-slate-300 hover:text-cyan-400 transition-colors"
         >
-          {t("common.contact")}
+          {t("common:contact")}
         </a>
         <a
           href="https://github.com/maximillian1508"
@@ -41,7 +46,7 @@ const currentYear = new Date().getFullYear();
           rel="noopener noreferrer"
           class="text-slate-300 hover:text-cyan-400 transition-colors"
         >
-          github
+          {t("common:footer.github")}
         </a>
         <a
           href="https://linkedin.com/in/maximillianleonard1508"
@@ -49,7 +54,7 @@ const currentYear = new Date().getFullYear();
           rel="noopener noreferrer"
           class="text-slate-300 hover:text-cyan-400 transition-colors"
         >
-          linkedin
+          {t("common:footer.linkedin")}
         </a>
         <a
           href="https://links.maximillianleonard.dev"

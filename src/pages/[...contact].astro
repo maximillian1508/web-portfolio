@@ -1,56 +1,72 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import PageNavigation from "@components/PageNavigation.astro";
-import { useTranslations, getLangFromAstro } from "@i18n/utils";
+import { useTranslations } from "@i18n/utils";
 
-const lang = getLangFromAstro(Astro);
+// Define all language routes
+export function getStaticPaths() {
+  return [
+    // English: /contact
+    {
+      params: { contact: "contact" },
+      props: { lang: "en" },
+    },
+    // Indonesian: /id/kontak (translated route!)
+    {
+      params: { contact: "id/kontak" },
+      props: { lang: "id" },
+    },
+  ];
+}
+
+const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 // Contact methods data
 const contactMethods = [
   {
-    method: t("contact.methods.email.method"),
-    value: t("contact.methods.email.value"),
+    method: t("contact:methods.email.method"),
+    value: t("contact:methods.email.value"),
     href: "mailto:hello@maximillianleonard.dev",
-    description: t("contact.methods.email.description"),
-    response: t("contact.methods.email.response"),
+    description: t("contact:methods.email.description"),
+    response: t("contact:methods.email.response"),
   },
   {
-    method: t("contact.methods.linkedin.method"),
-    value: t("contact.methods.linkedin.value"),
+    method: t("contact:methods.linkedin.method"),
+    value: t("contact:methods.linkedin.value"),
     href: "https://linkedin.com/in/maximillianleonard1508",
-    description: t("contact.methods.linkedin.description"),
-    response: t("contact.methods.linkedin.response"),
+    description: t("contact:methods.linkedin.description"),
+    response: t("contact:methods.linkedin.response"),
   },
   {
-    method: t("contact.methods.github.method"),
-    value: t("contact.methods.github.value"),
-    href: "https://github.com/maximillian1508 ",
-    description: t("contact.methods.github.description"),
-    response: t("contact.methods.github.response"),
+    method: t("contact:methods.github.method"),
+    value: t("contact:methods.github.value"),
+    href: "https://github.com/maximillian1508",
+    description: t("contact:methods.github.description"),
+    response: t("contact:methods.github.response"),
   },
 ];
 
 // Project types
 const projectTypes = [
-  t("contact.projectTypes.webApplications"),
-  t("contact.projectTypes.apiDevelopment"),
-  t("contact.projectTypes.frontendDevelopment"),
-  t("contact.projectTypes.landingPage"),
-  t("contact.projectTypes.performanceOptimization"),
-  t("contact.projectTypes.technicalSEO"),
+  t("contact:projectTypes.webApplications"),
+  t("contact:projectTypes.apiDevelopment"),
+  t("contact:projectTypes.frontendDevelopment"),
+  t("contact:projectTypes.landingPage"),
+  t("contact:projectTypes.performanceOptimization"),
+  t("contact:projectTypes.technicalSEO"),
 ];
 ---
 
-<Layout title={t("meta.contactTitle")}>
+<Layout title={t("contact:meta.title")} description={t("contact:meta.description")} lang={lang}>
   <!-- Contact Header -->
   <section class="pb-12">
     <div class="max-w-4xl">
-      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
-        <span class="text-purple-400">{t("contact.title")}</span> {t("contact.titleSecond")}
+      <h1 class="text-h1 font-bold mb-6">
+        <span class="text-purple-400">{t("contact:title")}</span> {t("contact:titleSecond")}
       </h1>
-      <p class="text-base sm:text-lg text-slate-300 leading-relaxed font-light">
-        {t("contact.subtitle")}
+      <p class="text-body text-slate-300 leading-relaxed font-light">
+        {t("contact:subtitle")}
       </p>
     </div>
   </section>
@@ -58,8 +74,8 @@ const projectTypes = [
   <!-- Contact Methods -->
   <section class="py-12">
     <div>
-      <h2 class="text-xl font-bold mb-8">
-        <span class="text-cyan-400">{t("contact.methods.title")}</span> {t("contact.methods.titleSecond")}
+      <h2 class="text-h2 font-bold mb-8">
+        <span class="text-cyan-400">{t("contact:methods.title")}</span> {t("contact:methods.titleSecond")}
       </h2>
 
       <div class="space-y-8">
@@ -93,7 +109,7 @@ const projectTypes = [
                     {contact.description}
                   </p>
                   <p class="text-purple-400 text-sm">
-                    {t("common.responseTime")}: {contact.response}
+                    {t("common:responseTime")}: {contact.response}
                   </p>
                 </div>
               </div>
@@ -107,8 +123,8 @@ const projectTypes = [
   <!-- Project Types -->
   <section class="py-12 border-t border-slate-800">
     <div>
-      <h2 class="text-xl font-bold mb-8">
-        <span class="text-purple-400">{t("contact.projectTypes.title")}</span> {t("contact.projectTypes.titleSecond")}
+      <h2 class="text-h2 font-bold mb-8">
+        <span class="text-purple-400">{t("contact:projectTypes.title")}</span> {t("contact:projectTypes.titleSecond")}
       </h2>
 
       <div class="grid md:grid-cols-3 gap-8">
@@ -128,25 +144,17 @@ const projectTypes = [
   <section class="py-12 border-t border-slate-800">
     <div class="grid md:grid-cols-4 gap-8">
       <div class="md:col-span-1">
-        <h2 class="text-lg font-bold text-cyan-400">{t("contact.availability.title")}</h2>
+        <h2 class="text-lg font-bold text-cyan-400">{t("contact:availability.title")}</h2>
       </div>
       <div class="md:col-span-3">
         <p class="text-slate-300 text-sm leading-relaxed mb-4">
-          {t("contact.availability.content")}
+          {t("contact:availability.content")}
         </p>
         <div class="space-y-2 text-sm">
           <div class="flex justify-between items-center">
-            <span class="text-slate-400">{t("contact.availability.fullTime")}</span>
-            <span class="text-purple-400">{t("contact.availability.notAvailable")}</span>
+            <span class="text-slate-400">{t("contact:availability.fullTime")}</span>
+            <span class="text-purple-400">{t("contact:availability.notAvailable")}</span>
           </div>
-          <!-- <div class="flex justify-between items-center">
-            <span class="text-slate-400">Consulting & audits</span>
-            <span class="text-cyan-400">Available now</span>
-          </div> -->
-          <!-- <div class="flex justify-between items-center">
-            <span class="text-slate-400">Technical mentoring</span>
-            <span class="text-cyan-400">Not available</span>
-          </div> -->
         </div>
       </div>
     </div>
@@ -156,24 +164,24 @@ const projectTypes = [
   <section class="py-12 border-t border-slate-800">
     <div class="grid md:grid-cols-4 gap-8">
       <div class="md:col-span-1">
-        <h2 class="text-lg font-bold text-purple-400">{t("contact.workingStyle.title")}</h2>
+        <h2 class="text-lg font-bold text-purple-400">{t("contact:workingStyle.title")}</h2>
       </div>
       <div class="md:col-span-3">
         <p class="text-slate-300 text-sm leading-relaxed mb-4">
-          {t("contact.workingStyle.content")}
+          {t("contact:workingStyle.content")}
         </p>
         <div class="space-y-2 text-sm">
           <div class="flex items-center">
             <span class="text-cyan-400 mr-2">•</span>
-            <span class="text-slate-300">{t("contact.workingStyle.agile")}</span>
+            <span class="text-slate-300">{t("contact:workingStyle.agile")}</span>
           </div>
           <div class="flex items-center">
             <span class="text-cyan-400 mr-2">•</span>
-            <span class="text-slate-300">{t("contact.workingStyle.testing")}</span>
+            <span class="text-slate-300">{t("contact:workingStyle.testing")}</span>
           </div>
           <div class="flex items-center">
             <span class="text-cyan-400 mr-2">•</span>
-            <span class="text-slate-300">{t("contact.workingStyle.documentation")}</span>
+            <span class="text-slate-300">{t("contact:workingStyle.documentation")}</span>
           </div>
         </div>
       </div>
@@ -183,14 +191,14 @@ const projectTypes = [
   <!-- CTA -->
   <section class="py-12 border-t border-slate-800">
     <div class="text-center">
-      <p class="text-slate-300 text-sm mb-6">{t("contact.cta.ready")}</p>
+      <p class="text-slate-300 text-sm mb-6">{t("contact:cta.ready")}</p>
       <a
         href="mailto:hello@maximillianleonard.dev?subject=Project%20Inquiry"
         class="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors text-sm"
       >
-        {t("contact.cta.sendEmail")}
+        {t("contact:cta.sendEmail")}
       </a>
     </div>
   </section>
-  <PageNavigation />
+  <PageNavigation lang={lang} />
 </Layout>

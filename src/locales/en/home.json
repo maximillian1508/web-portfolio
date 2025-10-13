@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "title": "Maximillian Leonard - Software Developer, Kuala Lumpur",
+    "description": "Maximillian Leonard is a software developer based in Kuala Lumpur, Malaysia. He is a full stack developer with a passion for building web applications."
+  },
+  "hero": {
+    "subtitle": "full-stack developer building high-performance applications: fast, scalable, and extremely reliable"
+  },
+  "skills": {
+    "title": "Technical",
+    "titleSecond": "Stack",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "devops": "DevOps",
+    "tools": "Tools",
+    "yearsExperience": "Years Experience",
+    "projectsDelivered": "Projects Delivered"
+  },
+  "experience": {
+    "title": "Professional",
+    "titleSecond": "Experience",
+    "propertyGenie": {
+      "role": "Full-Stack Developer",
+      "period": "2024 - Present",
+      "description": "Developed and maintained the company's web application. Improved the company's search page result implementation. ",
+      "metrics": "50% higher impressions & clicks",
+      "tech": "PHP • Yii2 • PostgreSQL • React.js • JavaScript • CSS"
+    },
+    "nexea": {
+      "role": "Software Developer Intern",
+      "period": "July 2023 - November 2023",
+      "description": "Developed several features for client's booking system. Performed UAT on an ERP system. Documented a project's setup and configuration guidelines.",
+      "metrics": "2+ features developed",
+      "tech": "React.js • Node.js • Express.js • MongoDB • JavaScript"
+    }
+  },
+  "projects": {
+    "title": "Featured",
+    "titleSecond": "Projects",
+    "easyrent": {
+      "description": "A web application for property agents to manage their listings and bookings.",
+      "tech": "React.js • Express.js • MongoDB • Docker • Stripe"
+    }
+  }
+}

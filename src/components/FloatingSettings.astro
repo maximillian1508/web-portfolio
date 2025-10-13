@@ -1,9 +1,36 @@
 ---
-import { getLangFromAstro, getLocalelessPath } from "@i18n/utils";
+import { getLangFromUrl, getLocalizedUrl } from "@i18n/utils";
 import { languages } from "@i18n/ui";
 
-const currentLang = getLangFromAstro(Astro);
-const basePath = getLocalelessPath(Astro.url.pathname, currentLang);
+const currentLang = getLangFromUrl(Astro.url);
+const pathname = Astro.url.pathname;
+
+// Get current path without language prefix
+let basePath = pathname;
+for (const lang of Object.keys(languages)) {
+  if (lang !== "en" && pathname.startsWith(`/${lang}`)) {
+    basePath = pathname.replace(`/${lang}`, "") || "/";
+    break;
+  }
+}
+
+// For non-English pages, extract the original route
+if (currentLang !== "en") {
+  const { routes } = await import("@i18n/routes");
+  const pathSegments = basePath.split("/").filter((s) => s);
+  const originalSegments = pathSegments.map((segment) => {
+    const routeMap = routes[currentLang];
+    if (routeMap) {
+      for (const [original, translated] of Object.entries(routeMap)) {
+        if (translated === segment) {
+          return original;
+        }
+      }
+    }
+    return segment;
+  });
+  basePath = "/" + originalSegments.join("/");
+}
 ---
 
 <!-- Backdrop -->
@@ -382,24 +409,68 @@ const basePath = getLocalelessPath(Astro.url.pathname, currentLang);
       if (themeIconModal) themeIconModal.textContent = themeIcon;
     };
 
-    const handleLanguageChange = (newLang: string) => {
-      // Get current path and translate properly
+    const handleLanguageChange = async (newLang: string) => {
       const currentPath = window.location.pathname;
-      let newPath: string;
+      const currentLang = getCurrentLanguageFromURL();
 
-      if (newLang === "id") {
-        // Switching to Indonesian
-        if (currentPath === "/") {
-          newPath = "/id";
-        } else {
-          newPath = `/id${currentPath}`;
+      // Get base path (remove language prefix)
+      let basePath = currentPath;
+      if (currentLang !== "en" && currentPath.startsWith(`/${currentLang}`)) {
+        basePath = currentPath.replace(`/${currentLang}`, "") || "/";
+      }
+
+      // For non-English pages, reverse translate to get original route
+      if (currentLang !== "en") {
+        const pathSegments = basePath.split("/").filter((s) => s);
+        const originalSegments = [];
+
+        for (const segment of pathSegments) {
+          // Check if this segment is a translated route
+          let found = false;
+          if (currentLang === "id") {
+            const routeMap = {
+              "tentang": "about",
+              "kontak": "contact",
+              "proyek": "projects"
+            };
+            if (routeMap[segment]) {
+              originalSegments.push(routeMap[segment]);
+              found = true;
+            }
+          }
+          if (!found) {
+            originalSegments.push(segment);
+          }
         }
+        basePath = "/" + originalSegments.join("/");
+      }
+
+      // Generate new URL for target language
+      let newPath: string;
+      if (newLang === "en") {
+        newPath = basePath;
       } else {
-        // Switching to English
-        if (currentPath === "/id") {
-          newPath = "/";
+        // Translate route segments for Indonesian
+        const pathSegments = basePath.split("/").filter((s) => s);
+        const translatedSegments = [];
+
+        for (const segment of pathSegments) {
+          if (newLang === "id") {
+            const routeMap = {
+              "about": "tentang",
+              "contact": "kontak",
+              "projects": "proyek"
+            };
+            translatedSegments.push(routeMap[segment] || segment);
+          } else {
+            translatedSegments.push(segment);
+          }
+        }
+
+        if (basePath === "/" || basePath === "") {
+          newPath = `/${newLang}`;
         } else {
-          newPath = currentPath.replace(/^\/id/, "") || "/";
+          newPath = `/${newLang}/${translatedSegments.join("/")}`;
         }
       }
 

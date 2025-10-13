@@ -1,0 +1,27 @@
+{
+  "page": "Halaman",
+  "of": "dari",
+  "previous": "Sebelumnya",
+  "next": "Selanjutnya",
+  "currentPage": "Sekarang",
+  "noPreviousPage": "Tidak ada",
+  "noNextPage": "Tidak ada",
+  "contact": "kontak",
+  "github": "GitHub",
+  "liveSite": "Situs Langsung",
+  "clientTestimonial": "Testimoni Klien",
+  "responseTime": "Waktu respon",
+  "header": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "projects": "Proyek",
+    "contact": "Kontak"
+  },
+  "footer": {
+    "interested": "Tertarik bekerja sama?",
+    "talk": "Ayo berbicara",
+    "builtWith": "built with astro and tailwind",
+    "github": "github",
+    "linkedin": "linkedin"
+  }
+}

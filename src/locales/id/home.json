@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "title": "Maximillian Leonard - Software Developer, Kuala Lumpur",
+    "description": "Maximillian Leonard adalah seorang software developer berbasis di Kuala Lumpur, Malaysia. Dia adalah full stack developer dengan ketertarikan pada pembuatan aplikasi web."
+  },
+  "hero": {
+    "subtitle": "full-stack developer yang membangun aplikasi berkinerja tinggi: cepat, skalabel, dan sangat andal"
+  },
+  "skills": {
+    "title": "Technical",
+    "titleSecond": "Stack",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "devops": "DevOps",
+    "tools": "Tools",
+    "yearsExperience": "Tahun Pengalaman",
+    "projectsDelivered": "Proyek Selesai"
+  },
+  "experience": {
+    "title": "Pengalaman",
+    "titleSecond": "Profesional",
+    "propertyGenie": {
+      "role": "Full-Stack Developer",
+      "period": "2024 - Sekarang",
+      "description": "Mengembangkan dan memelihara aplikasi web perusahaan. Meningkatkan implementasi hasil halaman pencarian perusahaan. ",
+      "metrics": "50% peningkatan tayangan & klik",
+      "tech": "PHP • Yii2 • PostgreSQL • React.js • JavaScript • CSS"
+    },
+    "nexea": {
+      "role": "Software Developer Intern",
+      "period": "Juli 2023 - November 2023",
+      "description": "Mengembangkan beberapa fitur untuk sistem booking klien. Melakukan UAT pada sistem ERP. Mendokumentasikan panduan setup dan konfigurasi proyek.",
+      "metrics": "2+ fitur dikembangkan",
+      "tech": "React.js • Node.js • Express.js • MongoDB • JavaScript"
+    }
+  },
+  "projects": {
+    "title": "Proyek",
+    "titleSecond": "Unggulan",
+    "easyrent": {
+      "description": "Aplikasi web untuk agen properti mengelola daftar dan booking mereka.",
+      "tech": "React.js • Express.js • MongoDB • Docker • Stripe"
+    }
+  }
+}

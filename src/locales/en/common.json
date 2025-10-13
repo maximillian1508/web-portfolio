@@ -1,0 +1,27 @@
+{
+  "page": "Page",
+  "of": "of",
+  "previous": "Previous",
+  "next": "Next",
+  "currentPage": "Current",
+  "noPreviousPage": "No more",
+  "noNextPage": "No more",
+  "contact": "contact",
+  "github": "GitHub",
+  "liveSite": "Live Site",
+  "clientTestimonial": "Client Testimonial",
+  "responseTime": "Response time",
+  "header": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "footer": {
+    "interested": "Interested in working together?",
+    "talk": "Let's talk",
+    "builtWith": "built with astro and tailwind",
+    "github": "github",
+    "linkedin": "linkedin"
+  }
+}

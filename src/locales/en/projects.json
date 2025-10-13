@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "title": "Projects - Maximillian Leonard",
+    "description": "Explore my portfolio of high-performance web applications including rental management systems, analytics dashboards, and more."
+  },
+  "title": "featured",
+  "titleSecond": "projects",
+  "subtitle": "high-performance applications built for scale: from real-time analytics to machine learning platforms",
+  "technologyStack": "Technology Stack",
+  "keyMetrics": "Key Metrics",
+  "production": "Production",
+  "easyrent": {
+    "title": "EasyRent",
+    "subtitle": "Rental House Management System",
+    "description": "A web application for property agents to manage their listings and bookings.",
+    "year": "2023"
+  },
+  "cta": {
+    "interested": "interested in similar results for your project?",
+    "discuss": "let's discuss your requirements →"
+  }
+}

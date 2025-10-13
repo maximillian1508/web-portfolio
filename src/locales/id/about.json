@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Tentang - Maximillian Leonard",
+    "description": "Full-stack developer dengan 2+ tahun membangun aplikasi web berkinerja tinggi. Spesialisasi dalam framework JavaScript modern, optimisasi database, dan infrastruktur cloud."
+  },
+  "title": "tentang",
+  "titleSecond": "saya",
+  "subtitle": "membangun aplikasi yang andal dan berkinerja tinggi dengan teknologi modern dan arsitektur bersih",
+  "sections": {
+    "background": {
+      "title": "Latar Belakang",
+      "content": "Full-stack developer dengan 2+ tahun membangun aplikasi web berkinerja tinggi. Spesialisasi dalam framework JavaScript modern, optimisasi database, dan infrastruktur cloud."
+    },
+    "expertise": {
+      "title": "Keahlian",
+      "content": "Frontend: React.js, Next.js, MUI. Backend: Express.js, Yii2, PostgreSQL, MongoDB. DevOps: Docker, Nginx."
+    },
+    "approach": {
+      "title": "Pendekatan",
+      "content": "Saya percaya dalam membangun perangkat lunak yang memecahkan masalah nyata. Setiap baris kode harus memiliki tujuan."
+    }
+  },
+  "stats": {
+    "title": "Metrik",
+    "titleSecond": "Kinerja",
+    "yearsExperience": "Tahun Pengalaman",
+    "projectsDelivered": "Proyek Selesai"
+  },
+  "currentFocus": {
+    "title": "Fokus",
+    "titleSecond": "Saat Ini",
+    "building": "Membangun",
+    "buildingContent": "Dashboard analitik berkinerja tinggi yang memproses jutaan event setiap hari. Fokus pada visualisasi data real-time dan respons query sub-200ms.",
+    "learning": "Belajar",
+    "learningContent": "Teknik optimisasi database lanjutan, Golang untuk layanan kritis kinerja, Core Web Vitals, Technical SEO, dan lainnya."
+  },
+  "cta": {
+    "interested": "tertarik berkolaborasi?",
+    "discuss": "ayo diskusikan proyek Anda →"
+  }
+}

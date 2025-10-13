@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "title": "Proyek - Maximillian Leonard",
+    "description": "Jelajahi portofolio aplikasi web berkinerja tinggi saya termasuk sistem manajemen rental, dashboard analitik, dan lainnya."
+  },
+  "title": "proyek",
+  "titleSecond": "unggulan",
+  "subtitle": "aplikasi berkinerja tinggi yang dibangun untuk skala: dari analitik real-time hingga platform machine learning",
+  "technologyStack": "Technology Stack",
+  "keyMetrics": "Metrik Utama",
+  "production": "Produksi",
+  "easyrent": {
+    "title": "EasyRent",
+    "subtitle": "Sistem Manajemen Rumah Sewa",
+    "description": "Aplikasi web untuk agen properti mengelola daftar dan booking mereka.",
+    "year": "2023"
+  },
+  "cta": {
+    "interested": "tertarik dengan hasil serupa untuk proyek Anda?",
+    "discuss": "ayo diskusikan kebutuhan Anda →"
+  }
+}

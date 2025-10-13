@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "title": "Contact - Maximillian Leonard",
+    "description": "Get in touch to discuss your next project. Available for web application development, performance optimization, and technical consulting."
+  },
+  "title": "get",
+  "titleSecond": "in touch",
+  "subtitle": "let's discuss your next project: scalable solutions, performance optimization, and clean architecture",
+  "methods": {
+    "title": "Contact",
+    "titleSecond": "Methods",
+    "email": {
+      "method": "Email",
+      "value": "hello@maximillianleonard.dev",
+      "description": "Best for project inquiries and collaboration",
+      "response": "< 24 hours"
+    },
+    "linkedin": {
+      "method": "LinkedIn",
+      "value": "/in/maximillianleonard1508",
+      "description": "Professional networking and career discussions",
+      "response": "< 48 hours"
+    },
+    "github": {
+      "method": "GitHub",
+      "value": "/maximillian1508",
+      "description": "Code reviews, open source contributions",
+      "response": "varies"
+    }
+  },
+  "projectTypes": {
+    "title": "Project",
+    "titleSecond": "Types",
+    "webApplications": "Web Applications",
+    "apiDevelopment": "API Development",
+    "frontendDevelopment": "Frontend Development",
+    "landingPage": "Landing Page",
+    "performanceOptimization": "Performance Optimization",
+    "technicalSEO": "Technical SEO"
+  },
+  "availability": {
+    "title": "Availability",
+    "content": "Currently not available for new projects. For urgent consultations and smaller engagements, I can often accommodate shorter timelines.",
+    "fullTime": "Full-time projects",
+    "notAvailable": "Not available"
+  },
+  "workingStyle": {
+    "title": "Working Style",
+    "content": "I prefer collaborative, iterative approaches with regular communication. Strong focus on documentation, testing, and performance metrics throughout the development process.",
+    "agile": "Agile methodology with 1-2 week sprints",
+    "testing": "Comprehensive testing and performance monitoring",
+    "documentation": "Clean handoff with clear documentation"
+  },
+  "cta": {
+    "ready": "ready to start your project?",
+    "sendEmail": "send me an email →"
+  }
+}

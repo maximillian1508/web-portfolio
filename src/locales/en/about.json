@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "About - Maximillian Leonard",
+    "description": "Full-stack developer with 2+ years building high-performance web applications. Specialized in modern JavaScript frameworks, database optimization, and cloud infrastructure."
+  },
+  "title": "about",
+  "titleSecond": "me",
+  "subtitle": "building reliable, high-performance applications with modern technology and clean architecture",
+  "sections": {
+    "background": {
+      "title": "Background",
+      "content": "Full-stack developer with 2+ years building high-performance web applications. Specialized in modern JavaScript frameworks, database optimization, and cloud infrastructure."
+    },
+    "expertise": {
+      "title": "Expertise",
+      "content": "Frontend: React.js, Next.js, MUI. Backend: Express.js, Yii2, PostgreSQL, MongoDB. DevOps: Docker, Nginx."
+    },
+    "approach": {
+      "title": "Approach",
+      "content": "I believe in building software that solves real problems. Every line of code should serve a purpose."
+    }
+  },
+  "stats": {
+    "title": "Performance",
+    "titleSecond": "Metrics",
+    "yearsExperience": "Years Experience",
+    "projectsDelivered": "Projects Delivered"
+  },
+  "currentFocus": {
+    "title": "Current",
+    "titleSecond": "Focus",
+    "building": "Building",
+    "buildingContent": "High-performance analytics dashboards processing millions of events daily. Focus on real-time data visualization and sub-200ms query responses.",
+    "learning": "Learning",
+    "learningContent": "Advanced database optimization techniques, Golang for performance-critical services, Core Web Vitals, Technical SEO, and more."
+  },
+  "cta": {
+    "interested": "interested in collaborating?",
+    "discuss": "let's discuss your project →"
+  }
+}

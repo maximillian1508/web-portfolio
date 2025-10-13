@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "title": "Kontak - Maximillian Leonard",
+    "description": "Hubungi untuk diskusikan proyek selanjutnya. Tersedia untuk pengembangan aplikasi web, optimisasi kinerja, dan konsultasi teknis."
+  },
+  "title": "mari",
+  "titleSecond": "terhubung",
+  "subtitle": "ayo diskusikan proyek selanjutnya: solusi skalabel, optimisasi kinerja, dan arsitektur bersih",
+  "methods": {
+    "title": "Metode",
+    "titleSecond": "Kontak",
+    "email": {
+      "method": "Email",
+      "value": "hello@maximillianleonard.dev",
+      "description": "Terbaik untuk pertanyaan proyek dan kolaborasi",
+      "response": "< 24 jam"
+    },
+    "linkedin": {
+      "method": "LinkedIn",
+      "value": "/in/maximillianleonard1508",
+      "description": "Jaringan profesional dan diskusi karir",
+      "response": "< 48 jam"
+    },
+    "github": {
+      "method": "GitHub",
+      "value": "/maximillian1508",
+      "description": "Code review, kontribusi open source",
+      "response": "bervariasi"
+    }
+  },
+  "projectTypes": {
+    "title": "Jenis",
+    "titleSecond": "Proyek",
+    "webApplications": "Aplikasi Web",
+    "apiDevelopment": "Pengembangan API",
+    "frontendDevelopment": "Pengembangan Frontend",
+    "landingPage": "Landing Page",
+    "performanceOptimization": "Optimisasi Kinerja",
+    "technicalSEO": "Technical SEO"
+  },
+  "availability": {
+    "title": "Ketersediaan",
+    "content": "Saat ini tidak tersedia untuk proyek baru. Untuk konsultasi mendesak dan keterlibatan yang lebih kecil, saya sering dapat mengakomodasi jadwal yang lebih singkat.",
+    "fullTime": "Proyek full-time",
+    "notAvailable": "Tidak tersedia"
+  },
+  "workingStyle": {
+    "title": "Gaya Kerja",
+    "content": "Saya lebih suka pendekatan kolaboratif dan iteratif dengan komunikasi rutin. Fokus kuat pada dokumentasi, testing, dan metrik kinerja sepanjang proses pengembangan.",
+    "agile": "Metodologi Agile dengan sprint 1-2 minggu",
+    "testing": "Testing komprehensif dan monitoring kinerja",
+    "documentation": "Handover bersih dengan dokumentasi yang jelas"
+  },
+  "cta": {
+    "ready": "siap memulai proyek Anda?",
+    "sendEmail": "kirim email →"
+  }
+}
