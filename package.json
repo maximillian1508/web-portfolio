@@ -12,13 +12,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.9",
-    "@astrojs/mdx": "^4.3.6",
+    "@astrojs/cloudflare": "^12.6.10",
+    "@astrojs/mdx": "^4.3.7",
     "@astrojs/partytown": "^2.1.4",
     "@astrojs/sitemap": "^3.6.0",
+    "@mdxeditor/editor": "^3.47.0",
     "@supabase/supabase-js": "^2.49.4",
     "@tailwindcss/vite": "^4.1.6",
-    "astro": "^5.14.1",
+    "astro": "^5.14.4",
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
