@@ -3,8 +3,8 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
-
 import cloudflare from "@astrojs/cloudflare";
+import react from "@astrojs/react";
 
 // import partytown from "@astrojs/partytown";
 
@@ -20,9 +20,9 @@ export default defineConfig({
       filter: (page) =>
         page !== "https://maximillianleonard.dev/login" &&
         page !== "https://maximillianleonard.dev/dashboard",
-    }),
+    }), // partytown(),
     mdx(),
-    // partytown(),
+    react(),
   ],
 
   vite: {

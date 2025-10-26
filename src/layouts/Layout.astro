@@ -22,11 +22,13 @@ const alternateUrls = getAlternateUrls(Astro.url, Object.keys(languages));
 <!doctype html>
 <html lang={lang}>
   <head>
+    <!-- Basic Meta Tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content={Astro.generator} />
 
-    <!-- Basic Meta Tags -->
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <title>
       {title || t("meta:title")}
     </title>
@@ -42,6 +44,7 @@ const alternateUrls = getAlternateUrls(Astro.url, Object.keys(languages));
 
     <!-- Favicon and Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -52,8 +55,11 @@ const alternateUrls = getAlternateUrls(Astro.url, Object.keys(languages));
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url.toString().replace(/\/$/, "")} />
     <meta property="og:title" content={title || t("meta:title")} />
-    <meta property="og:description" content={description || t("meta:description")} />
-    <meta property="og:image" content="/og-image.jpg" />
+    <meta
+      property="og:description"
+      content={description || t("meta:description")}
+    />
+    <meta property="og:image" content="/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content={lang === "en" ? "en_US" : "id_ID"} />
@@ -70,8 +76,11 @@ const alternateUrls = getAlternateUrls(Astro.url, Object.keys(languages));
       content={Astro.url.toString().replace(/\/$/, "")}
     />
     <meta property="twitter:title" content={title || t("meta:title")} />
-    <meta property="twitter:description" content={description || t("meta:description")} />
-    <meta property="twitter:image" content="/og-image.jpg" />
+    <meta
+      property="twitter:description"
+      content={description || t("meta:description")}
+    />
+    <meta property="twitter:image" content="/og-image.png" />
     <meta name="twitter:creator" content="@maximillianleonard" />
 
     <!-- Performance and Security -->
@@ -79,15 +88,13 @@ const alternateUrls = getAlternateUrls(Astro.url, Object.keys(languages));
     <meta name="format-detection" content="telephone=no" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <!-- Canonical and Alternates -->
     <link rel="canonical" href={Astro.url.toString().replace(/\/$/, "")} />
-    {Object.entries(alternateUrls).map(([lang, url]) => (
-      <link rel="alternate" hreflang={lang} href={url} />
-    ))}
+    {
+      Object.entries(alternateUrls).map(([lang, url]) => (
+        <link rel="alternate" hreflang={lang} href={url} />
+      ))
+    }
     <link rel="alternate" hreflang="x-default" href={alternateUrls.en} />
 
     <!-- JSON-LD Structured Data -->
@@ -111,23 +118,16 @@ const alternateUrls = getAlternateUrls(Astro.url, Object.keys(languages));
         ]
       }
     </script>
+    <ClientRouter />
   </head>
   <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
-    <ClientRouter />
     <Header lang={lang} />
-    <main class="flex-1 pt-32 pb-12 max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
+    <main
+      class="flex-1 pt-32 pb-12 max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8"
+    >
       <slot />
     </main>
     <Footer lang={lang} />
     <FloatingSettings />
   </body>
 </html>
-
-<style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-</style>

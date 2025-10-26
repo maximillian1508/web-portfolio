@@ -1,6 +1,12 @@
 ---
 import { pageMap } from "@lib/pageMap";
-import { useTranslations, getLangFromUrl, useTranslatedPath } from "@i18n/utils";
+import {
+  useTranslations,
+  getLangFromUrl,
+  useTranslatedPath,
+} from "@i18n/utils";
+import { Image } from "astro:assets";
+import MlIcon from "@assets/ml-icon.png";
 
 interface Props {
   lang: string;
@@ -59,7 +65,14 @@ const totalPages = Object.keys(pageMap).length;
           href={translatePath("/")}
           class="text-slate-400 font-mono text-sm hover:text-cyan-400 transition-colors"
         >
-          ML.portfolio
+          <Image
+            quality={100}
+            src={MlIcon}
+            alt="Maximillian Leonard Icon"
+            width={48}
+            height={48}
+            priority
+          />
         </a>
         <div class="hidden md:flex items-center gap-4 text-xs font-mono">
           {
@@ -101,9 +114,7 @@ const totalPages = Object.keys(pageMap).length;
       </label>
     </div>
 
-    <nav
-      class="md:hidden border-t border-slate-800 py-4 hidden"
-    >
+    <nav class="md:hidden border-t border-slate-800 py-4 hidden">
       <div class="flex flex-col gap-4 text-sm">
         {
           Object.entries(pageMap).map(([path, page]) => (

@@ -11,7 +11,10 @@
       "@pages/*": ["src/pages/*"],
       "@services/*": ["src/services/*"],
       "@lib/*": ["src/lib/*"],
-      "@i18n/*": ["src/i18n/*"]
-    }
+      "@i18n/*": ["src/i18n/*"],
+      "@assets/*": ["src/assets/*"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   }
 }
