@@ -1,0 +1,9 @@
+{
+  "title": "Blog",
+  "description": "Thoughts on software engineering, web development, and technology",
+  "readMore": "Read more",
+  "backToList": "Back to blog",
+  "noPosts": "No posts yet. Check back soon!",
+  "publishedOn": "Published on",
+  "updatedOn": "Updated on"
+}

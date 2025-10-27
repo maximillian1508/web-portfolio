@@ -1,0 +1,182 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import { MDXEditorWrapper } from '../../components/editor/MDXEditorWrapper';
+
+// Auth check
+const accessToken = Astro.cookies.get("sb-access-token");
+const refreshToken = Astro.cookies.get("sb-refresh-token");
+
+if (!accessToken || !refreshToken) {
+  return Astro.redirect("/login");
+}
+
+const postId = Astro.url.searchParams.get('postId') || undefined;
+---
+
+<Layout
+  title="MDX Editor"
+  description="Create and edit blog posts"
+  lang="en"
+>
+  <MDXEditorWrapper
+    client:only="react"
+    postId={postId}
+  />
+</Layout>
+
+<style is:global>
+  /* MDXEditor styling */
+  .mdxeditor {
+    border: 1px solid #374151;
+    border-radius: 0.5rem;
+    background-color: #1f2937;
+    color: #ffffff;
+  }
+
+  /* Editor toolbar */
+  .mdxeditor-toolbar {
+    background: #111827;
+    border-bottom: 1px solid #374151;
+    padding: 0.5rem;
+  }
+
+  /* Toolbar buttons */
+  .mdxeditor-toolbar button {
+    color: #9ca3af;
+  }
+
+  .mdxeditor-toolbar button:hover {
+    background: #374151;
+    color: #ffffff;
+  }
+
+  .mdxeditor-toolbar button[data-state="on"] {
+    background: #1f2937;
+    color: #22d3ee;
+  }
+
+  /* Editor content area */
+  .mdxeditor-root-contenteditable {
+    background-color: #1f2937;
+    color: #ffffff;
+  }
+
+  /* Text color fix - IMPORTANT */
+  .mdxeditor [contenteditable] {
+    color: #ffffff !important;
+  }
+
+  .mdxeditor .prose {
+    color: #ffffff !important;
+  }
+
+  .mdxeditor .prose h1,
+  .mdxeditor .prose h2,
+  .mdxeditor .prose h3,
+  .mdxeditor .prose h4,
+  .mdxeditor .prose h5,
+  .mdxeditor .prose h6 {
+    color: #ffffff !important;
+  }
+
+  .mdxeditor .prose p {
+    color: #ffffff !important;
+  }
+
+  .mdxeditor .prose strong {
+    color: #ffffff !important;
+  }
+
+  .mdxeditor .prose em {
+    color: #ffffff !important;
+  }
+
+  .mdxeditor .prose code {
+    background: #111827;
+    color: #22d3ee;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+  }
+
+  .mdxeditor .prose a {
+    color: #22d3ee;
+  }
+
+  .mdxeditor .prose ul,
+  .mdxeditor .prose ol {
+    color: #ffffff !important;
+    list-style-position: outside;
+    padding-left: 1.5rem;
+  }
+
+  .mdxeditor .prose ul {
+    list-style-type: disc;
+  }
+
+  .mdxeditor .prose ol {
+    list-style-type: decimal;
+  }
+
+  .mdxeditor .prose li {
+    color: #ffffff !important;
+    display: list-item;
+  }
+
+  .mdxeditor .prose li::marker {
+    color: #9ca3af;
+  }
+
+  .mdxeditor .prose blockquote {
+    color: #d1d5db !important;
+    border-left-color: #374151;
+  }
+
+  /* Code blocks */
+  .mdxeditor .cm-editor {
+    background: #111827;
+  }
+
+  .mdxeditor .cm-content {
+    color: #ffffff;
+  }
+
+  /* Placeholders */
+  .mdxeditor [contenteditable]:empty:before {
+    color: #6b7280;
+  }
+
+  /* Selection */
+  .mdxeditor ::selection {
+    background: #374151;
+  }
+
+  /* Dialogs and popups */
+  .mdxeditor-popup {
+    background: #1f2937;
+    border: 1px solid #374151;
+    color: #ffffff;
+  }
+
+  .mdxeditor-popup input {
+    background: #111827;
+    border: 1px solid #374151;
+    color: #ffffff;
+  }
+
+  .mdxeditor-popup button {
+    background: #374151;
+    color: #ffffff;
+  }
+
+  .mdxeditor-popup button:hover {
+    background: #4b5563;
+  }
+
+  /* Dropdown menus */
+  .mdxeditor select {
+    background: #111827;
+    color: #ffffff;
+    border: 1px solid #374151;
+  }
+</style>

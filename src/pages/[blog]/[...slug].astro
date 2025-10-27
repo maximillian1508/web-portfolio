@@ -1,0 +1,155 @@
+---
+import Layout from "@layouts/Layout.astro";
+import type { PostWithTranslation } from "@lib/blog";
+import { useTranslations } from "@i18n/utils";
+import { marked } from "marked";
+import { supabase } from "@services/supabase";
+import { Image } from "astro:assets";
+
+export async function getStaticPaths() {
+  // Fetch languages
+  const { data: languages } = await supabase
+    .from("languages")
+    .select("*")
+    .order("code");
+
+  if (!languages) return [];
+
+  const paths: Array<{
+    params: { blog: string; slug: string };
+    props: { post: PostWithTranslation; lang: "en" | "id" };
+  }> = [];
+
+  // Fetch posts for each language
+  for (const language of languages) {
+    const { data: translations } = await supabase
+      .from("post_translations")
+      .select(
+        `
+        *,
+        post:posts(*),
+        language:languages(*)
+      `
+      )
+      .eq("language_id", language.id)
+      .eq("is_published", true);
+
+    if (translations) {
+      translations.forEach((item: any) => {
+        // Only include if the post itself is also published
+        if (item.post.is_published) {
+          const post: PostWithTranslation = {
+            ...item.post,
+            translation: {
+              id: item.id,
+              post_id: item.post_id,
+              language_id: item.language_id,
+              slug: item.slug,
+              title: item.title,
+              description: item.description,
+              content: item.content,
+              is_published: item.is_published,
+              created_at: item.created_at,
+              updated_at: item.updated_at,
+            },
+            language: item.language,
+          };
+
+          // Generate path based on language
+          if (language.code === "en") {
+            paths.push({
+              params: { blog: "blog", slug: item.slug },
+              props: { post, lang: "en" },
+            });
+          } else if (language.code === "id") {
+            paths.push({
+              params: { blog: "id/blog", slug: item.slug },
+              props: { post, lang: "id" },
+            });
+          }
+        }
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { post, lang } = Astro.props;
+
+// Get translations
+const t = useTranslations(lang);
+
+// Render markdown content to HTML using marked
+const htmlContent = await marked.parse(post.translation.content);
+
+// Format date
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat(lang === "en" ? "en-US" : "id-ID", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+};
+---
+
+<Layout
+  title={post.translation.title}
+  description={post.translation.description || post.translation.title}
+  lang={lang}
+>
+  <article class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Article Header -->
+    <section class="mb-8">
+      {
+        post.featured_image && (
+          <Image
+            quality={100}
+            src={post.featured_image}
+            alt={post.translation.title}
+            class="w-full h-64 object-cover rounded-lg mb-6 shadow-lg"
+            width={1000}
+            height={1000}
+            priority
+          />
+        )
+      }
+
+      <h1 class="font-bold mb-4">
+        {post.translation.title}
+      </h1>
+
+      <div
+        class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400"
+      >
+        <time datetime={post.translation.created_at}>
+          {formatDate(post.translation.created_at)}
+        </time>
+        {
+          post.translation.created_at !== post.translation.updated_at && (
+            <span>
+              • {t("blog:updatedOn")} {formatDate(post.translation.updated_at)}
+            </span>
+          )
+        }
+      </div>
+    </section>
+
+    <!-- Article Content -->
+    <div class="blog-content" set:html={htmlContent} />
+
+    <!-- Article Footer -->
+    <section class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+      <div class="flex justify-between items-center">
+        <a
+          href={lang === "en" ? "/blog" : "/id/blog"}
+          class="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-2"
+        >
+          <span>←</span>
+          <span>{t("blog:backToList")}</span>
+        </a>
+      </div>
+    </section>
+  </article>
+</Layout>

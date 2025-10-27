@@ -433,8 +433,8 @@ if (currentLang !== "en") {
               "kontak": "contact",
               "proyek": "projects"
             };
-            if (routeMap[segment]) {
-              originalSegments.push(routeMap[segment]);
+            if (routeMap[segment as keyof typeof routeMap]) {
+              originalSegments.push(routeMap[segment as keyof typeof routeMap]);
               found = true;
             }
           }
@@ -461,7 +461,7 @@ if (currentLang !== "en") {
               "contact": "kontak",
               "projects": "proyek"
             };
-            translatedSegments.push(routeMap[segment] || segment);
+            translatedSegments.push(routeMap[segment as keyof typeof routeMap] || segment);
           } else {
             translatedSegments.push(segment);
           }

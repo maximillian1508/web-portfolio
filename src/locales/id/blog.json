@@ -1,0 +1,9 @@
+{
+  "title": "Blog",
+  "description": "Pemikiran tentang rekayasa perangkat lunak, pengembangan web, dan teknologi",
+  "readMore": "Baca selengkapnya",
+  "backToList": "Kembali ke blog",
+  "noPosts": "Belum ada postingan. Periksa kembali segera!",
+  "publishedOn": "Diterbitkan pada",
+  "updatedOn": "Diperbarui pada"
+}
