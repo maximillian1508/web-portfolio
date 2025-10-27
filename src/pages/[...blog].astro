@@ -75,7 +75,7 @@ const formatDate = (dateString: string) => {
 ---
 
 <Layout title={t("blog:title")} description={t("blog:description")} lang={lang}>
-  <section class="pb-0 md:pb-12">
+  <section>
     <div class="max-w-4xl">
       <h1 class="font-bold text-h1 mb-6">
         {t("blog:title")}
@@ -89,7 +89,7 @@ const formatDate = (dateString: string) => {
   <!-- Posts Grid -->
   {
     posts && posts.length > 0 ? (
-      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div class="py-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post: PostWithTranslation) => (
           <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
             {post.featured_image && (
@@ -159,5 +159,5 @@ const formatDate = (dateString: string) => {
       </div>
     )
   }
+  <PageNavigation lang={lang} />
 </Layout>
-<PageNavigation lang={lang} />
