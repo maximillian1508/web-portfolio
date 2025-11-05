@@ -499,6 +499,7 @@ export function MDXEditorWrapper({ postId }: MDXEditorWrapperProps) {
               codeBlockPlugin({ defaultCodeBlockLanguage: "" }),
               codeMirrorPlugin({
                 codeBlockLanguages: {
+                  "": "Plain text",
                   bash: "Bash",
                   jsx: "Javascript (react)",
                   js: "Javascript",
