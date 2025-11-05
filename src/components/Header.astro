@@ -5,8 +5,6 @@ import {
   getLangFromUrl,
   useTranslatedPath,
 } from "@i18n/utils";
-import { Image } from "astro:assets";
-import MlIcon from "@assets/ml-icon.png";
 
 interface Props {
   lang: string;
@@ -65,13 +63,12 @@ const totalPages = Object.keys(pageMap).length;
           href={translatePath("/")}
           class="text-slate-400 font-mono text-sm hover:text-cyan-400 transition-colors"
         >
-          <Image
-            quality={100}
-            src={MlIcon}
+          <img
+            src="/ml-icon.png"
             alt="Maximillian Leonard Icon"
-            width={48}
-            height={48}
-            priority
+            width="48"
+            height="48"
+            loading="eager"
           />
         </a>
         <div class="hidden md:flex items-center gap-4 text-xs font-mono">
