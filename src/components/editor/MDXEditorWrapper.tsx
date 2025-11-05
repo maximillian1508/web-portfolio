@@ -43,19 +43,21 @@ import type { Language, PostWithTranslations } from "../../lib/blog";
 
 interface MDXEditorWrapperProps {
   postId?: string;
+  initialLanguages?: Language[];
+  initialPostData?: PostWithTranslations | null;
 }
 
-export function MDXEditorWrapper({ postId }: MDXEditorWrapperProps) {
+export function MDXEditorWrapper({ postId, initialLanguages = [], initialPostData = null }: MDXEditorWrapperProps) {
   const editorRef = useRef<MDXEditorMethods>(null);
 
   // Languages
-  const [languages, setLanguages] = useState<Language[]>([]);
+  const [languages, setLanguages] = useState<Language[]>(initialLanguages);
   const [activeTab, setActiveTab] = useState<string>("");
 
   // Post data
-  const [post, setPost] = useState<PostWithTranslations | null>(null);
-  const [featuredImage, setFeaturedImage] = useState("");
-  const [globalPublished, setGlobalPublished] = useState(false);
+  const [post, setPost] = useState<PostWithTranslations | null>(initialPostData);
+  const [featuredImage, setFeaturedImage] = useState(initialPostData?.featured_image || "");
+  const [globalPublished, setGlobalPublished] = useState(initialPostData?.is_published || false);
 
   // Translation data (per language)
   const [translations, setTranslations] = useState<
@@ -79,11 +81,49 @@ export function MDXEditorWrapper({ postId }: MDXEditorWrapperProps) {
 
   // Load languages and post data
   useEffect(() => {
-    loadLanguages();
-    if (postId) {
-      loadPost(postId);
+    // Only load languages if not provided as props
+    if (initialLanguages.length === 0) {
+      loadLanguages();
+    } else {
+      // Set active tab from initial languages
+      if (languages.length > 0 && !activeTab) {
+        setActiveTab(languages[0].code);
+      }
     }
-  }, [postId]);
+
+    // Only load post if not provided as props
+    if (postId && !initialPostData) {
+      loadPost(postId);
+    } else if (initialPostData) {
+      // Populate translations from initial data
+      const translationsData: Record<string, any> = {};
+      initialPostData.translations.forEach((t) => {
+        translationsData[t.language.code] = {
+          id: t.id,
+          slug: t.slug,
+          title: t.title,
+          description: t.description || "",
+          content: t.content,
+          isPublished: t.is_published,
+        };
+      });
+      setTranslations(translationsData);
+
+      // Set active tab to first available translation or first language
+      if (initialPostData.translations.length > 0) {
+        setActiveTab(initialPostData.translations[0].language.code);
+      } else if (languages.length > 0) {
+        setActiveTab(languages[0].code);
+      }
+    }
+  }, [postId, initialLanguages, initialPostData]);
+
+  // Set active tab when languages are available
+  useEffect(() => {
+    if (languages.length > 0 && !activeTab) {
+      setActiveTab(languages[0].code);
+    }
+  }, [languages, activeTab]);
 
   const loadLanguages = async () => {
     try {

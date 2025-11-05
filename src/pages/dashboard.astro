@@ -54,25 +54,73 @@ const dateString = now.toLocaleDateString("en-US", {
   day: "numeric",
 });
 
-// Fetch languages first
-const languagesResponse = await fetch(`${Astro.url.origin}/api/languages`);
-const languages = languagesResponse.ok ? await languagesResponse.json() : [];
+// Fetch languages directly from Supabase
+const { data: languages, error: languagesError } = await supabase
+  .from("languages")
+  .select("*")
+  .eq("is_active", true)
+  .order("sort_order", { ascending: true });
 
-// Fetch all posts (without language filter to get base posts)
-const postsResponse = await fetch(`${Astro.url.origin}/api/blog/posts?published=false`);
-let allPosts = postsResponse.ok ? await postsResponse.json() : [];
+if (languagesError) {
+  console.error("Error fetching languages:", languagesError);
+}
+
+// Fetch all posts directly from Supabase
+const { data: allPosts, error: postsError } = await supabase
+  .from("posts")
+  .select("*")
+  .order("created_at", { ascending: false });
+
+if (postsError) {
+  console.error("Error fetching posts:", postsError);
+}
 
 // For each post, fetch complete details with all translations
 const postsWithTranslations = await Promise.all(
-  allPosts.map(async (post) => {
-    const detailResponse = await fetch(`${Astro.url.origin}/api/blog/posts/${post.id}`);
-    return detailResponse.ok ? await detailResponse.json() : post;
+  (allPosts || []).map(async (post) => {
+    const { data: translationsData, error: translationsError } = await supabase
+      .from("post_translations")
+      .select(
+        `
+        *,
+        language:languages(*)
+      `
+      )
+      .eq("post_id", post.id)
+      .order("created_at", { ascending: true });
+
+    if (translationsError) {
+      console.error(
+        `Error fetching translations for post ${post.id}:`,
+        translationsError
+      );
+      return post;
+    }
+
+    return {
+      ...post,
+      translations: (translationsData || []).map((t: any) => ({
+        id: t.id,
+        post_id: t.post_id,
+        language_id: t.language_id,
+        slug: t.slug,
+        title: t.title,
+        description: t.description,
+        content: t.content,
+        is_published: t.is_published,
+        created_at: t.created_at,
+        updated_at: t.updated_at,
+        language: t.language,
+      })),
+    };
   })
 );
 
 // Count published and draft posts
-const publishedCount = postsWithTranslations?.filter(p => p.is_published).length || 0;
-const draftCount = postsWithTranslations?.filter(p => !p.is_published).length || 0;
+const publishedCount =
+  postsWithTranslations?.filter((p) => p.is_published).length || 0;
+const draftCount =
+  postsWithTranslations?.filter((p) => !p.is_published).length || 0;
 ---
 
 <Layout title="Admin Dashboard" robots="noindex, nofollow" lang="en">
@@ -124,7 +172,9 @@ const draftCount = postsWithTranslations?.filter(p => !p.is_published).length ||
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
       <div>
-        <div class="text-3xl font-bold text-cyan-400 mb-2">{publishedCount}</div>
+        <div class="text-3xl font-bold text-cyan-400 mb-2">
+          {publishedCount}
+        </div>
         <div class="text-slate-400 text-sm uppercase tracking-wide">
           Published Posts
         </div>
@@ -233,107 +283,127 @@ const draftCount = postsWithTranslations?.filter(p => !p.is_published).length ||
       <span class="text-cyan-400">Blog</span> Posts
     </h2>
 
-    {postsWithTranslations && postsWithTranslations.length > 0 ? (
-      <div class="space-y-4">
-        {postsWithTranslations.map((post, index) => {
-          // Get the first translation for the title (fallback)
-          const firstTranslation = post.translations?.[0];
-          const hasMultipleTranslations = post.translations?.length > 1;
+    {
+      postsWithTranslations && postsWithTranslations.length > 0 ? (
+        <div class="space-y-4">
+          {postsWithTranslations.map((post, index) => {
+            // Get the first translation for the title (fallback)
+            const firstTranslation = post.translations?.[0];
+            const hasMultipleTranslations = post.translations?.length > 1;
 
-          return (
-            <div class={`${index > 0 ? 'border-t border-slate-800 pt-4' : ''}`}>
-              <div class="grid md:grid-cols-6 gap-4 items-start">
-                <div class="md:col-span-3">
-                  <div class="flex items-center gap-3 mb-2">
-                    <div class={`w-2 h-2 rounded-full ${post.is_published ? 'bg-cyan-400' : 'bg-slate-600'}`}></div>
-                    <div>
-                      <div class="text-slate-200 text-sm font-medium">
-                        {firstTranslation?.title || 'Untitled Post'}
+            return (
+              <div
+                class={`${index > 0 ? "border-t border-slate-800 pt-4" : ""}`}
+              >
+                <div class="grid md:grid-cols-6 gap-4 items-start">
+                  <div class="md:col-span-3">
+                    <div class="flex items-center gap-3 mb-2">
+                      <div
+                        class={`w-2 h-2 rounded-full ${post.is_published ? "bg-cyan-400" : "bg-slate-600"}`}
+                      />
+                      <div>
+                        <div class="text-slate-200 text-sm font-medium">
+                          {firstTranslation?.title || "Untitled Post"}
+                        </div>
+                        <div class="text-xs text-slate-500 mt-0.5">
+                          {new Date(post.updated_at).toLocaleDateString()}
+                        </div>
                       </div>
-                      <div class="text-xs text-slate-500 mt-0.5">
-                        {new Date(post.updated_at).toLocaleDateString()}
-                      </div>
+                    </div>
+
+                    {/* Translation indicators */}
+                    <div class="flex items-center gap-2 ml-5">
+                      <span class="text-xs text-slate-500">Translations:</span>
+                      {(languages || []).map((lang) => {
+                        const translation = post.translations?.find(
+                          (t: any) => t.language.code === lang.code
+                        );
+                        return (
+                          <span
+                            class={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs ${
+                              translation
+                                ? translation.is_published
+                                  ? "bg-cyan-400/10 text-cyan-400"
+                                  : "bg-purple-400/10 text-purple-400"
+                                : "bg-slate-800 text-slate-600"
+                            }`}
+                            title={
+                              translation
+                                ? translation.is_published
+                                  ? "Published"
+                                  : "Draft"
+                                : "Not created"
+                            }
+                          >
+                            {lang.code.toUpperCase()}
+                            {translation && (
+                              <span class="text-[10px]">
+                                {translation.is_published ? "✓" : "•"}
+                              </span>
+                            )}
+                          </span>
+                        );
+                      })}
                     </div>
                   </div>
 
-                  {/* Translation indicators */}
-                  <div class="flex items-center gap-2 ml-5">
-                    <span class="text-xs text-slate-500">Translations:</span>
-                    {languages.map((lang) => {
-                      const translation = post.translations?.find(t => t.language.code === lang.code);
-                      return (
-                        <span
-                          key={lang.code}
-                          class={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs ${
-                            translation
-                              ? translation.is_published
-                                ? 'bg-cyan-400/10 text-cyan-400'
-                                : 'bg-purple-400/10 text-purple-400'
-                              : 'bg-slate-800 text-slate-600'
-                          }`}
-                          title={translation ? (translation.is_published ? 'Published' : 'Draft') : 'Not created'}
-                        >
-                          {lang.code.toUpperCase()}
-                          {translation && (
-                            <span class="text-[10px]">
-                              {translation.is_published ? '✓' : '•'}
-                            </span>
-                          )}
-                        </span>
-                      );
-                    })}
+                  <div class="md:col-span-1">
+                    <span
+                      class={`inline-block px-2 py-0.5 rounded text-xs ${
+                        post.is_published
+                          ? "bg-cyan-400/10 text-cyan-400"
+                          : "bg-slate-700 text-slate-400"
+                      }`}
+                    >
+                      {post.is_published ? "published" : "draft"}
+                    </span>
                   </div>
-                </div>
 
-                <div class="md:col-span-1">
-                  <span class={`inline-block px-2 py-0.5 rounded text-xs ${
-                    post.is_published
-                      ? 'bg-cyan-400/10 text-cyan-400'
-                      : 'bg-slate-700 text-slate-400'
-                  }`}>
-                    {post.is_published ? 'published' : 'draft'}
-                  </span>
-                </div>
-
-                <div class="md:col-span-2 flex items-center gap-3">
-                  <a
-                    href={`/dashboard/editor?postId=${post.id}`}
-                    class="text-slate-300 hover:text-purple-400 transition-colors text-sm"
-                  >
-                    edit →
-                  </a>
-                  {post.is_published && post.translations?.length > 0 && (
-                    <div class="flex gap-2">
-                      {post.translations.filter(t => t.is_published).map((translation) => (
-                        <a
-                          key={translation.id}
-                          href={translation.language.code === 'en' ? `/blog/${translation.slug}` : `/${translation.language.code}/blog/${translation.slug}`}
-                          target="_blank"
-                          class="text-slate-300 hover:text-cyan-400 transition-colors text-xs"
-                          title={`View ${translation.language.name} version`}
-                        >
-                          view ({translation.language.code}) →
-                        </a>
-                      ))}
-                    </div>
-                  )}
+                  <div class="md:col-span-2 flex items-center gap-3">
+                    <a
+                      href={`/dashboard/editor?postId=${post.id}`}
+                      class="text-slate-300 hover:text-purple-400 transition-colors text-sm"
+                    >
+                      edit →
+                    </a>
+                    {post.is_published && post.translations?.length > 0 && (
+                      <div class="flex gap-2">
+                        {post.translations
+                          .filter((t: any) => t.is_published)
+                          .map((translation: any) => (
+                            <a
+                              href={
+                                translation.language.code === "en"
+                                  ? `/blog/${translation.slug}`
+                                  : `/${translation.language.code}/blog/${translation.slug}`
+                              }
+                              target="_blank"
+                              class="text-slate-300 hover:text-cyan-400 transition-colors text-xs"
+                              title={`View ${translation.language.name} version`}
+                            >
+                              view ({translation.language.code}) →
+                            </a>
+                          ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-    ) : (
-      <div class="text-center py-8">
-        <p class="text-slate-400 text-sm mb-4">No blog posts yet</p>
-        <a
-          href="/dashboard/editor"
-          class="inline-block text-cyan-400 hover:text-purple-400 transition-colors text-sm"
-        >
-          create your first post →
-        </a>
-      </div>
-    )}
+            );
+          })}
+        </div>
+      ) : (
+        <div class="text-center py-8">
+          <p class="text-slate-400 text-sm mb-4">No blog posts yet</p>
+          <a
+            href="/dashboard/editor"
+            class="inline-block text-cyan-400 hover:text-purple-400 transition-colors text-sm"
+          >
+            create your first post →
+          </a>
+        </div>
+      )
+    }
   </section>
 
   <!-- Recent Activity -->

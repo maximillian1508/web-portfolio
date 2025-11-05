@@ -2,6 +2,7 @@
 export const prerender = false;
 import Layout from '../../layouts/Layout.astro';
 import { MDXEditorWrapper } from '../../components/editor/MDXEditorWrapper';
+import { supabase } from '../../services/supabase';
 
 // Auth check
 const accessToken = Astro.cookies.get("sb-access-token");
@@ -12,6 +13,59 @@ if (!accessToken || !refreshToken) {
 }
 
 const postId = Astro.url.searchParams.get('postId') || undefined;
+
+// Fetch languages server-side
+const { data: languages, error: languagesError } = await supabase
+  .from('languages')
+  .select('*')
+  .eq('is_active', true)
+  .order('sort_order', { ascending: true });
+
+if (languagesError) {
+  console.error('Error fetching languages:', languagesError);
+}
+
+// Fetch initial post data if postId is provided
+let initialPostData = null;
+if (postId) {
+  // Get the post
+  const { data: postData, error: postError } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('id', postId)
+    .single();
+
+  if (!postError && postData) {
+    // Get all translations for this post
+    const { data: translationsData, error: translationsError } = await supabase
+      .from('post_translations')
+      .select(`
+        *,
+        language:languages(*)
+      `)
+      .eq('post_id', postId)
+      .order('created_at', { ascending: true });
+
+    if (!translationsError && translationsData) {
+      initialPostData = {
+        ...postData,
+        translations: translationsData.map((t: any) => ({
+          id: t.id,
+          post_id: t.post_id,
+          language_id: t.language_id,
+          slug: t.slug,
+          title: t.title,
+          description: t.description,
+          content: t.content,
+          is_published: t.is_published,
+          created_at: t.created_at,
+          updated_at: t.updated_at,
+          language: t.language,
+        })),
+      };
+    }
+  }
+}
 ---
 
 <Layout
@@ -22,6 +76,8 @@ const postId = Astro.url.searchParams.get('postId') || undefined;
   <MDXEditorWrapper
     client:only="react"
     postId={postId}
+    initialLanguages={languages || []}
+    initialPostData={initialPostData}
   />
 </Layout>
 
