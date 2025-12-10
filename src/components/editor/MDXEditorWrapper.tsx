@@ -545,6 +545,7 @@ export function MDXEditorWrapper({ postId, initialLanguages = [], initialPostDat
                   js: "Javascript",
                   css: "CSS",
                   tsx: "Typescript (react)",
+                  sql: "SQL",
                 },
               }),
               directivesPlugin({
