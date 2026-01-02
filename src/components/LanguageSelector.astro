@@ -1,0 +1,146 @@
+---
+import { getLangFromUrl, getLocalizedUrl } from "@i18n/utils";
+import { languages } from "@i18n/ui";
+
+const currentLang = getLangFromUrl(Astro.url);
+
+// Get current path without language prefix
+const pathname = Astro.url.pathname;
+let basePath = pathname;
+for (const lang of Object.keys(languages)) {
+  if (lang !== "en" && pathname.startsWith(`/${lang}`)) {
+    basePath = pathname.replace(`/${lang}`, "") || "/";
+    break;
+  }
+}
+
+// For non-English pages, extract the original route
+if (currentLang !== "en") {
+  const { routes } = await import("@i18n/routes");
+  const pathSegments = basePath.split("/").filter((s) => s);
+  const originalSegments = pathSegments.map((segment) => {
+    const routeMap = routes[currentLang];
+    if (routeMap) {
+      for (const [original, translated] of Object.entries(routeMap)) {
+        if (translated === segment) {
+          return original;
+        }
+      }
+    }
+    return segment;
+  });
+  basePath = "/" + originalSegments.join("/");
+}
+
+// Generate URLs for all languages
+const languageUrls = Object.entries(languages).map(([code, name]) => ({
+  code,
+  name,
+  url: getLocalizedUrl(code, basePath),
+  isCurrent: code === currentLang,
+}));
+
+// Generate unique ID for this instance
+const uniqueId = `lang-${Math.random().toString(36).substr(2, 9)}`;
+const toggleId = `${uniqueId}-toggle`;
+const dropdownId = `${uniqueId}-dropdown`;
+---
+
+<div class="relative">
+  <button
+    id={toggleId}
+    type="button"
+    class="lang-selector-btn flex items-center gap-2 px-3 py-2 border border-slate-600 rounded bg-slate-800 cursor-pointer transition-all duration-300 text-sm text-slate-300 hover:border-cyan-400/50"
+    aria-label="Select Language"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <span>{languages[currentLang as keyof typeof languages]}</span>
+    <svg
+      class="transition-transform duration-200"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+    >
+      <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none"
+      ></path>
+    </svg>
+  </button>
+
+  <ul
+    id={dropdownId}
+    class="absolute top-full mt-2 right-0 min-w-[150px] p-2 bg-slate-800 border border-slate-600 rounded shadow-lg list-none m-0 z-[100] opacity-0 invisible -translate-y-2 transition-all duration-200"
+    role="menu"
+  >
+    {
+      languageUrls.map(({ code, name, url, isCurrent }) => (
+        <li role="none">
+          <a
+            href={url}
+            role="menuitem"
+            class={`block px-4 py-2 text-slate-300 no-underline rounded transition-colors duration-150 hover:bg-slate-700 ${isCurrent ? "bg-cyan-400/10 text-cyan-400 font-semibold" : ""}`}
+            aria-current={isCurrent ? "page" : undefined}
+          >
+            {name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script define:vars={{ toggleId, dropdownId }}>
+  function initLanguageSelector() {
+    const toggle = document.getElementById(toggleId);
+    const dropdown = document.getElementById(dropdownId);
+
+    if (!toggle || !dropdown) return;
+
+    const toggleDropdown = (e) => {
+      e.stopPropagation();
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+
+      if (!isOpen) {
+        // Open
+        dropdown.classList.remove("opacity-0", "invisible", "-translate-y-2");
+        dropdown.classList.add("opacity-100", "visible", "translate-y-0");
+        // Rotate arrow
+        const svg = toggle.querySelector("svg");
+        if (svg) svg.style.transform = "rotate(180deg)";
+      } else {
+        // Close
+        dropdown.classList.add("opacity-0", "invisible", "-translate-y-2");
+        dropdown.classList.remove("opacity-100", "visible", "translate-y-0");
+        // Reset arrow
+        const svg = toggle.querySelector("svg");
+        if (svg) svg.style.transform = "rotate(0deg)";
+      }
+    };
+
+    const closeDropdown = () => {
+      toggle.setAttribute("aria-expanded", "false");
+      dropdown.classList.add("opacity-0", "invisible", "-translate-y-2");
+      dropdown.classList.remove("opacity-100", "visible", "translate-y-0");
+      const svg = toggle.querySelector("svg");
+      if (svg) svg.style.transform = "rotate(0deg)";
+    };
+
+    toggle.addEventListener("click", toggleDropdown);
+
+    document.addEventListener("click", (e) => {
+      if (!toggle.contains(e.target) && !dropdown.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeDropdown();
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", initLanguageSelector);
+</script>

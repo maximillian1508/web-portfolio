@@ -1,113 +1,108 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import type { PostWithTranslation } from "@lib/blog";
 import { useTranslations } from "@i18n/utils";
-import { marked } from "marked";
-import { supabase } from "@services/supabase";
+import { languages, defaultLang } from "@i18n/ui";
+import { routes } from "@i18n/routes";
+import { getCollection, render } from "astro:content";
 import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
-  // Fetch languages
-  const { data: languages } = await supabase
-    .from("languages")
-    .select("*")
-    .order("code");
+  const allPosts = await getCollection("blog");
 
-  if (!languages) return [];
+  const paths = allPosts
+    .filter((post) => import.meta.env.DEV || !post.data.draft)
+    .map((post) => {
+      const lang = post.data.lang;
 
-  const paths: Array<{
-    params: { blog: string; slug: string };
-    props: { post: PostWithTranslation; lang: "en" | "id" };
-  }> = [];
+      // Get the slug - use custom slug from frontmatter or fall back to post id
+      const slug = post.data.slug || post.id;
 
-  // Fetch posts for each language
-  for (const language of languages) {
-    const { data: translations } = await supabase
-      .from("post_translations")
-      .select(
-        `
-        *,
-        post:posts(*),
-        language:languages(*)
-      `
-      )
-      .eq("language_id", language.id)
-      .eq("is_published", true);
+      // Get translated blog route for this language
+      const blogRoute = routes[lang]?.blog || "blog";
 
-    if (translations) {
-      translations.forEach((item: any) => {
-        // Only include if the post itself is also published
-        if (item.post.is_published) {
-          const post: PostWithTranslation = {
-            ...item.post,
-            translation: {
-              id: item.id,
-              post_id: item.post_id,
-              language_id: item.language_id,
-              slug: item.slug,
-              title: item.title,
-              description: item.description,
-              content: item.content,
-              is_published: item.is_published,
-              created_at: item.created_at,
-              updated_at: item.updated_at,
-            },
-            language: item.language,
-          };
+      // Build the full blog path param (includes language prefix for non-default)
+      const blogPath = lang === defaultLang ? blogRoute : `${lang}/${blogRoute}`;
 
-          // Generate path based on language
-          if (language.code === "en") {
-            paths.push({
-              params: { blog: "blog", slug: item.slug },
-              props: { post, lang: "en" },
-            });
-          } else if (language.code === "id") {
-            paths.push({
-              params: { blog: "id/blog", slug: item.slug },
-              props: { post, lang: "id" },
-            });
-          }
-        }
-      });
-    }
-  }
+      return {
+        params: {
+          blog: blogPath,
+          slug: slug,
+        },
+        props: { post, lang: lang as "en" | "id" },
+      };
+    });
 
   return paths;
 }
 
+interface Props {
+  post: Awaited<ReturnType<typeof getCollection>>[number];
+  lang: "en" | "id";
+}
+
 const { post, lang } = Astro.props;
+
+// Get all posts again for finding translations
+const allPosts = await getCollection("blog");
 
 // Get translations
 const t = useTranslations(lang);
 
-// Render markdown content to HTML using marked
-const htmlContent = await marked.parse(post.translation.content);
+// Render MDX content
+const { Content } = await render(post);
 
 // Format date
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
+const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat(lang === "en" ? "en-US" : "id-ID", {
     year: "numeric",
     month: "long",
     day: "numeric",
   }).format(date);
 };
+
+// Get the blog list URL for this language
+const blogRoute = routes[lang]?.blog || "blog";
+const blogListUrl = lang === defaultLang ? `/${blogRoute}` : `/${lang}/${blogRoute}`;
+
+// Build alternate URLs for language switching using translationKey
+const alternateUrls: Record<string, string> = {};
+const siteUrl = Astro.site?.origin || "https://maximillianleonard.dev";
+const currentTranslationKey = post.data.translationKey;
+
+for (const langKey of Object.keys(languages)) {
+  // Find the translation of this post using translationKey
+  const translatedPost = allPosts.find((p) => {
+    return p.data.lang === langKey && p.data.translationKey === currentTranslationKey;
+  });
+
+  if (translatedPost) {
+    const translatedSlug = translatedPost.data.slug || translatedPost.id;
+    const translatedBlogRoute = routes[langKey]?.blog || "blog";
+
+    if (langKey === defaultLang) {
+      alternateUrls[langKey] = `${siteUrl}/${translatedBlogRoute}/${translatedSlug}`;
+    } else {
+      alternateUrls[langKey] = `${siteUrl}/${langKey}/${translatedBlogRoute}/${translatedSlug}`;
+    }
+  }
+}
 ---
 
 <Layout
-  title={post.translation.title}
-  description={post.translation.description || post.translation.title}
+  title={post.data.title}
+  description={post.data.description || post.data.title}
   lang={lang}
+  alternateUrls={alternateUrls}
 >
   <article class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Article Header -->
     <section class="mb-8">
       {
-        post.featured_image && (
+        post.data.featuredImage && (
           <Image
             quality={100}
-            src={post.featured_image}
-            alt={post.translation.title}
+            src={post.data.featuredImage}
+            alt={post.data.title}
             class="w-full h-64 object-cover rounded-lg mb-6 shadow-lg"
             width={1000}
             height={1000}
@@ -117,33 +112,36 @@ const formatDate = (dateString: string) => {
       }
 
       <h1 class="font-bold mb-4">
-        {post.translation.title}
+        {post.data.title}
       </h1>
 
       <div
         class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400"
       >
-        <time datetime={post.translation.created_at}>
-          {formatDate(post.translation.created_at)}
+        <time datetime={post.data.pubDate.toISOString()}>
+          {formatDate(post.data.pubDate)}
         </time>
         {
-          post.translation.created_at !== post.translation.updated_at && (
-            <span>
-              • {t("blog:updatedOn")} {formatDate(post.translation.updated_at)}
-            </span>
-          )
+          post.data.updatedDate &&
+            post.data.updatedDate.getTime() !== post.data.pubDate.getTime() && (
+              <span>
+                • {t("blog:updatedOn")} {formatDate(post.data.updatedDate)}
+              </span>
+            )
         }
       </div>
     </section>
 
     <!-- Article Content -->
-    <div class="blog-content" set:html={htmlContent} />
+    <div class="blog-content">
+      <Content />
+    </div>
 
     <!-- Article Footer -->
     <section class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
       <div class="flex justify-between items-center">
         <a
-          href={lang === "en" ? "/blog" : "/id/blog"}
+          href={blogListUrl}
           class="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-2"
         >
           <span>←</span>

@@ -1,15 +1,24 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import type { PostWithTranslation } from "../lib/blog";
 import { useTranslations } from "../i18n/utils";
+import { languages, defaultLang } from "../i18n/ui";
+import { routes } from "../i18n/routes";
 import PageNavigation from "@components/PageNavigation.astro";
-import { supabase } from "@services/supabase";
+import { getCollection } from "astro:content";
 
-export async function getStaticPaths() {
-  return [
-    { params: { blog: "blog" }, props: { lang: "en" as const } },
-    { params: { blog: "id/blog" }, props: { lang: "id" as const } },
-  ];
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => {
+    // Get translated blog route for this language
+    const blogRoute = routes[lang]?.blog || "blog";
+
+    // Build the full path param
+    const pathParam = lang === defaultLang ? blogRoute : `${lang}/${blogRoute}`;
+
+    return {
+      params: { blog: pathParam },
+      props: { lang: lang as "en" | "id" },
+    };
+  });
 }
 
 interface Props {
@@ -18,59 +27,46 @@ interface Props {
 
 const { lang } = Astro.props;
 
-const { data: langData } = await supabase
-  .from("languages")
-  .select("id")
-  .eq("code", lang)
-  .single();
+// Get all blog posts from content collection
+const allPosts = await getCollection("blog", ({ data }) => {
+  // Filter by language and exclude drafts in production
+  return data.lang === lang && (import.meta.env.DEV || !data.draft);
+});
 
-let posts: PostWithTranslation[] = [];
-
-if (langData) {
-  const { data, error } = await supabase
-    .from("post_translations")
-    .select(
-      `
-      *,
-      post:posts(*),
-      language:languages(*)
-    `
-    )
-    .eq("language_id", langData.id)
-    .eq("is_published", true)
-    .order("created_at", { ascending: false });
-
-  if (data && !error) {
-    posts = data
-      .map((item: any) => ({
-        ...item.post,
-        translation: {
-          id: item.id,
-          post_id: item.post_id,
-          language_id: item.language_id,
-          slug: item.slug,
-          title: item.title,
-          description: item.description,
-          content: item.content,
-          is_published: item.is_published,
-          created_at: item.created_at,
-          updated_at: item.updated_at,
-        },
-        language: item.language,
-      }))
-      .filter((post: any) => post.is_published);
-  }
-}
+// Sort by publication date (newest first)
+const posts = allPosts.sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
 
 const t = useTranslations(lang);
 
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
+const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat(lang === "en" ? "en-US" : "id-ID", {
     year: "numeric",
     month: "long",
     day: "numeric",
   }).format(date);
+};
+
+// Get the slug for a post (use custom slug from frontmatter or fall back to file name)
+const getPostSlug = (post: (typeof posts)[number]) => {
+  // Use custom slug from frontmatter if available
+  if (post.data.slug) {
+    return post.data.slug;
+  }
+  // Fall back to extracting from file id (e.g., "en/example-post" -> "example-post")
+  return post.id.split("/").pop()!;
+};
+
+// Build URL for a post
+const getPostUrl = (post: (typeof posts)[number]) => {
+  const blogRoute = routes[lang]?.blog || "blog";
+  const slug = getPostSlug(post);
+
+  if (lang === defaultLang) {
+    return `/${blogRoute}/${slug}`;
+  }
+  return `/${lang}/${blogRoute}/${slug}`;
 };
 ---
 
@@ -90,19 +86,13 @@ const formatDate = (dateString: string) => {
   {
     posts && posts.length > 0 ? (
       <div class="py-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post: PostWithTranslation) => (
+        {posts.map((post) => (
           <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
-            {post.featured_image && (
-              <a
-                href={
-                  lang === "en"
-                    ? `/blog/${post.translation.slug}`
-                    : `/id/blog/${post.translation.slug}`
-                }
-              >
+            {post.data.featuredImage && (
+              <a href={getPostUrl(post)}>
                 <img
-                  src={post.featured_image}
-                  alt={post.translation.title}
+                  src={post.data.featuredImage}
+                  alt={post.data.title}
                   class="w-full h-48 object-cover hover:opacity-90 transition-opacity"
                 />
               </a>
@@ -110,37 +100,29 @@ const formatDate = (dateString: string) => {
 
             <div class="p-6">
               <time
-                datetime={post.translation.created_at}
+                datetime={post.data.pubDate.toISOString()}
                 class="text-sm text-gray-500 dark:text-gray-400"
               >
-                {formatDate(post.translation.created_at)}
+                {formatDate(post.data.pubDate)}
               </time>
 
               <h2 class="text-2xl font-bold mt-2 mb-3">
                 <a
-                  href={
-                    lang === "en"
-                      ? `/blog/${post.translation.slug}`
-                      : `/id/blog/${post.translation.slug}`
-                  }
+                  href={getPostUrl(post)}
                   class="text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
-                  {post.translation.title}
+                  {post.data.title}
                 </a>
               </h2>
 
-              {post.translation.description && (
+              {post.data.description && (
                 <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
-                  {post.translation.description}
+                  {post.data.description}
                 </p>
               )}
 
               <a
-                href={
-                  lang === "en"
-                    ? `/blog/${post.translation.slug}`
-                    : `/id/blog/${post.translation.slug}`
-                }
+                href={getPostUrl(post)}
                 class="text-blue-600 dark:text-blue-400 hover:underline font-medium inline-flex items-center gap-2"
               >
                 <span>{t("blog:readMore")}</span>

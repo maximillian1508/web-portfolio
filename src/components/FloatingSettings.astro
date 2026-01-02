@@ -410,6 +410,26 @@ if (currentLang !== "en") {
     };
 
     const handleLanguageChange = async (newLang: string) => {
+      // First, check if alternate URLs are provided (for pages like blog posts with custom routes)
+      const alternateUrlsData = document.body.getAttribute("data-alternate-urls");
+      if (alternateUrlsData) {
+        try {
+          const alternateUrls = JSON.parse(alternateUrlsData);
+          if (alternateUrls[newLang]) {
+            // Extract just the pathname from the full URL
+            const url = new URL(alternateUrls[newLang]);
+            const languageText = newLang === "en" ? "english" : "indonesia";
+            if (languageCurrentDropdown)
+              languageCurrentDropdown.textContent = languageText;
+            if (languageCurrentModal) languageCurrentModal.textContent = languageText;
+            window.location.href = url.pathname;
+            return;
+          }
+        } catch (e) {
+          // Fall through to default behavior
+        }
+      }
+
       const currentPath = window.location.pathname;
       const currentLang = getCurrentLanguageFromURL();
 
@@ -431,7 +451,8 @@ if (currentLang !== "en") {
             const routeMap = {
               "tentang": "about",
               "kontak": "contact",
-              "proyek": "projects"
+              "proyek": "projects",
+              "artikel": "blog"
             };
             if (routeMap[segment as keyof typeof routeMap]) {
               originalSegments.push(routeMap[segment as keyof typeof routeMap]);
@@ -459,7 +480,8 @@ if (currentLang !== "en") {
             const routeMap = {
               "about": "tentang",
               "contact": "kontak",
-              "projects": "proyek"
+              "projects": "proyek",
+              "blog": "artikel"
             };
             translatedSegments.push(routeMap[segment as keyof typeof routeMap] || segment);
           } else {

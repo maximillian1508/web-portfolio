@@ -12,11 +12,12 @@ interface Props {
   description?: string;
   lang: string;
   robots?: string;
+  alternateUrls?: Record<string, string>;
 }
 
-const { title, description, lang, robots } = Astro.props;
+const { title, description, lang, robots, alternateUrls: customAlternateUrls } = Astro.props;
 const t = useTranslations(lang);
-const alternateUrls = getAlternateUrls(Astro.url, Object.keys(languages));
+const alternateUrls = customAlternateUrls || getAlternateUrls(Astro.url, Object.keys(languages));
 ---
 
 <!doctype html>
@@ -120,7 +121,7 @@ const alternateUrls = getAlternateUrls(Astro.url, Object.keys(languages));
     </script>
     <ClientRouter />
   </head>
-  <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
+  <body class="min-h-screen bg-slate-950 text-slate-100 antialiased" data-alternate-urls={JSON.stringify(alternateUrls)}>
     <Header lang={lang} />
     <main
       class="flex-1 pt-32 pb-12 max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8"

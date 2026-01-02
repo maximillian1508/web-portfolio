@@ -1,0 +1,77 @@
+---
+title: "Docker & Cloudflared Tunnel Initial VPS Setup"
+description: "A step-by-step guide to setting up Docker and Cloudflared Tunnel on a VPS"
+pubDate: 2025-10-27
+featuredImage: ""
+draft: false
+lang: "en"
+slug: "docker-cloudflared-tunnel-initial-vps-setup"
+translationKey: "docker-cloudflared-vps-setup"
+---
+
+1. Update and upgrade system packages
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+2. Remove old Docker packages
+```bash
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+```
+
+3. Add Docker repository
+```bash
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+```
+
+4. Install Docker
+```bash
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+5. Install uidmap for rootless Docker
+```bash
+sudo sh -eux <<EOF
+apt-get install -y uidmap
+EOF
+```
+
+6. Setup rootless Docker
+```bash
+/usr/bin/dockerd-rootless-setuptool.sh install
+sudo setcap cap_net_bind_service=ep $(which rootlesskit)
+systemctl --user restart docker
+sudo loginctl enable-linger $(whoami)
+```
+
+7. Install Cloudflared (https://pkg.cloudflare.com/index.html)
+```bash
+# Add cloudflare gpg key
+sudo mkdir -p --mode=0755 /usr/share/keyrings
+curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+# Add this repo to your apt repositories
+echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared noble main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
+# install cloudflared
+sudo apt-get update && sudo apt-get install cloudflared
+```
+
+8. Install Cloudflared service with your token
+```bash
+sudo cloudflared service install $token
+```
+
+9. Create web directory
+```bash
+sudo mkdir -p /srv/www
+sudo chown -R $USER:$USER /srv/www
+sudo chmod -R 755 /srv/www
+```

@@ -9,7 +9,7 @@ export const routes: Record<string, Record<string, string>> = {
     about: "tentang",
     contact: "kontak",
     projects: "proyek",
-    blog: "blog",
+    blog: "artikel",
     // Add more route translations as needed
   },
 };
