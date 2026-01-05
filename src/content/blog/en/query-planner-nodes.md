@@ -3,7 +3,7 @@ title: "Query Planner Nodes"
 description: "Understanding SQL query execution plans and how to optimize them"
 pubDate: 2025-12-10
 featuredImage: ""
-draft: true
+draft: false
 lang: "en"
 slug: "query-planner-nodes"
 translationKey: "query-planner-nodes"
