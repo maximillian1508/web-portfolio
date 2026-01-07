@@ -1,11 +1,11 @@
 ---
-title: "Query Planner Nodes"
+title: "Node Query Planner"
 description: "Memahami execution plan query SQL dan cara mengoptimalkannya"
 pubDate: 2025-12-10
 featuredImage: ""
 draft: false
 lang: "id"
-slug: "query-planner-nodes"
+slug: "node-query-planner"
 translationKey: "query-planner-nodes"
 ---
 

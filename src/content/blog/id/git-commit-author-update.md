@@ -1,5 +1,5 @@
 ---
-title: "Update All Previous Git Commit Author Name & Email"
+title: "Update Semua Git Commit Author Name & Email"
 description: "Cara mengubah nama dan email author untuk semua commit git sebelumnya"
 pubDate: 2025-10-27
 featuredImage: ""
