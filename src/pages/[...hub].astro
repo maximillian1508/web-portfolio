@@ -81,20 +81,17 @@ const getBlogListUrl = () => {
 };
 ---
 
-<Layout title={t("hub:title")} description={t("hub:description")} lang={lang}>
+<Layout title={t("hub:meta.title")} description={t("hub:meta.description")} lang={lang}>
   <!-- Hub Header -->
-  <section class="mb-8">
-    <h1
-      class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-cyan-400"
-    >
-      {t("hub:title")}
-    </h1>
-
-    <p
-      class="text-h4 md:text-lg text-slate-300 mb-8 sm:mb-12 leading-relaxed font-light"
-    >
-      {t("hub:description")}
-    </p>
+  <section class="pb-12">
+    <div class="max-w-4xl">
+      <h1 class="text-h1 font-bold mb-6 text-cyan-400">
+        {t("hub:title")}
+      </h1>
+      <p class="text-h4 md:text-lg text-slate-300 leading-relaxed font-light">
+        {t("hub:subtitle")}
+      </p>
+    </div>
   </section>
 
   <!-- Top Section: Two Columns -->

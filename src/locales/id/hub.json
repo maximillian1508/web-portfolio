@@ -1,6 +1,10 @@
 {
+  "meta": {
+    "title": "Hub - Maximillian Leonard",
+    "description": "Koleksi pemikiran dan pengalaman Maximillian Leonard"
+  },
   "title": "Hub",
-  "description": "Koleksi pemikiran dan pengalaman saya",
+  "subtitle": "Koleksi pemikiran dan pengalaman saya",
   "viewAllPosts": "Lihat semua postingan",
   "comingSoon": "Segera Hadir",
   "underConstruction": "Bagian ini sedang dalam pengembangan.",

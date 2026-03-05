@@ -1,6 +1,10 @@
 {
+  "meta": {
+    "title": "Hub - Maximillian Leonard",
+    "description": "A collection of Maximillian Leonard's thoughts and experiences"
+  },
   "title": "Hub",
-  "description": "A collection of my thoughts and experiences",
+  "subtitle": "A collection of my thoughts and experiences",
   "viewAllPosts": "View all posts",
   "comingSoon": "Coming Soon",
   "underConstruction": "This section is under construction.",
