@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { useTranslations } from "../i18n/utils";
+import { useTranslations, useTranslatedPath } from "../i18n/utils";
 import { languages, defaultLang } from "../i18n/ui";
 import { routes } from "../i18n/routes";
 import PageNavigation from "@components/PageNavigation.astro";
@@ -39,6 +39,7 @@ const posts = allPosts.sort(
 );
 
 const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 
 const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat(lang === "en" ? "en-US" : "id-ID", {
@@ -71,6 +72,14 @@ const getPostUrl = (post: (typeof posts)[number]) => {
 ---
 
 <Layout title={t("blog:title")} description={t("blog:description")} lang={lang}>
+  <a
+    href={translatePath("/hub")}
+    class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-blue-400 transition-colors mb-6"
+  >
+    <span>←</span>
+    <span>{t("blog:backToHub")}</span>
+  </a>
+
   <section>
     <div class="max-w-4xl">
       <h1 class="font-bold text-h1 mb-6">
@@ -141,5 +150,4 @@ const getPostUrl = (post: (typeof posts)[number]) => {
       </div>
     )
   }
-  <PageNavigation lang={lang} />
 </Layout>

@@ -43,6 +43,7 @@ if (currentLang !== "en" && basePath !== "/") {
   basePath = "/" + originalSegments.join("/");
 }
 
+const isInPageMap = basePath in pageMap;
 const currentPage = pageMap[basePath as keyof typeof pageMap] || pageMap["/"];
 const totalPages = Object.keys(pageMap).length;
 ---
@@ -95,14 +96,16 @@ const totalPages = Object.keys(pageMap).length;
         </div>
       </div>
 
-      <div class="hidden md:block text-slate-400 font-mono text-sm">
-        <span class="text-purple-400">
-          {t("common:page")}
-          {currentPage.number}
-          {t("common:of")}
-          {totalPages}
-        </span>
-      </div>
+      {isInPageMap && (
+        <div class="hidden md:block text-slate-400 font-mono text-sm">
+          <span class="text-purple-400">
+            {t("common:page")}
+            {currentPage.number}
+            {t("common:of")}
+            {totalPages}
+          </span>
+        </div>
+      )}
 
       <label
         for="mobile-menu-toggle"
@@ -128,14 +131,16 @@ const totalPages = Object.keys(pageMap).length;
             </a>
           ))
         }
-        <div
-          class="text-slate-400 font-mono text-xs pt-2 border-t border-slate-800"
-        >
-          {t("common:page")}
-          {currentPage.number}
-          {t("common:of")}
-          {totalPages}
-        </div>
+        {isInPageMap && (
+          <div
+            class="text-slate-400 font-mono text-xs pt-2 border-t border-slate-800"
+          >
+            {t("common:page")}
+            {currentPage.number}
+            {t("common:of")}
+            {totalPages}
+          </div>
+        )}
       </div>
     </nav>
   </div>

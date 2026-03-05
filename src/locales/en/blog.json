@@ -3,6 +3,7 @@
   "description": "Thoughts on software engineering, web development, and technology",
   "readMore": "Read more",
   "backToList": "Back to blog",
+  "backToHub": "Back to hub",
   "noPosts": "No posts yet. Check back soon!",
   "publishedOn": "Published on",
   "updatedOn": "Updated on"

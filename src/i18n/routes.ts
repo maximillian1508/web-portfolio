@@ -10,6 +10,7 @@ export const routes: Record<string, Record<string, string>> = {
     contact: "kontak",
     projects: "proyek",
     blog: "artikel",
+    hub: "pusat",
     // Add more route translations as needed
   },
 };
