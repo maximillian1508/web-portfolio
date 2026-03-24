@@ -7,26 +7,24 @@ import PageNavigation from "@components/PageNavigation.astro";
 import MasonryGallery from "@components/MasonryGallery.astro";
 import { getCollection } from "astro:content";
 
-export function getStaticPaths() {
-  return Object.keys(languages).map((lang) => {
-    // Get translated hub route for this language
-    const hubRoute = routes[lang]?.hub || "hub";
+export const prerender = false;
 
-    // Build the full path param
-    const pathParam = lang === defaultLang ? hubRoute : `${lang}/${hubRoute}`;
+// Determine language from URL
+const url = new URL(Astro.request.url);
+const pathParts = url.pathname.split("/").filter(Boolean);
 
-    return {
-      params: { hub: pathParam },
-      props: { lang: lang as "en" | "id" },
-    };
-  });
+// Check if first part is a language code
+let lang: "en" | "id" = defaultLang as "en" | "id";
+if (pathParts[0] && pathParts[0] in languages) {
+  lang = pathParts[0] as "en" | "id";
 }
 
-interface Props {
-  lang: "en" | "id";
+// Validate this is actually the hub route
+const hubRoute = routes[lang]?.hub || "hub";
+const expectedPath = lang === defaultLang ? `/${hubRoute}` : `/${lang}/${hubRoute}`;
+if (url.pathname !== expectedPath) {
+  return Astro.redirect("/404");
 }
-
-const { lang } = Astro.props;
 
 // Get all blog posts from content collection
 const allPosts = await getCollection("blog", ({ data }) => {
@@ -80,18 +78,51 @@ const getBlogListUrl = () => {
   return `/${lang}/${blogRoute}`;
 };
 
-// Get gallery images from content collection
-const galleryEntries = await getCollection("gallery");
-const galleryImages = galleryEntries
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .map((entry) => ({
-    id: entry.id,
-    src: entry.data.src,
-    alt: entry.data.alt,
-    caption: entry.data.caption,
-    width: entry.data.width,
-    height: entry.data.height,
-  }));
+// Get gallery images from R2 bucket
+interface GalleryImage {
+  id: string;
+  src: string;
+  alt: string;
+  caption?: string;
+  width: number;
+  height: number;
+}
+
+let galleryImages: GalleryImage[] = [];
+const R2_PUBLIC_URL = "https://image.maximillianleonard.dev";
+
+try {
+  const { env } = Astro.locals.runtime;
+  const bucket = env?.GALLERY_BUCKET;
+
+  console.log("Env:", !!env);
+  console.log("Bucket:", !!bucket);
+
+  if (bucket) {
+    const listed = await bucket.list({ prefix: "image/" });
+    console.log("Listed objects:", listed.objects.length);
+
+    galleryImages = listed.objects
+      .filter((obj) => /\.(jpg|jpeg|png|gif|webp)$/i.test(obj.key))
+      .sort((a, b) => {
+        // Sort by upload time (newest first)
+        const dateA = a.uploaded?.getTime() || 0;
+        const dateB = b.uploaded?.getTime() || 0;
+        return dateB - dateA;
+      })
+      .map((obj) => ({
+        id: obj.key,
+        src: `${R2_PUBLIC_URL}/${obj.key}`,
+        alt: obj.key.split("/").pop()?.replace(/\.[^.]+$/, "") || "Gallery image",
+        width: 400,
+        height: 400,
+      }));
+  } else {
+    console.log("No R2 bucket available - running locally without wrangler?");
+  }
+} catch (error) {
+  console.error("Failed to fetch gallery from R2:", error);
+}
 ---
 
 <Layout

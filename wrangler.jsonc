@@ -16,6 +16,13 @@
     "html_handling": "drop-trailing-slash"
   },
 
+  "r2_buckets": [
+    {
+      "binding": "GALLERY_BUCKET",
+      "bucket_name": "personal",
+      "preview_bucket_name": "personal"
+    }
+  ],
   "observability": {
     "enabled": true
   }
