@@ -95,12 +95,8 @@ try {
   const { env } = Astro.locals.runtime;
   const bucket = env?.GALLERY_BUCKET;
 
-  console.log("Env:", !!env);
-  console.log("Bucket:", !!bucket);
-
   if (bucket) {
     const listed = await bucket.list({ prefix: "image/" });
-    console.log("Listed objects:", listed.objects.length);
 
     galleryImages = listed.objects
       .filter((obj) => /\.(jpg|jpeg|png|gif|webp)$/i.test(obj.key))
@@ -117,8 +113,6 @@ try {
         width: 400,
         height: 400,
       }));
-  } else {
-    console.log("No R2 bucket available - running locally without wrangler?");
   }
 } catch (error) {
   console.error("Failed to fetch gallery from R2:", error);
@@ -199,7 +193,7 @@ try {
     </h2>
     {
       galleryImages.length > 0 ? (
-        <MasonryGallery images={galleryImages} batchSize={12} />
+        <MasonryGallery images={galleryImages} />
       ) : (
         <>
           <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-6">

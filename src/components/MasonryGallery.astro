@@ -10,17 +10,14 @@ interface GalleryImage {
 
 interface Props {
   images: GalleryImage[];
-  batchSize?: number;
 }
 
-const { images, batchSize = 12 } = Astro.props;
-
-const initialImages = images.slice(0, batchSize);
+const { images } = Astro.props;
 ---
 
-<div class="masonry-gallery" data-batch-size={batchSize}>
+<div class="masonry-gallery">
   <div class="masonry-container">
-    {initialImages.map((image) => (
+    {images.map((image) => (
       <div class="masonry-item" data-id={image.id}>
         <img
           src={image.src}
@@ -37,24 +34,7 @@ const initialImages = images.slice(0, batchSize);
       </div>
     ))}
   </div>
-
-  {images.length > batchSize && (
-    <div class="load-more-sentinel" aria-hidden="true"></div>
-  )}
-
-  <div class="loading-indicator hidden">
-    <div class="loading-spinner"></div>
-  </div>
 </div>
-
-<!-- Store remaining images as JSON for infinite scroll -->
-<script define:vars={{ allImages: images, batchSize }}>
-  window.__galleryData = {
-    images: allImages,
-    batchSize: batchSize,
-    loadedCount: Math.min(batchSize, allImages.length)
-  };
-</script>
 
 <script>
   function initMasonryGallery() {
@@ -62,76 +42,6 @@ const initialImages = images.slice(0, batchSize);
     if (!gallery) return;
 
     const container = gallery.querySelector('.masonry-container');
-    const sentinel = gallery.querySelector('.load-more-sentinel');
-    const loadingIndicator = gallery.querySelector('.loading-indicator');
-
-    const data = (window as any).__galleryData;
-    if (!data) return;
-
-    let isLoading = false;
-
-    const loadMoreImages = () => {
-      if (isLoading || data.loadedCount >= data.images.length) return;
-
-      isLoading = true;
-      loadingIndicator?.classList.remove('hidden');
-
-      const nextBatch = data.images.slice(
-        data.loadedCount,
-        data.loadedCount + data.batchSize
-      );
-
-      // Simulate slight delay for smooth UX
-      setTimeout(() => {
-        nextBatch.forEach((image: any) => {
-          const item = document.createElement('div');
-          item.className = 'masonry-item';
-          item.dataset.id = image.id;
-
-          const img = document.createElement('img');
-          img.src = image.src;
-          img.alt = image.alt;
-          img.width = image.width;
-          img.height = image.height;
-          img.loading = 'lazy';
-          img.decoding = 'async';
-          img.className = 'masonry-img';
-
-          item.appendChild(img);
-
-          if (image.caption) {
-            const caption = document.createElement('div');
-            caption.className = 'masonry-caption';
-            caption.textContent = image.caption;
-            item.appendChild(caption);
-          }
-
-          container?.appendChild(item);
-        });
-
-        data.loadedCount += nextBatch.length;
-        isLoading = false;
-        loadingIndicator?.classList.add('hidden');
-
-        // Remove sentinel if no more images
-        if (data.loadedCount >= data.images.length) {
-          sentinel?.remove();
-        }
-      }, 100);
-    };
-
-    // Intersection Observer for infinite scroll
-    if (sentinel) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            loadMoreImages();
-          }
-        },
-        { rootMargin: '200px' }
-      );
-      observer.observe(sentinel);
-    }
 
     // Lightbox functionality
     container?.addEventListener('click', (e) => {
